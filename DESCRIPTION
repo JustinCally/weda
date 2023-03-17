@@ -21,4 +21,5 @@ Imports:
     methods,
     pointblank,
     digest,
-    geohashTools
+    geohashTools,
+    DBI

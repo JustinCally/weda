@@ -46,3 +46,38 @@ prepare_camtrap_upload <- function(agent_list) {
               camtrap_operation = camtrap_operation,
               project_information = project_information))
 }
+
+
+#' Upload camera trap data to database
+#'
+#' @param con postgresql connection to ari-dev-weda-psql-01
+#' @param data_list list of camera trap records, operations and project information (output from prepare_camtrap_upload())
+#' @param uploadername name of person uploading data
+#'
+#' @return NULL
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' upload_camtrap_data(con = con_odbc, data_list = data_list, uploadername = "Justin Cally")
+#' }
+upload_camtrap_data <- function(con, data_list, uploadername) {
+
+  timestamp <- Sys.time()
+
+  data_list <- lapply(data_list, function(x) {
+    x$Timestamp <- timestamp
+    x$Uploader <- uploadername
+    return(x)
+  })
+
+  # Append record table
+  DBI::dbWriteTable(con, DBI::Id(schema = "test", table = "raw_camtrap_records"),
+                    data_list[["camtrap_records"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
+
+  DBI::dbWriteTable(con, DBI::Id(schema = "test", table = "raw_operation_records"),
+                    data_list[["camtrap_operation"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
+
+  DBI::dbWriteTable(con, DBI::Id(schema = "test", table = "raw_project_information"),
+                    data_list[["project_information"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
+}
