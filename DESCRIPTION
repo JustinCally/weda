@@ -18,4 +18,5 @@ Imports:
     dplyr,
     cli,
     magrittr,
-    methods
+    methods,
+    pointblank
