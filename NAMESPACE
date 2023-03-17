@@ -2,4 +2,5 @@
 
 export("%>%")
 export(camera_trap_dq)
+export(prepare_camtrap_upload)
 importFrom(magrittr,"%>%")

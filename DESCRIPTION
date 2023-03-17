@@ -19,4 +19,6 @@ Imports:
     cli,
     magrittr,
     methods,
-    pointblank
+    pointblank,
+    digest,
+    geohashTools
