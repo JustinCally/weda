@@ -146,7 +146,9 @@ dq <- camera_trap_dq(camtrap_records = raw_camtrap_records_standardised,
                     camtrap_operation = operationdata, 
                     project_information = projectdata)
 
-dq
+dq[[1]]
+dq[[2]]
+dq[[3]]
 ```
 
 As you can see from the above data quality checks there are two issues we should fix before re-running the data quality:  
@@ -164,7 +166,8 @@ dq2 <- camera_trap_dq(camtrap_records = raw_camtrap_records_fixed,
                     camtrap_operation = operationdata, 
                     project_information = projectdata)
 
-dq2
+# We can check it is passing all tests with: 
+all(sapply(dq2, function(x) all(x[["validation_set"]][["all_passed"]])))
 ```
 
 ## Prepare data for upload  

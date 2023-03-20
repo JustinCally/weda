@@ -18,6 +18,13 @@ camera_trap_dq <- function(camtrap_records,
   # this is a vector of column names that are required to be in the project_information dataframe
     req_cols <- c(req_cols, "metadata_Distance")
   }
+  # vba names
+  vba_sci <- vba_name_conversions %>%
+    filter(scientific_name %in% camtrap_records$scientific_name)
+
+  vba_com <- vba_name_conversions %>%
+    filter(common_name %in% camtrap_records$common_name)
+
   # Create a pointblank object
 
 pb_rec <- pointblank::create_agent(
@@ -29,8 +36,8 @@ pb_rec <- pointblank::create_agent(
     pointblank::col_is_integer(c("Iteration", "metadata_Multiples")) %>%
     pointblank::col_vals_in_set("SiteID", set = camtrap_operation$SiteID) %>%
     pointblank::col_vals_in_set("SubStation", set = camtrap_operation$SubStation) %>%
-    pointblank::col_vals_in_set("scientific_name", set = unique(vba_name_conversions$scientific_name)) %>%
-    pointblank::col_vals_in_set("common_name", set = unique(vba_name_conversions$common_name)) %>%
+    pointblank::col_vals_in_set("scientific_name", set = unique(vba_sci$scientific_name)) %>%
+    pointblank::col_vals_in_set("common_name", set = unique(vba_com$common_name)) %>%
     pointblank::col_vals_not_null(c("SiteID", "scientific_name", "common_name", "Date", "Time", "DateTimeOriginal", "Iteration", "metadata_Multiples")) %>%
     pointblank::col_is_date("Date") %>%
     pointblank::col_is_posix("DateTimeOriginal") %>%
