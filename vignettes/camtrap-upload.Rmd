@@ -108,7 +108,8 @@ All ticks and no warnings means we can move onto the next step.
 Alongside the camera trap records there must be a table that has details about the camera trap deployment at the site and the location of the site. This will be site information data users will have obtained from field sheets or proofsafe. The format of this data is based on the camera trap operation data used in `camtrapR` (see `data(camtraps)` for an example of this). For our example we read in an example of this data below with the necessary fields for each deployment. Alongside reading in we just format columns to correct classes.    
 
 ```{r readdummyoperation}
-operationdata <- readr::read_csv(system.file("dummydata/operationdata.csv", package = "weda")) %>%
+operationdata <- readr::read_csv(system.file("dummydata/operationdata.csv", package = "weda"), 
+                                 show_col_types = FALSE) %>%
   mutate(SiteID = as.character(SiteID), 
          Iteration = as.integer(Iteration))
 
