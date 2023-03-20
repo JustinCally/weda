@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">weda</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,9 +44,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="camera-trap-processing">Camera Trap Processing<a class="anchor" aria-label="anchor" href="#camera-trap-processing"></a></h2>
       
-      
+      <p class="section-desc"></p><p>Functions used to process, check and upload camera trap data</p>
 
       
     </div><div id="" class="section level2">
@@ -55,6 +55,16 @@
       
 
       <dl><dt>
+          
+          <code><a href="standardise_species_names.html">standardise_species_names()</a></code> 
+        </dt>
+        <dd>This function standardises species names in a dataframe</dd>
+      </dl><dl><dt>
+          
+          <code><a href="vba_name_conversions.html">vba_name_conversions</a></code> 
+        </dt>
+        <dd>Name conversions between scientific and common names</dd>
+      </dl><dl><dt>
           
           <code><a href="camera_trap_dq.html">camera_trap_dq()</a></code> 
         </dt>
@@ -66,31 +76,33 @@
         <dd>Prepare camera trap data for upload to the database</dd>
       </dl><dl><dt>
           
-          <code><a href="processed_SubStation_presence_absence.html">processed_SubStation_presence_absence()</a></code> 
+          <code><a href="upload_camtrap_data.html">upload_camtrap_data()</a></code> 
         </dt>
-        <dd>Presence/Absence Views</dd>
-      </dl><dl><dt>
+        <dd>Upload camera trap data to database</dd>
+      </dl></div><div class="section level2">
+      <h2 id="database-views">Database views<a class="anchor" aria-label="anchor" href="#database-views"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions used to create views on the database</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="records_curated_view.html">records_curated_view()</a></code> <code><a href="records_curated_view.html">operation_curated_view()</a></code> <code><a href="records_curated_view.html">project_curated_view()</a></code> 
         </dt>
         <dd>Curated views</dd>
       </dl><dl><dt>
           
-          <code><a href="standardise_species_names.html">standardise_species_names()</a></code> 
+          <code><a href="processed_SubStation_presence_absence.html">processed_SubStation_presence_absence()</a></code> 
         </dt>
-        <dd>This function standardises species names in a dataframe</dd>
-      </dl><dl><dt>
-          
-          <code><a href="upload_camtrap_data.html">upload_camtrap_data()</a></code> 
-        </dt>
-        <dd>Upload camera trap data to database</dd>
-      </dl><dl><dt>
-          
-          <code><a href="vba_name_conversions.html">vba_name_conversions</a></code> 
-        </dt>
-        <dd>Name conversions between scientific and common names</dd>
+        <dd>Presence/Absence Views</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
