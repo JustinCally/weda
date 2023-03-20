@@ -85,6 +85,6 @@ db_mtcars <- tbl(con, in_schema("test", "mtcars")) %>%
 
 You can follow a further tutorial of postgres database functionality here:  
 
-```{r, file='DBConnect.R', eval = FALSE}
+```{r, file=system.file('DBConnect.R', package = "weda"), eval = FALSE}
 ```
 
