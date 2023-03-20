@@ -1,4 +1,26 @@
 url: https://justincally.github.io/weda/
 template:
   bootstrap: 5
+  bootswatch: materia
 
+development:
+  mode: auto
+
+url: https://justincally.github.io/weda
+
+reference:
+  - title: "Camera Trap Processing"
+    desc: >
+      Functions used to process, check and upload camera trap data
+    contents:
+      - '`standardise_species_names`'
+      - '`vba_name_conversions`'
+      - '`camera_trap_dq`'
+      - '`prepare_camtrap_upload`'
+      - '`upload_camtrap_data`'
+  - title: "Database views"
+    desc: >
+      Functions used to create views on the database
+    contents:
+      - '`records_curated_view`'
+      - '`processed_SubStation_presence_absence`'
