@@ -1,12 +1,10 @@
 url: https://justincally.github.io/weda/
 template:
   bootstrap: 5
-  bootswatch: materia
+  bootswatch: simplex
 
 development:
   mode: auto
-
-url: https://justincally.github.io/weda
 
 reference:
   - title: "Camera Trap Processing"
