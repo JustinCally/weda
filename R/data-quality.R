@@ -20,10 +20,10 @@ camera_trap_dq <- function(camtrap_records,
   }
   # vba names
   vba_sci <- vba_name_conversions %>%
-    filter(scientific_name %in% camtrap_records$scientific_name)
+    dplyr::filter(.data$scientific_name %in% !!camtrap_records$scientific_name)
 
   vba_com <- vba_name_conversions %>%
-    filter(common_name %in% camtrap_records$common_name)
+    dplyr::filter(.data$common_name %in% !!camtrap_records$common_name)
 
   # Create a pointblank object
 
