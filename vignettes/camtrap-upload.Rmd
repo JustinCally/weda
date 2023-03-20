@@ -180,7 +180,7 @@ data_for_upload <- prepare_camtrap_upload(dq2)
 
 ## Upload the data  
 
-*Note that before uploading data you will need to have an established connection to the database (e.g. `con_odbc`) in your `R` environment.*  
+*Note that before uploading data you will need to have an established connection to the database (e.g. `con_odbc`) in your `R` environment. See the [vignette on database connection for more details](https://JustinCally.github.io/weda/articles/database-connect.html)*  
 
 Using the data prepared for upload made above (`data_for_upload`) you can upload the the data in one line:
 
