@@ -1,0 +1,90 @@
+---
+title: "Connecting to the database"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Connecting to the database}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, eval = FALSE}
+library(weda)
+library(DBI)
+library(dplyr)
+library(dbplyr)
+library(RPostgreSQL)
+library(odbc)
+library(keyring)
+```
+
+# Step 1: Switch on VPN  
+
+Make sure your Azure VPN in running  
+
+# Step 2: Set keyring password if not set  
+
+Set up keyring if not already set. Password for `psql_user` will be remembered in Rstudio keychain once you set it
+
+```{r keyring, eval = FALSE}
+if(nrow(keyring::key_list("ari-dev-weda-psql-01")) == 0) {
+keyring::key_set(service = "ari-dev-weda-psql-01", username = "psql_user")
+}
+```
+
+# Step 3: Check capability  
+
+Check if you have the correct odbc driver
+
+```{r postgres, eval = FALSE}
+# Check odbc driver exists
+if(!("PostgreSQL Driver" %in% odbc::odbcListDrivers()$name)) {
+  stop("Install the postgres driver to connect to database: https://odbc.postgresql.org/")
+}
+```
+
+# Step 4: Connect to database  
+
+Make a connection object in `R`
+
+```{r connect, eval = FALSE}
+# Note that the DB is currently configured to turn on at 7am and turn off at 7pm to reduce costs
+# ODBC Connection : more interactive in rstudio
+con_odbc <- RPostgreSQL::dbConnect(odbc::odbc(),
+                              Driver = "PostgreSQL Driver",
+                              Server = '10.110.7.201',
+                              Database = 'ari-dev-weda-psql-01',
+                              UID = "psql_user",
+                              PWD = keyring::key_get(service = "ari-dev-weda-psql-01", username = "psql_user"),
+                              Port = 5432,
+                              sslmode = 'require',
+                              maxvarcharsize = 0) # issue with binary representation of sf cols
+```
+
+# Step 5: View data   
+
+Interact with the database with the 'Connections' pane in Rstudio or use code such as the example below to read in data:  
+
+```{r view, eval = FALSE}
+#### Read and write tables ####
+DBI::dbWriteTable(con, Id(schema = "test", table = "mtcars"), mtcars)
+
+# Use lazy evaluation to download a sample of mtcars data
+db_mtcars <- tbl(con, in_schema("test", "mtcars")) %>%
+  filter(cyl == 6) %>%
+  collect()
+```
+
+# Additional Resources  
+
+You can follow a further tutorial of postgres database functionality here:  
+
+```{r, file='DBConnect.R', eval = FALSE}
+```
+
