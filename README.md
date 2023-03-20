@@ -24,11 +24,9 @@ You can install the development version of weda from
 devtools::install_github("JustinCally/weda")
 ```
 
-## Example
+## Functionality
 
-This is a basic example which shows you how to solve a common problem:
+`weda` currently supports the following functionality:
 
-``` r
-library(weda)
-## basic example code
-```
+1.  [Uploading and processing camera trap
+    data](https://JustinCally.github.io/weda/articles/camtrap-upload.html)

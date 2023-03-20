@@ -3,9 +3,11 @@
 #' @param recordTable A dataframe containing species names
 #' @param format The format of the species names in the dataframe
 #' @param speciesCol The column name of the species names in the dataframe
+#' @param return_data Whether to return data or just verbose of name conversions
 #'
 #' @return A dataframe with standardised species names
 #'
+#' @export
 #' @examples
 #' \dontrun{
 #' standardise_species_names(recordTable = recordTable,
@@ -14,8 +16,8 @@
 #'                           }
 standardise_species_names <- function(recordTable,
                                       format = c("scientific", "common"),
-  # Check that the format is either scientific or common
-                                      speciesCol = "Species") {
+                                      speciesCol = "Species",
+                                      return_data = TRUE) {
 
   # Create a variable name for the format
   if(!methods::hasArg(format) & !(format %in%  c("scientific", "common"))) {
@@ -74,13 +76,15 @@ standardise_species_names <- function(recordTable,
   names(recordTable)[which(names(recordTable) == speciesCol)] <- var_name
 
   # Join data
-  return_data <- recordTable %>%
+  final_data <- recordTable %>%
     dplyr::left_join(conversions_grouped %>%
                        dplyr::select(scientific_name, common_name),
                      by = c(var_name)) %>%
     dplyr::ungroup()
 
-  return(return_data)
+  if(return_data) {
+  return(final_data)
+  }
 
 }
 

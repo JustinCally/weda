@@ -11,7 +11,7 @@ camera_trap_dq <- function(camtrap_records,
                                project_information) {
 
   # this is a vector of column names that are required to be in the camtrap_operation dataframe
-  req_cols <- c('SiteID' ,'SubStation', 'Iteration', 'scientific_name', 'common_name' ,'DateTimeOriginal' ,'Date' ,'Time' ,'delta.time.secs' ,'delta.time.mins' ,'delta.time.hours' ,'delta.time.days' ,'Directory' ,'FileName' ,'n_images' ,'HierarchicalSubject')
+  req_cols <- c('SiteID' ,'SubStation', 'Iteration', 'scientific_name', 'common_name' ,'DateTimeOriginal' ,'Date' ,'Time' ,'delta.time.secs' ,'delta.time.mins' ,'delta.time.hours' ,'delta.time.days' ,'Directory' ,'FileName' ,'n_images' ,'HierarchicalSubject', 'metadata_Multiples')
 
   if(project_information$DistanceSampling) {
 
@@ -26,12 +26,12 @@ pb_rec <- pointblank::create_agent(
     pointblank::col_exists(columns = req_cols) %>%
     pointblank::rows_distinct() %>%
     pointblank::col_is_character(c("SiteID", "SubStation", "scientific_name", "common_name", "Time", "Directory", "FileName")) %>%
-    pointblank::col_is_integer("Iteration") %>%
+    pointblank::col_is_integer(c("Iteration", "metadata_Multiples")) %>%
     pointblank::col_vals_in_set("SiteID", set = camtrap_operation$SiteID) %>%
     pointblank::col_vals_in_set("SubStation", set = camtrap_operation$SubStation) %>%
     pointblank::col_vals_in_set("scientific_name", set = unique(vba_name_conversions$scientific_name)) %>%
     pointblank::col_vals_in_set("common_name", set = unique(vba_name_conversions$common_name)) %>%
-    pointblank::col_vals_not_null(c("SiteID", "scientific_name", "common_name", "Date", "Time", "DateTimeOriginal", "Iteration")) %>%
+    pointblank::col_vals_not_null(c("SiteID", "scientific_name", "common_name", "Date", "Time", "DateTimeOriginal", "Iteration", "metadata_Multiples")) %>%
     pointblank::col_is_date("Date") %>%
     pointblank::col_is_posix("DateTimeOriginal") %>%
     pointblank::interrogate()

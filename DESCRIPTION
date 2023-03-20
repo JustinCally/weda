@@ -24,4 +24,12 @@ Imports:
     geohashTools,
     DBI,
     dbplyr,
-    tidyr
+    tidyr,
+    camtrapR,
+    kableExtra,
+    fs,
+    readr
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr

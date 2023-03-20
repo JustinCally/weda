@@ -7,7 +7,8 @@
 standardise_species_names(
   recordTable,
   format = c("scientific", "common"),
-  speciesCol = "Species"
+  speciesCol = "Species",
+  return_data = TRUE
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ standardise_species_names(
 \item{format}{The format of the species names in the dataframe}
 
 \item{speciesCol}{The column name of the species names in the dataframe}
+
+\item{return_data}{Whether to return data or just verbose of name conversions}
 }
 \value{
 A dataframe with standardised species names
