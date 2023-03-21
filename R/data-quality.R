@@ -41,6 +41,15 @@ pb_rec <- pointblank::create_agent(
     pointblank::col_vals_not_null(c("SiteID", "scientific_name", "common_name", "Date", "Time", "DateTimeOriginal", "Iteration", "metadata_Multiples")) %>%
     pointblank::col_is_date("Date") %>%
     pointblank::col_is_posix("DateTimeOriginal") %>%
+    pointblank::col_vals_between(columns = "Date",
+                                 left = pointblank::vars(DateDeploy),
+                                 right = pointblank::vars(DateRetrieve),
+                                 inclusive = c(TRUE, TRUE),
+                                 preconditions = function(x, lj = camtrap_operation) {
+                                   dplyr::left_join(x, lj %>%
+                                                      dplyr::select(dplyr::all_of(c("SiteID", "SubStation", "DateDeploy", "DateRetrieve"))),
+                                                    by = c("SiteID", "SubStation"))
+                                   }) %>%
     pointblank::interrogate()
 
 pb_op <- pointblank::create_agent(
