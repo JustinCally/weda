@@ -22,3 +22,8 @@ reference:
     contents:
       - '`records_curated_view`'
       - '`processed_SubStation_presence_absence`'
+  - title: "Database information"
+    desc: >
+      Functions used get information on the database
+    contents:
+      - '`data_dictionary`'
