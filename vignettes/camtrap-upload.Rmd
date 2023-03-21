@@ -38,7 +38,7 @@ There are tree inputs in this process:
 
 The uploading of camera trap data will be undertaken in several steps:  
 
-```{r, include=FALSE}
+```{r, echo=FALSE}
 knitr::include_graphics(system.file("flow-diagrams/weda-camtrap.png", package = "weda"))
 ```
 ## Get record table  
@@ -186,8 +186,51 @@ data_for_upload <- prepare_camtrap_upload(dq2)
 Using the data prepared for upload made above (`data_for_upload`) you can upload the the data in one line:
 
 ```{r upload, eval = FALSE}
+con_odbc <- RPostgreSQL::dbConnect(odbc::odbc(), 
+                                   Driver = "PostgreSQL Driver", 
+                                   Server = "10.110.7.201", 
+                                   Database = "ari-dev-weda-psql-01", 
+                                   UID = "psql_user", 
+                                   PWD = keyring::key_get(service = "ari-dev-weda-psql-01", 
+                                                          username = "psql_user"), 
+                                   Port = 5432, 
+                                   sslmode = "require", 
+                                   maxvarcharsize = 0)
+
+
 upload_camtrap_data(con = con_odbc, 
                     data_list = data_for_upload, 
                     uploadername = "Justin Cally")
+```
+
+# Automatic Database Views  
+
+Once uploaded, the `postgresql` database will append your data to several easy to interact with views:  
+
+## Curated Layer  
+
+The curated layer is basic processing with duplicates removed and most/all data fields retained:  
+
++ `curated_camtrap_operation`: Is a table that stores the most recent entries for all camera trap deployments across projects (i.e. no duplicate sites)  
++ `curated_camtrap_records`: Is a table that stores the most recent camera trap records across projects (i.e. no duplicate images). This is based on a unique image being determined based on the project, site, substation, date-time and filename.  
++ `curated_project_information`: Is a table that stores the most recent project information entries (i.e. no duplicate projects)  
+
+## Processed Layer  
+
+The processed layer is more heavily processed with duplicates removed and joins, summaries and more succinct tables:  
+
++ `processed_site_substation_presence_absence`: Is a table with the presence and absence of each species at each site. The possible absent species from each site are only derived from the species pool for a given project. This avoids absences of species for particular projects that did not set out to record that species.  
+
++ `processed_site_substation_daily_presence_absence`: As above but now all presences and absences are daily. Includes early truncation of camera deployment from the `curated_camtrap_operation` dataset when there is a problem with the operation period.  
+
+```{r, eval = FALSE}
+# This is how you write the views. It only needs to be done once: 
+DBI::dbExecute(conn = con_odbc, paste(SQL("CREATE VIEW test.curated_camtrap_records AS"), records_curated_view(con_odbc)))
+DBI::dbExecute(conn = con_odbc, paste(SQL("CREATE VIEW test.curated_camtrap_operation AS"), operation_curated_view(con_odbc)))
+DBI::dbExecute(conn = con_odbc, paste(SQL("CREATE VIEW test.curated_project_information AS"), project_curated_view(con_odbc)))
+
+DBI::dbExecute(conn = con_odbc, paste(SQL("CREATE VIEW test.processed_site_substation_presence_absence AS"), processed_SubStation_presence_absence(con = con_odbc, return_data = FALSE)))
+
+DBI::dbExecute(conn = con_odbc, paste(SQL("CREATE VIEW test.processed_site_substation_daily_presence_absence AS"), processed_SubStation_presence_absence(con = con_odbc, daily = TRUE, return_data = FALSE)))
 ```
 
