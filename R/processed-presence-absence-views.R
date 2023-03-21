@@ -12,13 +12,13 @@
 #' @examples
 #' \dontrun{
 #' DBI::dbExecute(conn = con_odbc,
-#'                paste(SQL("CREATE VIEW test.processed_site_substation_presence_absence AS"),
+#'                paste(SQL("CREATE VIEW camtrap.processed_site_substation_presence_absence AS"),
 #'                processed_SubStation_presence_absence(con = con_odbc, return_data = FALSE)))
 #' }
 processed_SubStation_presence_absence <- function(con, return_data = FALSE, daily = FALSE) {
 
-  curated_camtrap_records <- dplyr::tbl(con, dbplyr::in_schema("test", "curated_camtrap_records"))
-  curated_camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema("test", "curated_camtrap_operation"))
+  curated_camtrap_records <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_camtrap_records"))
+  curated_camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_camtrap_operation"))
 
   species_real <- curated_camtrap_records %>%
     dplyr::mutate(SiteStation = paste(SiteID, SubStation, sep = "_")) %>%

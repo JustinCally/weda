@@ -72,12 +72,12 @@ upload_camtrap_data <- function(con, data_list, uploadername) {
   })
 
   # Append record table
-  DBI::dbWriteTable(con, DBI::Id(schema = "test", table = "raw_camtrap_records"),
+  DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "raw_camtrap_records"),
                     data_list[["camtrap_records"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
 
-  DBI::dbWriteTable(con, DBI::Id(schema = "test", table = "raw_operation_records"),
+  DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "raw_operation_records"),
                     data_list[["camtrap_operation"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
 
-  DBI::dbWriteTable(con, DBI::Id(schema = "test", table = "raw_project_information"),
+  DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "raw_project_information"),
                     data_list[["project_information"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
 }

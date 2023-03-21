@@ -46,18 +46,18 @@ pb_rec <- pointblank::create_agent(
 pb_op <- pointblank::create_agent(
     tbl = camtrap_operation,
     actions = pointblank::action_levels(stop_at = 1)) %>%
-    pointblank::col_exists(columns = c('SiteID', 'SubStation', 'Iteration', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'Problem1_from', 'Problem1_to', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID')) %>%
+    pointblank::col_exists(columns = c('SiteID', 'SubStation', 'Iteration', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'Problem1_from', 'Problem1_to', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger')) %>%
     pointblank::rows_distinct() %>%
-    pointblank::col_is_character(columns = c('SiteID', 'SubStation', 'CameraID')) %>%
+    pointblank::col_is_character(columns = c('SiteID', 'SubStation', 'CameraID', 'CameraModel',	'CameraSensitivity',	'CameraDelay')) %>%
     pointblank::col_is_numeric(columns = c('Latitude', 'Longitude', 'CameraHeight')) %>%
     pointblank::col_is_date(columns = c('DateDeploy', 'DateRetrieve')) %>%
-    pointblank::col_is_integer(columns = c('Iteration')) %>%
+    pointblank::col_is_integer(columns = c('Iteration', 'CameraPhotosPerTrigger')) %>%
     pointblank::col_is_posix(columns = c('DateTimeDeploy', 'DateTimeRetrieve', 'Problem1_from', 'Problem1_to')) %>%
     pointblank::col_vals_in_set(columns = c('SiteID'), set = camtrap_records$SiteID) %>%
     pointblank::col_vals_in_set(columns = c('SubStation'), set = camtrap_records$SubStation) %>%
     pointblank::col_vals_between(columns = c('Latitude'), left = -60.55, right = -8.47) %>%
     pointblank::col_vals_between(columns = c('Longitude'), left = 93.41, right = 173.34) %>%
-    pointblank::col_vals_not_null(c('SiteID', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'Iteration')) %>%
+    pointblank::col_vals_not_null(c('SiteID', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'Iteration', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger')) %>%
     pointblank::interrogate()
 
   pb_pi <- pointblank::create_agent(

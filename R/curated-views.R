@@ -10,19 +10,19 @@
 #' @examples
 #' \dontrun{
 #' DBI::dbExecute(conn = con_odbc,
-#'                paste(DBI::SQL("CREATE VIEW test.curated_camtrap_records AS"),
+#'                paste(DBI::SQL("CREATE VIEW camtrap.curated_camtrap_records AS"),
 #'                records_curated_view(con_odbc)))
 #' DBI::dbExecute(conn = con_odbc,
-#'                paste(DBI::SQL("CREATE VIEW test.curated_camtrap_operation AS"),
+#'                paste(DBI::SQL("CREATE VIEW camtrap.curated_camtrap_operation AS"),
 #'                operation_curated_view(con_odbc)))
 #' DBI::dbExecute(conn = con_odbc,
-#'                paste(DBI::SQL("CREATE VIEW test.curated_project_information AS"),
+#'                paste(DBI::SQL("CREATE VIEW camtrap.curated_project_information AS"),
 #'                project_curated_view(con_odbc)))
 #' }
 records_curated_view <- function(con, return_data = FALSE) {
 
-  # load the raw_camtrap_records table from the test schema
-  raw_camtrap_records <- dplyr::tbl(con, dbplyr::in_schema("test", "raw_camtrap_records"))
+  # load the raw_camtrap_records table from the camtrap schema
+  raw_camtrap_records <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "raw_camtrap_records"))
 
   # group the raw_camtrap_records table by camtrap_record_database_ID
   # and filter the table to only include the most recent record for each camtrap_record_database_ID
@@ -41,7 +41,7 @@ records_curated_view <- function(con, return_data = FALSE) {
 #' @export
 operation_curated_view <- function(con, return_data = FALSE) {
 
-  raw_camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema("test", "raw_operation_records"))
+  raw_camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "raw_operation_records"))
 
   curated_camtrap_operation <- raw_camtrap_operation %>%
     dplyr::group_by(camtrap_operation_database_ID) %>%
@@ -58,7 +58,7 @@ operation_curated_view <- function(con, return_data = FALSE) {
 #' @export
 project_curated_view <- function(con, return_data = FALSE) {
 
-  raw_project_information <- dplyr::tbl(con, dbplyr::in_schema("test", "raw_project_information"))
+  raw_project_information <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "raw_project_information"))
 
   curated_project_information <- raw_project_information %>%
     dplyr::group_by(camtrap_project_database_ID) %>%

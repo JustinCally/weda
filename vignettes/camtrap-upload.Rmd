@@ -34,6 +34,8 @@ There are tree inputs in this process:
 2. A camera information/site information table (generated from field data, e.g. `proofsafe`)  
 3. A single row of details regarding the project (generated manually)   
 
+See the [appendix](#Appendix) for more information on column values in the data uploaded and processed on the database. 
+
 # Process  
 
 The uploading of camera trap data will be undertaken in several steps:  
@@ -41,6 +43,8 @@ The uploading of camera trap data will be undertaken in several steps:
 ```{r, echo=FALSE}
 knitr::include_graphics(system.file("flow-diagrams/weda-camtrap.png", package = "weda"))
 ```
+
+  
 ## Get record table  
 
 You should have a directory with camera trap images that have been tagged. All images should be placed in a folder with the title of the station/site. An example of a directory structure for the dummy data is:  
@@ -111,7 +115,8 @@ Alongside the camera trap records there must be a table that has details about t
 operationdata <- readr::read_csv(system.file("dummydata/operationdata.csv", package = "weda"), 
                                  show_col_types = FALSE) %>%
   mutate(SiteID = as.character(SiteID), 
-         Iteration = as.integer(Iteration))
+         Iteration = as.integer(Iteration), 
+         CameraPhotosPerTrigger = as.integer(CameraPhotosPerTrigger))
 
 operationdata %>%
   kbl() %>%
@@ -225,12 +230,26 @@ The processed layer is more heavily processed with duplicates removed and joins,
 
 ```{r, eval = FALSE}
 # This is how you write the views. It only needs to be done once: 
-DBI::dbExecute(conn = con_odbc, paste(SQL("CREATE VIEW test.curated_camtrap_records AS"), records_curated_view(con_odbc)))
-DBI::dbExecute(conn = con_odbc, paste(SQL("CREATE VIEW test.curated_camtrap_operation AS"), operation_curated_view(con_odbc)))
-DBI::dbExecute(conn = con_odbc, paste(SQL("CREATE VIEW test.curated_project_information AS"), project_curated_view(con_odbc)))
+DBI::dbExecute(conn = con_odbc, paste(DBI::SQL("CREATE VIEW camtrap.curated_camtrap_records AS"), records_curated_view(con_odbc)))
+DBI::dbExecute(conn = con_odbc, paste(DBI::SQL("CREATE VIEW camtrap.curated_camtrap_operation AS"), operation_curated_view(con_odbc)))
+DBI::dbExecute(conn = con_odbc, paste(DBI::SQL("CREATE VIEW camtrap.curated_project_information AS"), project_curated_view(con_odbc)))
 
-DBI::dbExecute(conn = con_odbc, paste(SQL("CREATE VIEW test.processed_site_substation_presence_absence AS"), processed_SubStation_presence_absence(con = con_odbc, return_data = FALSE)))
+DBI::dbExecute(conn = con_odbc, paste(DBI::SQL("CREATE VIEW camtrap.processed_site_substation_presence_absence AS"), processed_SubStation_presence_absence(con = con_odbc, return_data = FALSE)))
 
-DBI::dbExecute(conn = con_odbc, paste(SQL("CREATE VIEW test.processed_site_substation_daily_presence_absence AS"), processed_SubStation_presence_absence(con = con_odbc, daily = TRUE, return_data = FALSE)))
+DBI::dbExecute(conn = con_odbc, paste(DBI::SQL("CREATE VIEW camtrap.processed_site_substation_daily_presence_absence AS"), processed_SubStation_presence_absence(con = con_odbc, daily = TRUE, return_data = FALSE)))
+```
+
+# Appendix  
+
+A data dictionary is provided in this package (`data(data_dictionary)`) and also available in the `data_dictionary` schema. Below is the data dictionary for the `camtrap` schema:  
+
+```{r datadict}
+data_dictionary %>% 
+  filter(schema == "camtrap") %>% 
+  select(table_name, table_description, column_name, column_class, column_description) %>%
+  kbl() %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>%
+  collapse_rows(1:3, valign = "top") %>%
+  scroll_box(width = "100%")
 ```
 
