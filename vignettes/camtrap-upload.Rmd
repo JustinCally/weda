@@ -43,7 +43,7 @@ See the [appendix](#Appendix) for more information on column values in the data 
 The uploading of camera trap data will be undertaken in several steps:  
 
 
-![camtrap-flow](weda-camtrap.png)
+![Steps to undertake when uploading camera trap data](weda-camtrap.png)
 
   
 ## Get record table  
@@ -249,8 +249,8 @@ data_dictionary %>%
   filter(schema == "camtrap") %>% 
   select(table_name, table_description, column_name, column_class, column_description) %>%
   kbl() %>%
-  kable_styling(c("striped", "condensed"), full_width = F) %>%
+  kable_styling(c("condensed"), full_width = F) %>%
   collapse_rows(1:3, valign = "top") %>%
-  scroll_box(width = "100%")
+  scroll_box(width = "100%", height = "1000px")
 ```
 
