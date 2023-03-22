@@ -19,4 +19,15 @@ test_that("vba check works", {
                               speciesCol = "Species",
                               return_data = FALSE)
   })
+
+  converted_data <- standardise_species_names(raw_camtrap_records %>%
+                                              dplyr::mutate(Species = dplyr::case_when(Species == "Rusa unicolor" ~ "Cervus unicolor",
+                                                                               TRUE ~ Species)),
+                                                  format = "scientific",
+                                                  speciesCol = "Species",
+                                                  return_data = TRUE)
+
+  expect_true(c("scientific_name") %in% colnames(converted_data))
+  expect_true(c("common_name") %in% colnames(converted_data))
+
 })
