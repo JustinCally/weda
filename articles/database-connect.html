@@ -85,14 +85,14 @@
 <div class="section level2">
 <h2 id="step-1-switch-on-vpn">Step 1: Switch on VPN<a class="anchor" aria-label="anchor" href="#step-1-switch-on-vpn"></a>
 </h2>
-<p>Make sure your Azure VPN in running</p>
+<p>Make sure your Azure VPN (or GoConnect) in running</p>
 </div>
 <div class="section level2">
 <h2 id="step-2-set-keyring-password-if-not-set">Step 2: Set keyring password if not set<a class="anchor" aria-label="anchor" href="#step-2-set-keyring-password-if-not-set"></a>
 </h2>
 <p>Set up keyring if not already set. Password for
 <code>psql_user</code> will be remembered in Rstudio keychain once you
-set it</p>
+set it. Ask an admin for an account if you do not already have one.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">keyring</span><span class="fu">::</span><span class="fu">key_list</span><span class="op">(</span><span class="st">"ari-dev-weda-psql-01"</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
 <span><span class="fu">keyring</span><span class="fu">::</span><span class="fu">key_set</span><span class="op">(</span>service <span class="op">=</span> <span class="st">"ari-dev-weda-psql-01"</span>, username <span class="op">=</span> <span class="st">"psql_user"</span><span class="op">)</span></span>
