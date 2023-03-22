@@ -26,11 +26,11 @@ library(keyring)
 
 # Step 1: Switch on VPN  
 
-Make sure your Azure VPN in running  
+Make sure your Azure VPN (or GoConnect) in running  
 
 # Step 2: Set keyring password if not set  
 
-Set up keyring if not already set. Password for `psql_user` will be remembered in Rstudio keychain once you set it
+Set up keyring if not already set. Password for `psql_user` will be remembered in Rstudio keychain once you set it. Ask an admin for an account if you do not already have one.  
 
 ```{r keyring, eval = FALSE}
 if(nrow(keyring::key_list("ari-dev-weda-psql-01")) == 0) {
