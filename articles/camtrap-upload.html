@@ -62,12 +62,13 @@
 
 
 
-<script src="camtrap-upload_files/kePrint-0.0.1/kePrint.js"></script><link href="camtrap-upload_files/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="camtrap-upload_files/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="camtrap-upload_files/vis-9.1.0/vis-network.min.css" rel="stylesheet">
+<script src="camtrap-upload_files/vis-9.1.0/vis-network.min.js"></script><script src="camtrap-upload_files/visNetwork-binding-2.1.2/visNetwork.js"></script><script src="camtrap-upload_files/kePrint-0.0.1/kePrint.js"></script><link href="camtrap-upload_files/lightable-0.0.1/lightable.css" rel="stylesheet">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Uploading camera trap records to database</h1>
             
-            <h4 data-toc-skip class="date">2023-03-22</h4>
+            <h4 data-toc-skip class="date">2023-03-23</h4>
       
       
       <div class="d-none name"><code>camtrap-upload.Rmd</code></div>
@@ -96,8 +97,29 @@ data, e.g. <code>proofsafe</code>)<br>
 <li>A single row of details regarding the project (generated
 manually)</li>
 </ol>
-<p>See the <a href="#Appendix">appendix</a> for more information on
+<p>See the <a href="#appendix">appendix</a> for more information on
 column values in the data uploaded and processed on the database.</p>
+</div>
+<div class="section level2">
+<h2 id="camera-trap-database-model">Camera trap database model<a class="anchor" aria-label="anchor" href="#camera-trap-database-model"></a>
+</h2>
+<p>Once this process is completed, data will be uploaded into the
+<code>raw</code> layer of the <code>camtrap</code> schema on the
+database. Automatic database views will process this raw data into the
+<code>curated</code> layer and <code>processed</code> layer. Zoom in to
+the figure below to see details about the data model:</p>
+<div class="figure">
+<div class="visNetwork html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0dc47677f82f6e6d6149" style="width:100%;height:432.632880098888px;"></div>
+<script type="application/json" data-for="htmlwidget-0dc47677f82f6e6d6149">{"x":{"nodes":{"tableName":["raw_project_information","curated_camtrap_records","curated_camtrap_operation","curated_project_information","processed_site_substation_daily_presence_absence","processed_site_substation_presence_absence","raw_camtrap_records","raw_camtrap_operation"],"label":["<b>raw_project_information<\/b>\n    - (ProjectName {character})\n    - (*ProjectShortName {character - uidx.2})\n    - (DistanceSampling {character})\n    - (TerrestrialArboreal {character})\n    - (AllSpeciesTagged {character})\n    - (BaitedUnbaited {character})\n    - (BaitType {character})\n    - <b>*camtrap_project_database_ID<\/b> {character - uidx.1}\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_camtrap_records<\/b>\n    - ProjectShortName {character - uidx.1}\n    - (SiteID {character - uidx.1})\n    - (SubStation {character - uidx.1})\n    - (scientific_name {character})\n    - (DateTimeOriginal {POSIXct})\n    - (Date {Date})\n    - (Time {character})\n    - (delta.time.secs {numeric})\n    - (delta.time.mins {numeric})\n    - (delta.time.hours {numeric})\n    - (delta.time.days {numeric})\n    - (Directory {character})\n    - (FileName {character})\n    - (metadata_Distance {character})\n    - (metadata_Species {character})\n    - (n_images {numeric})\n    - (metadata_Individuals {character})\n    - (metadata_Behaviour {character})\n    - (metadata_Multiples {integer})\n    - (HierarchicalSubject {character})\n    - (Iteration {integer - uidx.1})\n    - (common_name {character})\n    - (camtrap_record_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_camtrap_operation<\/b>\n    - ProjectShortName {character}\n    - (SiteID {character})\n    - (SubStation {character})\n    - (geohash {character})\n    - (Iteration {integer})\n    - (Latitude {numeric})\n    - (Longitude {numeric})\n    - (DateDeploy {Date})\n    - (TimeDeploy {character})\n    - (DateRetrieve {Date})\n    - (TimeRetrieve {character})\n    - (Problem1_from {POSIXct})\n    - (Problem1_to {POSIXct})\n    - (DateTimeDeploy {POSIXct})\n    - (DateTimeRetrieve {POSIXct})\n    - (CameraHeight {numeric})\n    - (CameraID {character})\n    - (CameraModel {character})\n    - (CameraSensitivity {character})\n    - (CameraDelay {character})\n    - (CameraPhotosPerTrigger {integer})\n    - (camtrap_operation_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_project_information<\/b>\n    - (ProjectName {character})\n    - (*ProjectShortName {character - uidx.1})\n    - (DistanceSampling {character})\n    - (TerrestrialArboreal {character})\n    - (AllSpeciesTagged {character})\n    - (BaitedUnbaited {character})\n    - (BaitType {character})\n    - (camtrap_project_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>processed_site_substation_daily_presence_absence<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Date {POSIXct})\n    - (scientific_name {character})\n    - (common_name {character})\n    - (Presence {numeric})","<b>processed_site_substation_presence_absence<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (scientific_name {character})\n    - (common_name {character})\n    - (Presence {numeric})","<b>raw_camtrap_records<\/b>\n    - ProjectShortName {character - uidx.2}\n    - (SiteID {character - uidx.2})\n    - (SubStation {character - uidx.2})\n    - (scientific_name {character})\n    - (DateTimeOriginal {POSIXct})\n    - (Date {Date})\n    - (Time {character})\n    - (delta.time.secs {numeric})\n    - (delta.time.mins {numeric})\n    - (delta.time.hours {numeric})\n    - (delta.time.days {numeric})\n    - (Directory {character})\n    - (FileName {character})\n    - (metadata_Distance {character})\n    - (metadata_Species {character})\n    - (n_images {numeric})\n    - (metadata_Individuals {character})\n    - (metadata_Behaviour {character})\n    - (metadata_Multiples {integer})\n    - (HierarchicalSubject {character})\n    - (Iteration {integer - uidx.2})\n    - (common_name {character})\n    - <b>*camtrap_record_database_ID<\/b> {character - uidx.1}\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>raw_camtrap_operation<\/b>\n    - ProjectShortName {character}\n    - (SiteID {character})\n    - (SubStation {character})\n    - (geohash {character})\n    - (Iteration {integer})\n    - (Latitude {numeric})\n    - (Longitude {numeric})\n    - (DateDeploy {Date})\n    - (TimeDeploy {character})\n    - (DateRetrieve {Date})\n    - (TimeRetrieve {character})\n    - (Problem1_from {POSIXct})\n    - (Problem1_to {POSIXct})\n    - (DateTimeDeploy {POSIXct})\n    - (DateTimeRetrieve {POSIXct})\n    - (CameraHeight {numeric})\n    - (CameraID {character})\n    - (CameraModel {character})\n    - (CameraSensitivity {character})\n    - (CameraDelay {character})\n    - (CameraPhotosPerTrigger {integer})\n    - <b>*camtrap_operation_database_ID<\/b> {character - uidx.1}\n    - (Timestamp {POSIXct})\n    - (Uploader {character})"],"title":["<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_project_information<\/strong><\/p> <ul> <li><strong>ProjectName<\/strong><\/li> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>DistanceSampling<\/strong><\/li> <li><strong>TerrestrialArboreal<\/strong><\/li> <li><strong>AllSpeciesTagged<\/strong><\/li> <li><strong>BaitedUnbaited<\/strong><\/li> <li><strong>BaitType<\/strong><\/li> <li><strong>camtrap_project_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_camtrap_records<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>DateTimeOriginal<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>Time<\/strong><\/li> <li><strong>delta.time.secs<\/strong><\/li> <li><strong>delta.time.mins<\/strong><\/li> <li><strong>delta.time.hours<\/strong><\/li> <li><strong>delta.time.days<\/strong><\/li> <li><strong>Directory<\/strong><\/li> <li><strong>FileName<\/strong><\/li> <li><strong>metadata_Distance<\/strong><\/li> <li><strong>metadata_Species<\/strong><\/li> <li><strong>n_images<\/strong><\/li> <li><strong>metadata_Individuals<\/strong><\/li> <li><strong>metadata_Behaviour<\/strong><\/li> <li><strong>metadata_Multiples<\/strong><\/li> <li><strong>HierarchicalSubject<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>camtrap_record_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_camtrap_operation<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>geohash<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>Latitude<\/strong><\/li> <li><strong>Longitude<\/strong><\/li> <li><strong>DateDeploy<\/strong><\/li> <li><strong>TimeDeploy<\/strong><\/li> <li><strong>DateRetrieve<\/strong><\/li> <li><strong>TimeRetrieve<\/strong><\/li> <li><strong>Problem1_from<\/strong><\/li> <li><strong>Problem1_to<\/strong><\/li> <li><strong>DateTimeDeploy<\/strong><\/li> <li><strong>DateTimeRetrieve<\/strong><\/li> <li><strong>CameraHeight<\/strong><\/li> <li><strong>CameraID<\/strong><\/li> <li><strong>CameraModel<\/strong><\/li> <li><strong>CameraSensitivity<\/strong><\/li> <li><strong>CameraDelay<\/strong><\/li> <li><strong>CameraPhotosPerTrigger<\/strong><\/li> <li><strong>camtrap_operation_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_project_information<\/strong><\/p> <ul> <li><strong>ProjectName<\/strong><\/li> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>DistanceSampling<\/strong><\/li> <li><strong>TerrestrialArboreal<\/strong><\/li> <li><strong>AllSpeciesTagged<\/strong><\/li> <li><strong>BaitedUnbaited<\/strong><\/li> <li><strong>BaitType<\/strong><\/li> <li><strong>camtrap_project_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">processed_site_substation_daily_presence_absence<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>Presence<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">processed_site_substation_presence_absence<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>Presence<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_camtrap_records<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>DateTimeOriginal<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>Time<\/strong><\/li> <li><strong>delta.time.secs<\/strong><\/li> <li><strong>delta.time.mins<\/strong><\/li> <li><strong>delta.time.hours<\/strong><\/li> <li><strong>delta.time.days<\/strong><\/li> <li><strong>Directory<\/strong><\/li> <li><strong>FileName<\/strong><\/li> <li><strong>metadata_Distance<\/strong><\/li> <li><strong>metadata_Species<\/strong><\/li> <li><strong>n_images<\/strong><\/li> <li><strong>metadata_Individuals<\/strong><\/li> <li><strong>metadata_Behaviour<\/strong><\/li> <li><strong>metadata_Multiples<\/strong><\/li> <li><strong>HierarchicalSubject<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>camtrap_record_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_camtrap_operation<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>geohash<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>Latitude<\/strong><\/li> <li><strong>Longitude<\/strong><\/li> <li><strong>DateDeploy<\/strong><\/li> <li><strong>TimeDeploy<\/strong><\/li> <li><strong>DateRetrieve<\/strong><\/li> <li><strong>TimeRetrieve<\/strong><\/li> <li><strong>Problem1_from<\/strong><\/li> <li><strong>Problem1_to<\/strong><\/li> <li><strong>DateTimeDeploy<\/strong><\/li> <li><strong>DateTimeRetrieve<\/strong><\/li> <li><strong>CameraHeight<\/strong><\/li> <li><strong>CameraID<\/strong><\/li> <li><strong>CameraModel<\/strong><\/li> <li><strong>CameraSensitivity<\/strong><\/li> <li><strong>CameraDelay<\/strong><\/li> <li><strong>CameraPhotosPerTrigger<\/strong><\/li> <li><strong>camtrap_operation_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>"],"shape":["box","box","box","box","box","box","box","box"],"font.multi":[true,true,true,true,true,true,true,true],"font.align":["left","left","left","left","left","left","left","left"],"x":[664,-216,250,657,428,-3,-209,246],"y":[194,-173,-174,-267,-569,-567,302,287],"color.background":["#FEFE8F","#9BC8FE","#9BC8FE","#9BC8FE","#A9ECC9","#A9ECC9","#FEFE8F","#FEFE8F"],"color.border":["black","black","black","black","black","black","black","black"],"color.highlight.border":["orange","orange","orange","orange","orange","orange","orange","orange"],"color.highlight.background":["#FEFE8F","#9BC8FE","#9BC8FE","#9BC8FE","#A9ECC9","#A9ECC9","#FEFE8F","#FEFE8F"],"id":["raw_project_information","curated_camtrap_records","curated_camtrap_operation","curated_project_information","processed_site_substation_daily_presence_absence","processed_site_substation_presence_absence","raw_camtrap_records","raw_camtrap_operation"]},"edges":{"id":["curated_camtrap_records->curated_project_information: ProjectShortName->ProjectShortName","curated_camtrap_operation->curated_camtrap_records: Iteration->Iteration && ProjectShortName->ProjectShortName && SiteID->SiteID && SubStation->SubStation","curated_camtrap_operation->curated_project_information: ProjectShortName->ProjectShortName","raw_camtrap_records->raw_project_information: ProjectShortName->ProjectShortName","raw_camtrap_operation->raw_camtrap_records: Iteration->Iteration && ProjectShortName->ProjectShortName && SiteID->SiteID && SubStation->SubStation","raw_camtrap_operation->raw_project_information: ProjectShortName->ProjectShortName"],"to":["curated_project_information","curated_camtrap_records","curated_project_information","raw_project_information","raw_camtrap_records","raw_project_information"],"title":["<table style=\"border: 1px solid black; padding:1px;\"><tr style=\"border: 1px solid black; padding:1px;\"><th style=\"border: 1px solid black; padding:1px;text-align:center;\">curated_camtrap_records<br>(0..n)<\/th><th style=\"border: 1px solid black; padding:1px;text-align:center;\">curated_project_information<br>(1..1)<\/th><\/tr><tr style=\"border: 1px solid black; padding:1px;\"><td style=\"border: 1px solid black; padding:1px;\">ProjectShortName<\/td><td style=\"border: 1px solid black; padding:1px;\">ProjectShortName<\/td><\/tr><\/table>","<table style=\"border: 1px solid black; padding:1px;\"><tr style=\"border: 1px solid black; padding:1px;\"><th style=\"border: 1px solid black; padding:1px;text-align:center;\">curated_camtrap_operation<br>(0..n)<\/th><th style=\"border: 1px solid black; padding:1px;text-align:center;\">curated_camtrap_records<br>(1..1)<\/th><\/tr><tr style=\"border: 1px solid black; padding:1px;\"><td style=\"border: 1px solid black; padding:1px;\">Iteration<\/td><td style=\"border: 1px solid black; padding:1px;\">Iteration<\/td><\/tr><tr style=\"border: 1px solid black; padding:1px;\"><td style=\"border: 1px solid black; padding:1px;\">ProjectShortName<\/td><td style=\"border: 1px solid black; padding:1px;\">ProjectShortName<\/td><\/tr><tr style=\"border: 1px solid black; padding:1px;\"><td style=\"border: 1px solid black; padding:1px;\">SiteID<\/td><td style=\"border: 1px solid black; padding:1px;\">SiteID<\/td><\/tr><tr style=\"border: 1px solid black; padding:1px;\"><td style=\"border: 1px solid black; padding:1px;\">SubStation<\/td><td style=\"border: 1px solid black; padding:1px;\">SubStation<\/td><\/tr><\/table>","<table style=\"border: 1px solid black; padding:1px;\"><tr style=\"border: 1px solid black; padding:1px;\"><th style=\"border: 1px solid black; padding:1px;text-align:center;\">curated_camtrap_operation<br>(0..n)<\/th><th style=\"border: 1px solid black; padding:1px;text-align:center;\">curated_project_information<br>(1..1)<\/th><\/tr><tr style=\"border: 1px solid black; padding:1px;\"><td style=\"border: 1px solid black; padding:1px;\">ProjectShortName<\/td><td style=\"border: 1px solid black; padding:1px;\">ProjectShortName<\/td><\/tr><\/table>","<table style=\"border: 1px solid black; padding:1px;\"><tr style=\"border: 1px solid black; padding:1px;\"><th style=\"border: 1px solid black; padding:1px;text-align:center;\">raw_camtrap_records<br>(0..n)<\/th><th style=\"border: 1px solid black; padding:1px;text-align:center;\">raw_project_information<br>(1..1)<\/th><\/tr><tr style=\"border: 1px solid black; padding:1px;\"><td style=\"border: 1px solid black; padding:1px;\">ProjectShortName<\/td><td style=\"border: 1px solid black; padding:1px;\">ProjectShortName<\/td><\/tr><\/table>","<table style=\"border: 1px solid black; padding:1px;\"><tr style=\"border: 1px solid black; padding:1px;\"><th style=\"border: 1px solid black; padding:1px;text-align:center;\">raw_camtrap_operation<br>(0..n)<\/th><th style=\"border: 1px solid black; padding:1px;text-align:center;\">raw_camtrap_records<br>(1..1)<\/th><\/tr><tr style=\"border: 1px solid black; padding:1px;\"><td style=\"border: 1px solid black; padding:1px;\">Iteration<\/td><td style=\"border: 1px solid black; padding:1px;\">Iteration<\/td><\/tr><tr style=\"border: 1px solid black; padding:1px;\"><td style=\"border: 1px solid black; padding:1px;\">ProjectShortName<\/td><td style=\"border: 1px solid black; padding:1px;\">ProjectShortName<\/td><\/tr><tr style=\"border: 1px solid black; padding:1px;\"><td style=\"border: 1px solid black; padding:1px;\">SiteID<\/td><td style=\"border: 1px solid black; padding:1px;\">SiteID<\/td><\/tr><tr style=\"border: 1px solid black; padding:1px;\"><td style=\"border: 1px solid black; padding:1px;\">SubStation<\/td><td style=\"border: 1px solid black; padding:1px;\">SubStation<\/td><\/tr><\/table>","<table style=\"border: 1px solid black; padding:1px;\"><tr style=\"border: 1px solid black; padding:1px;\"><th style=\"border: 1px solid black; padding:1px;text-align:center;\">raw_camtrap_operation<br>(0..n)<\/th><th style=\"border: 1px solid black; padding:1px;text-align:center;\">raw_project_information<br>(1..1)<\/th><\/tr><tr style=\"border: 1px solid black; padding:1px;\"><td style=\"border: 1px solid black; padding:1px;\">ProjectShortName<\/td><td style=\"border: 1px solid black; padding:1px;\">ProjectShortName<\/td><\/tr><\/table>"],"ff":["ProjectShortName",["Iteration","ProjectShortName","SiteID","SubStation"],"ProjectShortName","ProjectShortName",["Iteration","ProjectShortName","SiteID","SubStation"],"ProjectShortName"],"tf":["ProjectShortName",["Iteration","ProjectShortName","SiteID","SubStation"],"ProjectShortName","ProjectShortName",["Iteration","ProjectShortName","SiteID","SubStation"],"ProjectShortName"],"from":["curated_camtrap_records","curated_camtrap_operation","curated_camtrap_operation","raw_camtrap_records","raw_camtrap_operation","raw_camtrap_operation"],"arrows":["to","to","to","to","to","to"],"font.align":["bottom","bottom","bottom","bottom","bottom","bottom"],"smooth.type":["curvedCCW","curvedCCW","curvedCCW","curvedCCW","curvedCCW","curvedCCW"],"smooth.roundness":[-0,-0,-0,-0,-0,-0],"selfReferenceSize":[30,30,30,30,30,30],"uef":["curated_camtrap_records","curated_camtrap_operation","curated_camtrap_operation","raw_camtrap_records","raw_camtrap_operation","raw_camtrap_operation"],"uet":["curated_project_information","curated_camtrap_records","curated_project_information","raw_project_information","raw_camtrap_records","raw_project_information"],"ue":["curated_camtrap_records<->curated_project_information","curated_camtrap_operation<->curated_camtrap_records","curated_camtrap_operation<->curated_project_information","raw_camtrap_records<->raw_project_information","raw_camtrap_operation<->raw_camtrap_records","raw_camtrap_operation<->raw_project_information"],"color.color":["black","black","black","black","black","black"],"color.highlight":["orange","orange","orange","orange","orange","orange"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","borderWidth":2,"labelHighlightBold":false},"manipulation":{"enabled":false},"edges":{"width":2,"selectionWidth":2},"interaction":{"multiselect":true,"zoomSpeed":1},"layout":{"randomSeed":2},"physics":{"enabled":false}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false},"byselection":{"enabled":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><p class="caption">
+Camera trap database model with the colour signifying the layer of
+processing. All data is appended to the raw layer and then flows up
+automatically through database views. Data tables in raw and curated
+levels can be joined by common keys (e.g. ProjectShortName, SiteID,
+SubStation, ID). The colours and position represent the different layers
+(yellow = <code>raw</code>, blue = <code>curated</code>, and green =
+<code>processed</code>).
+</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="process">Process<a class="anchor" aria-label="anchor" href="#process"></a>
@@ -1705,7 +1727,7 @@ html {
     </tr>
 <tr>
 <td colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;">
-<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-03-22|05:49:25]</span>
+<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-03-23|00:48:01]</span>
 <div style="height:25px;">
 <span style="background-color:#9933CC;color:#FFFFFF;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #9933CC;padding:2px 15px 2px 15px;font-size:smaller;">data frame</span>
 <span style="background-color:none;color:#222222;padding:0.5em 0.5em;position:inherit;margin:5px 10px 5px -4px;font-weight:bold;border:solid 1px #9933CC;padding:2px 15px 2px 15px;font-size:smaller;">camtrap_records</span><span style="background-color:#E5AB00;color:white;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #E5AB00;padding:2px 15px 2px 15px;font-size:smaller;">WARN</span>
@@ -3722,9 +3744,9 @@ html {
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
 <td class="gt_sourcenote" colspan="14">
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-03-22 05:49:25 UTC</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">1.8 s</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-03-22 05:49:27 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-03-23 00:48:01 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2.0 s</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-03-23 00:48:03 UTC</span>
 </td>
     </tr></tfoot>
 </table>
@@ -4185,7 +4207,7 @@ html {
     </tr>
 <tr>
 <td colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;">
-<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-03-22|05:49:27]</span>
+<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-03-23|00:48:03]</span>
 <div style="height:25px;">
 <span style="background-color:#F1D35A;color:#222222;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">tibble</span>
 <span style="background-color:none;color:#222222;padding:0.5em 0.5em;position:inherit;margin:5px 10px 5px -4px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">camtrap_operation</span><span style="background-color:#E5AB00;color:white;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #E5AB00;padding:2px 15px 2px 15px;font-size:smaller;">WARN</span>
@@ -6842,9 +6864,9 @@ html {
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
 <td class="gt_sourcenote" colspan="14">
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-03-22 05:49:27 UTC</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2.4 s</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-03-22 05:49:29 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-03-23 00:48:03 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2.7 s</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-03-23 00:48:06 UTC</span>
 </td>
     </tr></tfoot>
 </table>
@@ -7305,7 +7327,7 @@ html {
     </tr>
 <tr>
 <td colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;">
-<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-03-22|05:49:29]</span>
+<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-03-23|00:48:06]</span>
 <div style="height:25px;">
 <span style="background-color:#F1D35A;color:#222222;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">tibble</span>
 <span style="background-color:none;color:#222222;padding:0.5em 0.5em;position:inherit;margin:5px 10px 5px -4px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">project_information</span><span style="background-color:#E5AB00;color:white;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #E5AB00;padding:2px 15px 2px 15px;font-size:smaller;">WARN</span>
@@ -7938,9 +7960,9 @@ html {
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
 <td class="gt_sourcenote" colspan="14">
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-03-22 05:49:29 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-03-23 00:48:06 UTC</span>
 <span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">&lt; 1 s</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-03-22 05:49:30 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-03-23 00:48:07 UTC</span>
 </td>
     </tr></tfoot>
 </table>
@@ -8289,443 +8311,6 @@ Name of person uploading data
 </tr>
 <tr>
 <td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-ProjectShortName
-</td>
-<td style="text-align:left;">
-character
-</td>
-<td style="text-align:left;">
-Short project name that data was collected for
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-SiteID
-</td>
-<td style="text-align:left;">
-character
-</td>
-<td style="text-align:left;">
-Site identification. Can be camera trap location or have a nesting of
-substations. Project specific.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-SubStation
-</td>
-<td style="text-align:left;">
-character
-</td>
-<td style="text-align:left;">
-Nested location of camera trap within a site. Used in cases where a site
-has multiple camera trap deployments.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-geohash
-</td>
-<td style="text-align:left;">
-character
-</td>
-<td style="text-align:left;">
-8-digit geohash code based on longitude and latitude
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-Iteration
-</td>
-<td style="text-align:left;">
-integer
-</td>
-<td style="text-align:left;">
-Useful for multi-season surveys, this is the nth deployment iteration.
-If it is the first survey at a site, use 1.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-Latitude
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-Latitude of camera in decimal degrees (EPSG: 4283)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-Longitude
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-Longitude of camera in decimal degrees (EPSG: 4283)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-DateDeploy
-</td>
-<td style="text-align:left;">
-Date
-</td>
-<td style="text-align:left;">
-Date camera was deployed
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-TimeDeploy
-</td>
-<td style="text-align:left;">
-hms, difftime
-</td>
-<td style="text-align:left;">
-Time camera was deployed
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-DateRetrieve
-</td>
-<td style="text-align:left;">
-Date
-</td>
-<td style="text-align:left;">
-Date camera was retrieved
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-TimeRetrieve
-</td>
-<td style="text-align:left;">
-hms, difftime
-</td>
-<td style="text-align:left;">
-Time camera was retrieved
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-Problem1_from
-</td>
-<td style="text-align:left;">
-POSIXct, POSIXt
-</td>
-<td style="text-align:left;">
-If there was a problem with the camera, when (date-time) did it start
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-Problem1_to
-</td>
-<td style="text-align:left;">
-POSIXct, POSIXt
-</td>
-<td style="text-align:left;">
-If there was a problem with the camera, when (date-time) did it end
-(usually when camera is picked up)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-DateTimeDeploy
-</td>
-<td style="text-align:left;">
-POSIXct, POSIXt
-</td>
-<td style="text-align:left;">
-Date-time camera was deployed
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-DateTimeRetrieve
-</td>
-<td style="text-align:left;">
-POSIXct, POSIXt
-</td>
-<td style="text-align:left;">
-Date-time camera was deployed
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-CameraHeight
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-Height above ground of camera
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-CameraID
-</td>
-<td style="text-align:left;">
-character
-</td>
-<td style="text-align:left;">
-ID of camera (optional)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-CameraModel
-</td>
-<td style="text-align:left;">
-character
-</td>
-<td style="text-align:left;">
-Model of camera
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-CameraSensitivity
-</td>
-<td style="text-align:left;">
-character
-</td>
-<td style="text-align:left;">
-Sensitivity of camera (low, medium, high or very high)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-CameraDelay
-</td>
-<td style="text-align:left;">
-character
-</td>
-<td style="text-align:left;">
-Delay of camera in taking photos (Rapidfire or time in seconds)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-CameraPhotosPerTrigger
-</td>
-<td style="text-align:left;">
-integer
-</td>
-<td style="text-align:left;">
-Number of photos per trigger (e.g. 5)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-camtrap_operation_database_ID
-</td>
-<td style="text-align:left;">
-character
-</td>
-<td style="text-align:left;">
-Unique ID of the cameratrap record. ID is formulated from key variables
-of ProjectShortName, SiteID, SubStation
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-Timestamp
-</td>
-<td style="text-align:left;">
-POSIXct, POSIXt
-</td>
-<td style="text-align:left;">
-Time/date of upload (should exist as Greenwhich Mean Time)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-curated_camtrap_operation
-</td>
-<td style="text-align:left;">
-Is a table that stores the most recent entries for all camera trap
-deployments across projects (i.e. no duplicate sites)
-</td>
-<td style="text-align:left;">
-Uploader
-</td>
-<td style="text-align:left;">
-character
-</td>
-<td style="text-align:left;">
-Name of person uploading data
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 curated_camtrap_records
 </td>
 <td style="text-align:left;">
@@ -9219,6 +8804,443 @@ Is a table that stores the most recent camera trap records across
 projects (i.e. no duplicate images). This is based on a unique image
 being determined based on the project, site, substation, date-time and
 filename.
+</td>
+<td style="text-align:left;">
+Uploader
+</td>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:left;">
+Name of person uploading data
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+ProjectShortName
+</td>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:left;">
+Short project name that data was collected for
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+SiteID
+</td>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:left;">
+Site identification. Can be camera trap location or have a nesting of
+substations. Project specific.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+SubStation
+</td>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:left;">
+Nested location of camera trap within a site. Used in cases where a site
+has multiple camera trap deployments.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+geohash
+</td>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:left;">
+8-digit geohash code based on longitude and latitude
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+Iteration
+</td>
+<td style="text-align:left;">
+integer
+</td>
+<td style="text-align:left;">
+Useful for multi-season surveys, this is the nth deployment iteration.
+If it is the first survey at a site, use 1.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+Latitude
+</td>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+Latitude of camera in decimal degrees (EPSG: 4283)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+Longitude
+</td>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+Longitude of camera in decimal degrees (EPSG: 4283)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+DateDeploy
+</td>
+<td style="text-align:left;">
+Date
+</td>
+<td style="text-align:left;">
+Date camera was deployed
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+TimeDeploy
+</td>
+<td style="text-align:left;">
+hms, difftime
+</td>
+<td style="text-align:left;">
+Time camera was deployed
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+DateRetrieve
+</td>
+<td style="text-align:left;">
+Date
+</td>
+<td style="text-align:left;">
+Date camera was retrieved
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+TimeRetrieve
+</td>
+<td style="text-align:left;">
+hms, difftime
+</td>
+<td style="text-align:left;">
+Time camera was retrieved
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+Problem1_from
+</td>
+<td style="text-align:left;">
+POSIXct, POSIXt
+</td>
+<td style="text-align:left;">
+If there was a problem with the camera, when (date-time) did it start
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+Problem1_to
+</td>
+<td style="text-align:left;">
+POSIXct, POSIXt
+</td>
+<td style="text-align:left;">
+If there was a problem with the camera, when (date-time) did it end
+(usually when camera is picked up)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+DateTimeDeploy
+</td>
+<td style="text-align:left;">
+POSIXct, POSIXt
+</td>
+<td style="text-align:left;">
+Date-time camera was deployed
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+DateTimeRetrieve
+</td>
+<td style="text-align:left;">
+POSIXct, POSIXt
+</td>
+<td style="text-align:left;">
+Date-time camera was deployed
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+CameraHeight
+</td>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+Height above ground of camera
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+CameraID
+</td>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:left;">
+ID of camera (optional)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+CameraModel
+</td>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:left;">
+Model of camera
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+CameraSensitivity
+</td>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:left;">
+Sensitivity of camera (low, medium, high or very high)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+CameraDelay
+</td>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:left;">
+Delay of camera in taking photos (Rapidfire or time in seconds)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+CameraPhotosPerTrigger
+</td>
+<td style="text-align:left;">
+integer
+</td>
+<td style="text-align:left;">
+Number of photos per trigger (e.g. 5)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+camtrap_operation_database_ID
+</td>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:left;">
+Unique ID of the cameratrap record. ID is formulated from key variables
+of ProjectShortName, SiteID, SubStation
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
+</td>
+<td style="text-align:left;">
+Timestamp
+</td>
+<td style="text-align:left;">
+POSIXct, POSIXt
+</td>
+<td style="text-align:left;">
+Time/date of upload (should exist as Greenwhich Mean Time)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+curated_camtrap_operation
+</td>
+<td style="text-align:left;">
+Is a table that stores the most recent entries for all camera trap
+deployments across projects (i.e. no duplicate sites)
 </td>
 <td style="text-align:left;">
 Uploader
@@ -10181,7 +10203,7 @@ Name of person uploading data
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10200,7 +10222,7 @@ Short project name that data was collected for
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10220,7 +10242,7 @@ substations. Project specific.
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10240,7 +10262,7 @@ has multiple camera trap deployments.
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10259,7 +10281,7 @@ character
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10279,7 +10301,7 @@ If it is the first survey at a site, use 1.
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10298,7 +10320,7 @@ Latitude of camera in decimal degrees (EPSG: 4283)
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10317,7 +10339,7 @@ Longitude of camera in decimal degrees (EPSG: 4283)
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10336,7 +10358,7 @@ Date camera was deployed
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10355,7 +10377,7 @@ Time camera was deployed
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10374,7 +10396,7 @@ Date camera was retrieved
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10393,7 +10415,7 @@ Time camera was retrieved
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10412,7 +10434,7 @@ If there was a problem with the camera, when (date-time) did it start
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10432,7 +10454,7 @@ If there was a problem with the camera, when (date-time) did it end
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10451,7 +10473,7 @@ Date-time camera was deployed
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10470,7 +10492,7 @@ Date-time camera was deployed
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10489,7 +10511,7 @@ Height above ground of camera
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10508,7 +10530,7 @@ ID of camera (optional)
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10527,7 +10549,7 @@ Model of camera
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10546,7 +10568,7 @@ Sensitivity of camera (low, medium, high or very high)
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10565,7 +10587,7 @@ Delay of camera in taking photos (Rapidfire or time in seconds)
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10584,7 +10606,7 @@ Number of photos per trigger (e.g. 5)
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10604,7 +10626,7 @@ of ProjectShortName, SiteID, SubStation
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
@@ -10623,7 +10645,7 @@ Time/date of upload (should exist as Greenwhich Mean Time)
 </tr>
 <tr>
 <td style="text-align:left;">
-raw_operation_records
+raw_camtrap_operation
 </td>
 <td style="text-align:left;">
 Is a table that stores ALL camera trap deployments across projects
