@@ -44,7 +44,7 @@ return(df)
 # cat(paste0("column_name == '", unique(data_dict$column_name), "' ~ ,", collapse = "\n"))
 
 data_dictionary <- data_dict %>%
-  mutate(table_description = case_when(table_name == "raw_operation_records" ~ "Is a table that stores ALL camera trap deployments across projects (i.e. duplicates allowes). This is the table where uploads are appended to.",
+  mutate(table_description = case_when(table_name == "raw_camtrap_operation" ~ "Is a table that stores ALL camera trap deployments across projects (i.e. duplicates allowes). This is the table where uploads are appended to.",
                                        table_name == "raw_camtrap_records" ~ "Is a table that stores ALL camera trap records across projects (i.e. duplicate images allowed). This is the table where uploads are appended to.",
                                        table_name == "raw_project_information" ~ "Is a table that stores ALL project information entries (i.e. duplicate projects allowed). This is the table where uploads are appended to.",
                                        table_name == "curated_camtrap_operation" ~ "Is a table that stores the most recent entries for all camera trap deployments across projects (i.e. no duplicate sites)",

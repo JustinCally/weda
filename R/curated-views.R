@@ -41,7 +41,7 @@ records_curated_view <- function(con, return_data = FALSE) {
 #' @export
 operation_curated_view <- function(con, return_data = FALSE) {
 
-  raw_camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "raw_operation_records"))
+  raw_camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "raw_camtrap_operation"))
 
   curated_camtrap_operation <- raw_camtrap_operation %>%
     dplyr::group_by(camtrap_operation_database_ID) %>%

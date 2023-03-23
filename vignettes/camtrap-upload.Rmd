@@ -22,6 +22,7 @@ library(weda)
 library(dplyr)
 library(camtrapR)
 library(kableExtra)
+library(ReDaMoR)
 ```
 
 # Brief  
@@ -36,7 +37,18 @@ There are tree inputs in this process:
 2. A camera information/site information table (generated from field data, e.g. `proofsafe`)  
 3. A single row of details regarding the project (generated manually)   
 
-See the [appendix](#Appendix) for more information on column values in the data uploaded and processed on the database. 
+See the [appendix](#appendix) for more information on column values in the data uploaded and processed on the database. 
+
+# Camera trap database model  
+
+Once this process is completed, data will be uploaded into the `raw` layer of the `camtrap` schema on the database. Automatic database views will process this raw data into the `curated` layer and `processed` layer. Zoom in to the figure below to see details about the data model:  
+
+```{r datamodel, echo = FALSE, fig.cap="Camera trap database model with the colour signifying the layer of processing. All data is appended to the raw layer and then flows up automatically through database views. Data tables in raw and curated levels can be joined by common keys (e.g. ProjectShortName, SiteID, SubStation, ID). The colours and position represent the different layers (yellow = `raw`, blue = `curated`, and green = `processed`).", out.width = '100%'}
+camtrap_data_model <- read_json_data_model(system.file("data-models/camtrap-model.json", package = "weda"))
+
+plot(camtrap_data_model)
+```
+
 
 # Process  
 

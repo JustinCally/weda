@@ -28,7 +28,8 @@ Imports:
     camtrapR,
     kableExtra,
     fs,
-    readr
+    readr,
+    ReDaMoR
 Suggests: 
     rmarkdown,
     knitr,

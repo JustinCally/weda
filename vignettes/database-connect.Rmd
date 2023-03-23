@@ -24,6 +24,10 @@ library(odbc)
 library(keyring)
 ```
 
+# Brief  
+
+The Wildlife Ecology Section currently has an *Azure* virtual machine (VM) hosted through DEECA's ISD offerings. The VM is a linux system that has a *postgresql* database installed. This database has daily backups and is accessible through private endpoints (meaning users must have GoConnect/an azure VPN running). Access to the database can be granted by admins (Justin Cally) and will require a username and password to connect. Below we show how you can connect to the database from R/RStudio. Once connected, you are able to use `SQL` queries or translated `R` code (e.g. `dbplyr` R package) to interact with the database.    
+
 # Step 1: Switch on VPN  
 
 Make sure your Azure VPN (or GoConnect) in running  
