@@ -27,6 +27,8 @@ NULL
 #'   \item column_name. Name of the column/field
 #'   \item column_class. Class of the column as per R conventions
 #'   \item column_description. Description of the column purpose
+#'   \item darwin_standard_core. Darwin standard core matching field
+#'   \item derived_from. Where the data is derived from (e.g. user or camtrapR)
 #' }
 #'
 #' @docType data
