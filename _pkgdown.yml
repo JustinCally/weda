@@ -16,6 +16,7 @@ reference:
       - '`camera_trap_dq`'
       - '`prepare_camtrap_upload`'
       - '`upload_camtrap_data`'
+      - '`operation-from-records`'
   - title: "Database views"
     desc: >
       Functions used to create views on the database

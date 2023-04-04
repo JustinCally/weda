@@ -34,8 +34,8 @@ pb_rec <- pointblank::create_agent(
     pointblank::rows_distinct() %>%
     pointblank::col_is_character(c("SiteID", "SubStation", "scientific_name", "common_name", "Time", "Directory", "FileName")) %>%
     pointblank::col_is_integer(c("Iteration", "metadata_Multiples")) %>%
-    pointblank::col_vals_in_set("SiteID", set = camtrap_operation$SiteID) %>%
-    pointblank::col_vals_in_set("SubStation", set = camtrap_operation$SubStation) %>%
+    pointblank::col_vals_make_subset("SiteID", set = camtrap_operation$SiteID) %>%
+    pointblank::col_vals_make_subset("SubStation", set = camtrap_operation$SubStation) %>%
     pointblank::col_vals_in_set("scientific_name", set = unique(vba_sci$scientific_name)) %>%
     pointblank::col_vals_in_set("common_name", set = unique(vba_com$common_name)) %>%
     pointblank::col_vals_not_null(c("SiteID", "scientific_name", "common_name", "Date", "Time", "DateTimeOriginal", "Iteration", "metadata_Multiples")) %>%
@@ -62,8 +62,8 @@ pb_op <- pointblank::create_agent(
     pointblank::col_is_date(columns = c('DateDeploy', 'DateRetrieve')) %>%
     pointblank::col_is_integer(columns = c('Iteration', 'CameraPhotosPerTrigger')) %>%
     pointblank::col_is_posix(columns = c('DateTimeDeploy', 'DateTimeRetrieve', 'Problem1_from', 'Problem1_to')) %>%
-    pointblank::col_vals_in_set(columns = c('SiteID'), set = camtrap_records$SiteID) %>%
-    pointblank::col_vals_in_set(columns = c('SubStation'), set = camtrap_records$SubStation) %>%
+    # pointblank::col_vals_in_set(columns = c('SiteID'), set = camtrap_records$SiteID) %>%
+    # pointblank::col_vals_in_set(columns = c('SubStation'), set = camtrap_records$SubStation) %>%
     pointblank::col_vals_between(columns = c('Latitude'), left = -60.55, right = -8.47) %>%
     pointblank::col_vals_between(columns = c('Longitude'), left = 93.41, right = 173.34) %>%
     pointblank::col_vals_not_null(c('SiteID', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'Iteration', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger')) %>%
