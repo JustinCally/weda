@@ -11,7 +11,7 @@
 #' }
 prepare_camtrap_upload <- function(agent_list) {
 
-  if(!all(sapply(agent_list, function(x) all(x[["validation_set"]][["all_passed"]])))) {
+  if(!all(sapply(agent_list, function(x) all(!x[["validation_set"]][["stop"]])))) {
     stop("Not all data quality checks have passed, please amend data before uploading to the database")
   }
 

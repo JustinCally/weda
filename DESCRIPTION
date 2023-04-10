@@ -19,7 +19,7 @@ Imports:
     cli,
     magrittr,
     methods,
-    pointblank,
+    pointblank (>= 0.11.3.9000),
     digest,
     geohashTools,
     DBI,
@@ -37,3 +37,5 @@ Suggests:
     covr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
+Remotes:  
+    rich-iannone/pointblank
