@@ -11,7 +11,7 @@
 #' }
 prepare_camtrap_upload <- function(agent_list) {
 
-  if(!all(sapply(agent_list, function(x) all(x[["validation_set"]][["all_passed"]])))) {
+  if(!all(sapply(agent_list, function(x) all(!x[["validation_set"]][["stop"]])))) {
     stop("Not all data quality checks have passed, please amend data before uploading to the database")
   }
 
@@ -53,6 +53,7 @@ prepare_camtrap_upload <- function(agent_list) {
 #' @param con postgresql connection to ari-dev-weda-psql-01
 #' @param data_list list of camera trap records, operations and project information (output from prepare_camtrap_upload())
 #' @param uploadername name of person uploading data
+#' @param tables_to_upload vector (characters) of tables to upload. Default is all of them
 #'
 #' @return NULL
 #' @export
@@ -61,7 +62,9 @@ prepare_camtrap_upload <- function(agent_list) {
 #' \dontrun{
 #' upload_camtrap_data(con = con_odbc, data_list = data_list, uploadername = "Justin Cally")
 #' }
-upload_camtrap_data <- function(con, data_list, uploadername) {
+upload_camtrap_data <- function(con, data_list, uploadername, tables_to_upload = c("raw_camtrap_records",
+                                                                                   "raw_camtrap_operation",
+                                                                                   "raw_project_information")) {
 
   timestamp <- Sys.time()
 
@@ -72,12 +75,21 @@ upload_camtrap_data <- function(con, data_list, uploadername) {
   })
 
   # Append record table
+  if("raw_camtrap_records" %in% tables_to_upload) {
   DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "raw_camtrap_records"),
                     data_list[["camtrap_records"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
+    message("Uploaded camera trap records")
+  }
 
+  if("raw_camtrap_operation" %in% tables_to_upload) {
   DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "raw_camtrap_operation"),
                     data_list[["camtrap_operation"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
+    message("Uploaded camera trap operation details")
+  }
 
+  if("raw_project_information" %in% tables_to_upload) {
   DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "raw_project_information"),
                     data_list[["project_information"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
+    message("Uploaded camera trap project information")
+  }
 }

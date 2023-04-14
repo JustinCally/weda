@@ -4,7 +4,13 @@
 \alias{upload_camtrap_data}
 \title{Upload camera trap data to database}
 \usage{
-upload_camtrap_data(con, data_list, uploadername)
+upload_camtrap_data(
+  con,
+  data_list,
+  uploadername,
+  tables_to_upload = c("raw_camtrap_records", "raw_camtrap_operation",
+    "raw_project_information")
+)
 }
 \arguments{
 \item{con}{postgresql connection to ari-dev-weda-psql-01}
@@ -12,6 +18,8 @@ upload_camtrap_data(con, data_list, uploadername)
 \item{data_list}{list of camera trap records, operations and project information (output from prepare_camtrap_upload())}
 
 \item{uploadername}{name of person uploading data}
+
+\item{tables_to_upload}{vector (characters) of tables to upload. Default is all of them}
 }
 \description{
 Upload camera trap data to database

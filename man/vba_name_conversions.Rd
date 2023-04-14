@@ -15,6 +15,7 @@ A dataset containing the scientific names and common names of taxa in the VBA
 }
 \details{
 \itemize{
+\item taxon_id. The VBA taxon ID
 \item scientific_name. The scientific name in the VBA
 \item common_name. The common name in the VBA
 }

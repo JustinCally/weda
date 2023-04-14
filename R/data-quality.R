@@ -62,8 +62,8 @@ pb_op <- pointblank::create_agent(
     pointblank::col_is_date(columns = c('DateDeploy', 'DateRetrieve')) %>%
     pointblank::col_is_integer(columns = c('Iteration', 'CameraPhotosPerTrigger')) %>%
     pointblank::col_is_posix(columns = c('DateTimeDeploy', 'DateTimeRetrieve', 'Problem1_from', 'Problem1_to')) %>%
-    pointblank::col_vals_in_set(columns = c('SiteID'), set = camtrap_records$SiteID) %>%
-    pointblank::col_vals_in_set(columns = c('SubStation'), set = camtrap_records$SubStation) %>%
+    pointblank::col_vals_in_set(columns = c('SiteID'), set = camtrap_records$SiteID, actions = pointblank::action_levels(stop_at = 0.99, warn_at = 1)) %>%
+    pointblank::col_vals_in_set(columns = c('SubStation'), set = camtrap_records$SubStation, actions = pointblank::action_levels(stop_at = 0.99, warn_at = 1)) %>%
     pointblank::col_vals_between(columns = c('Latitude'), left = -60.55, right = -8.47) %>%
     pointblank::col_vals_between(columns = c('Longitude'), left = 93.41, right = 173.34) %>%
     pointblank::col_vals_not_null(c('SiteID', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'Iteration', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger')) %>%

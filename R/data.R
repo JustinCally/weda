@@ -3,6 +3,7 @@
 #' A dataset containing the scientific names and common names of taxa in the VBA
 #'
 #' \itemize{
+#'   \item taxon_id. The VBA taxon ID
 #'   \item scientific_name. The scientific name in the VBA
 #'   \item common_name. The common name in the VBA
 #' }
@@ -27,6 +28,8 @@ NULL
 #'   \item column_name. Name of the column/field
 #'   \item column_class. Class of the column as per R conventions
 #'   \item column_description. Description of the column purpose
+#'   \item darwin_standard_core. Darwin standard core matching field
+#'   \item derived_from. Where the data is derived from (e.g. user or camtrapR)
 #' }
 #'
 #' @docType data
