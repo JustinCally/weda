@@ -17,6 +17,7 @@ reference:
       - '`prepare_camtrap_upload`'
       - '`upload_camtrap_data`'
       - '`camtrap_operation_from_records`'
+      - '`camtrap_operation_mapview`'
   - title: "Database views"
     desc: >
       Functions used to create views on the database

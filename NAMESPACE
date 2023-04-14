@@ -3,6 +3,7 @@
 export("%>%")
 export(camera_trap_dq)
 export(camtrap_operation_from_records)
+export(camtrap_operation_mapview)
 export(operation_curated_view)
 export(prepare_camtrap_upload)
 export(processed_SubStation_presence_absence)
