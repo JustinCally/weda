@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   camtrap-upload: camtrap-upload.html
   database-connect: database-connect.html
-last_built: 2023-04-12T05:32Z
+last_built: 2023-04-14T05:23Z
 urls:
   reference: https://justincally.github.io/weda/reference
   article: https://justincally.github.io/weda/articles
