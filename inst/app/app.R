@@ -26,7 +26,7 @@ project_data <- dplyr::tbl(con,
 species_presence <- dplyr::tbl(con,
                                dbplyr::in_schema("camtrap", "processed_site_substation_presence_absence")) %>%
   dplyr::collect() %>%
-  reshape2::dcast(formula = ProjectShortName + SiteID + SubStation ~ common_name, value.var = "Presence")
+  reshape2::dcast(formula = ProjectShortName + SiteID + SubStation + Iteration ~ common_name, value.var = "Presence")
 
 cam_locations <- dplyr::tbl(con,
                             dbplyr::in_schema("camtrap", "curated_camtrap_operation")) %>%
@@ -40,7 +40,8 @@ cam_locations <- dplyr::tbl(con,
   dplyr::mutate(ProjectStart = min(DateDeploy),
                 ProjectEnd = max(DateRetrieve)) %>%
   dplyr::ungroup() %>%
-  left_join(species_presence, by = join_by(ProjectShortName, SiteID, SubStation))
+  left_join(species_presence, by = join_by(ProjectShortName, SiteID, SubStation, Iteration)) %>%
+  arrange(desc(DateDeploy))
 
 col.vars <- c("ProjectName", colnames(species_presence)[-c(1:3)])
 
@@ -75,11 +76,17 @@ ui <- navbarPage("weda", id="nav",
                                                                         liveSearch = TRUE,
                                                                         liveSearchNormalize = TRUE,
                                                                         size = 10
-                                                                      ))
-                              )
+                                                                      )),
+                                            conditionalPanel("input.colour != 'ProjectName'",
+                                                             # Only prompt species
+                                                             shinyWidgets::awesomeCheckbox(
+                                                               inputId = "removeNA",
+                                                               label = "Remove NA's",
+                                                               value = TRUE,
+                                                               status = "danger"))
                           )
                  )
-)
+))
 
 # Define server logic to read selected file ----
 server <- function(input, output) {
@@ -101,6 +108,8 @@ server <- function(input, output) {
     value_na = TRUE
   )
 
+
+
   output$map <- renderLeaflet({
     leaflet() %>%
       setView(lng = 145, lat = -37, zoom = 6) %>%
@@ -109,21 +118,29 @@ server <- function(input, output) {
 
   observe({
     colourBy <- input$colour
+if(input$removeNA) {
+  map_data <- res_filter$filtered()[!is.na(res_filter$filtered()[[colourBy]]),]
+} else {
+    map_data <- res_filter$filtered()
+}
 
     if (colourBy == "ProjectName") {
       # the values are categorical
-      pal <- colorFactor("PuOr", cam_locations[[colourBy]])
+      pal <- colorFactor("PuOr", map_data[[colourBy]])
     } else {
-      pal <- colorFactor("RdYlBu", cam_locations[[colourBy]], na.color = "#e0e0e0")
+      pal <- colorFactor("RdYlBu", map_data[[colourBy]], na.color = "#e0e0e0")
     }
+
+
 
   leafletProxy("map") %>%
       clearMarkers() %>%
       removeControl("legend") %>%
+      clearShapes() %>%
       setView(lng = 145, lat = -37, zoom = 6) %>%
-      addCircleMarkers(data = res_filter$filtered(), fillOpacity=0.8,
-                       fillColor=pal(cam_locations[[input$colour]]), weight = 2, color = "black") %>%
-      addLegend("bottomright", pal=pal, values=cam_locations[[input$colour]], title=colourBy, layerId = "legend")
+      addCircleMarkers(data = map_data, fillOpacity=0.8,
+                       fillColor=pal(map_data[[input$colour]]), weight = 2, color = "black") %>%
+      addLegend("bottomright", pal=pal, values=map_data[[input$colour]], title=colourBy, layerId = "legend")
 
   })
 
