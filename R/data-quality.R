@@ -19,10 +19,10 @@ camera_trap_dq <- function(camtrap_records,
     req_cols <- c(req_cols, "metadata_Distance")
   }
   # vba names
-  vba_sci <- vba_name_conversions %>%
+  vba_sci <- weda::vba_name_conversions %>%
     dplyr::filter(.data$scientific_name %in% !!camtrap_records$scientific_name)
 
-  vba_com <- vba_name_conversions %>%
+  vba_com <- weda::vba_name_conversions %>%
     dplyr::filter(.data$common_name %in% !!camtrap_records$common_name)
 
   # Create a pointblank object

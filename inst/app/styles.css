@@ -13,30 +13,30 @@ div.outer {
 }
 
 /* Customize fonts */
-body, label, input, button, select { 
+body, label, input, button, select {
   font-family: 'Helvetica Neue', Helvetica;
   font-weight: 200;
 }
 h1, h2, h3, h4 { font-weight: 400; }
 
-#controls {
+#map-controls {
   /* Appearance */
   background-color: white;
   padding: 0 20px 20px 20px;
   cursor: move;
   /* Fade out while not hovering */
-  opacity: 0.65;
+  opacity: 0.75;
   zoom: 0.9;
   transition: opacity 500ms 1s;
 }
-#controls:hover {
+#map-controls:hover {
   /* Fade in while hovering */
   opacity: 0.95;
   transition-delay: 0;
 }
 
 /* Position and style citation */
-#cite {
+#map-cite {
   position: absolute;
   bottom: 10px;
   left: 10px;

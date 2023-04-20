@@ -30,7 +30,12 @@ Imports:
     fs,
     readr,
     ReDaMoR,
-    mapview
+    mapview,
+    shinycssloaders (>= 1.0.0.9009),
+    shiny,
+    leaflet,
+    shinyWidgets,
+    datamods
 Suggests: 
     rmarkdown,
     knitr,
@@ -39,4 +44,5 @@ Suggests:
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Remotes: 
-    rich-iannone/pointblank
+    rich-iannone/pointblank,
+    daattali/shinycssloaders

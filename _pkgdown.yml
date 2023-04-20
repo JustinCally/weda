@@ -29,3 +29,9 @@ reference:
       Functions used get information on the database
     contents:
       - '`data_dictionary`'
+  - title: "Shiny App Modules"
+    desc: >
+      Functions used in the shiny app
+    contents:
+      - '`projectMapUI`'
+      - '`projectMapServer`'
