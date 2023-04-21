@@ -13,7 +13,7 @@ projectMapUI(
   colour_vars
 )
 
-projectMapServer(id, project_locations, presence_absence_ldf)
+projectMapServer(id, project_locations, con)
 }
 \arguments{
 \item{id}{module id}
@@ -28,7 +28,7 @@ projectMapServer(id, project_locations, presence_absence_ldf)
 
 \item{project_locations}{data.frame of survey locations}
 
-\item{presence_absence_ldf}{presence-absence lazy data.frame}
+\item{con}{database connection}
 }
 \value{
 shiny module

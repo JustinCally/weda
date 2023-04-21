@@ -5,6 +5,7 @@
 #' @param con database connection
 #' @param return_data logical flag to return data (TRUE) or sql query (default is FALSE)
 #' @param daily logical flag to make the query/data be at a daily level (TRUE), or per substation (FALSE)
+#' @param species whether to make table for 'all' species (default), otherwise accepts a vector of common names (see vba_name_conversions)
 #'
 #' @return sql or data.frame
 #' @export
@@ -15,9 +16,18 @@
 #'                paste(SQL("CREATE VIEW camtrap.processed_site_substation_presence_absence AS"),
 #'                processed_SubStation_presence_absence(con = con_odbc, return_data = FALSE)))
 #' }
-processed_SubStation_presence_absence <- function(con, return_data = FALSE, daily = FALSE) {
+processed_SubStation_presence_absence <- function(con,
+                                                  return_data = FALSE,
+                                                  daily = FALSE,
+                                                  species = "all") {
 
   curated_camtrap_records <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_camtrap_records"))
+
+  if(species != "all") {
+    curated_camtrap_records <- curated_camtrap_records %>%
+      dplyr::filter(common_name %in% species)
+  }
+
   curated_camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_camtrap_operation"))
 
   species_real <- curated_camtrap_records %>%

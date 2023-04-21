@@ -46,7 +46,8 @@ cam_locations <- dplyr::tbl(con,
   dplyr::mutate(ProjectStart = min(DateDeploy),
                 ProjectEnd = max(DateRetrieve)) %>%
   dplyr::ungroup() %>%
-  arrange(desc(DateDeploy))
+  arrange(DateDeploy) %>%
+  dplyr::mutate(ProjectName = forcats::fct_reorder(ProjectName, DateDeploy, .desc = T))
 
 col.vars <- c("ProjectName", species_names)
 
@@ -57,7 +58,9 @@ ui <- navbarPage("weda", id="nav",
 
 # Define server logic to read selected file ----
 server <- function(input, output) {
-  projectMapServer(id = "map", project_locations = cam_locations, presence_absence_ldf = species_presence)
+  projectMapServer(id = "map",
+                   project_locations = cam_locations,
+                   con = con)
 }
 # Run the app ----
 shinyApp(ui, server)

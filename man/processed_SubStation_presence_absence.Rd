@@ -4,7 +4,12 @@
 \alias{processed_SubStation_presence_absence}
 \title{Presence/Absence Views}
 \usage{
-processed_SubStation_presence_absence(con, return_data = FALSE, daily = FALSE)
+processed_SubStation_presence_absence(
+  con,
+  return_data = FALSE,
+  daily = FALSE,
+  species = "all"
+)
 }
 \arguments{
 \item{con}{database connection}
@@ -12,6 +17,8 @@ processed_SubStation_presence_absence(con, return_data = FALSE, daily = FALSE)
 \item{return_data}{logical flag to return data (TRUE) or sql query (default is FALSE)}
 
 \item{daily}{logical flag to make the query/data be at a daily level (TRUE), or per substation (FALSE)}
+
+\item{species}{whether to make table for 'all' species (default), otherwise accepts a vector of common names (see vba_name_conversions)}
 }
 \value{
 sql or data.frame
