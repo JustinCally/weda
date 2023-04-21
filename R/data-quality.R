@@ -1,38 +1,34 @@
-#' Check column schemas
-#' @noRd
-#'
-#' @return pointblank object
-check_col_schemas <- function(camtrap_records,
-                              camtrap_operation,
-                              project_information) {
-
-  pb_rec_schema <- pointblank::create_agent(
-    tbl = camtrap_records,
-    actions = pointblank::action_levels(stop_at = 1)) %>%
-    pointblank::col_schema_match(schema = weda::camtrap_record_schema,
-                                 complete = T, is_exact = F) %>%
-    pointblank::interrogate()
-
-  pb_op_schema <- pointblank::create_agent(
-    tbl = camtrap_operation %>%
-      dplyr::mutate(dplyr::across(dplyr::where(lubridate::is.difftime), ~ as.character(.))),
-    actions = pointblank::action_levels(stop_at = 1)) %>%
-    pointblank::col_schema_match(schema = weda::camtrap_operation_schema,
-                                 complete = T, is_exact = F) %>%
-    pointblank::interrogate()
-
-  pb_proj_schema <- pointblank::create_agent(
-    tbl = project_information,
-    actions = pointblank::action_levels(stop_at = 1)) %>%
-    pointblank::col_schema_match(schema = weda::camtrap_project_schema,
-                                 complete = T, is_exact = F) %>%
-    pointblank::interrogate()
-
-  return(list(camtrap_records = pb_rec_schema,
-              camtrap_operation = pb_op_schema,
-              project_information = pb_proj_schema))
-
-}
+# check_col_schemas <- function(camtrap_records,
+#                               camtrap_operation,
+#                               project_information) {
+#
+#   pb_rec_schema <- pointblank::create_agent(
+#     tbl = camtrap_records,
+#     actions = pointblank::action_levels(stop_at = 1)) %>%
+#     pointblank::col_schema_match(schema = weda::camtrap_record_schema,
+#                                  complete = T, is_exact = F) %>%
+#     pointblank::interrogate()
+#
+#   pb_op_schema <- pointblank::create_agent(
+#     tbl = camtrap_operation %>%
+#       dplyr::mutate(dplyr::across(dplyr::where(lubridate::is.difftime), ~ as.character(.))),
+#     actions = pointblank::action_levels(stop_at = 1)) %>%
+#     pointblank::col_schema_match(schema = weda::camtrap_operation_schema,
+#                                  complete = T, is_exact = F) %>%
+#     pointblank::interrogate()
+#
+#   pb_proj_schema <- pointblank::create_agent(
+#     tbl = project_information,
+#     actions = pointblank::action_levels(stop_at = 1)) %>%
+#     pointblank::col_schema_match(schema = weda::camtrap_project_schema,
+#                                  complete = T, is_exact = F) %>%
+#     pointblank::interrogate()
+#
+#   return(list(camtrap_records = pb_rec_schema,
+#               camtrap_operation = pb_op_schema,
+#               project_information = pb_proj_schema))
+#
+# }
 
 #' Assesses the data quality of camera trap records, operations and project information
 #'
@@ -119,8 +115,7 @@ camera_trap_dq <- function(camtrap_records,
                      "Please correct (add/remove/rename) the following columns:",
                      unlist(difflist) %>% `names<-`(rep("x", length(unlist(difflist)))),
                      "\n",
-                     "See weda::data_dictionary and weda::camtrap_record_schema,
-                    weda::camtrap_operation_schema, weda::camtrap_project_schema for more information"))
+                     "See weda::data_dictionary for more information on user inputs"))
   }
 
 
