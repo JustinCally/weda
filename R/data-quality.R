@@ -1,3 +1,7 @@
+#' Check column schemas
+#' @noRd
+#'
+#' @return pointblank object
 check_col_schemas <- function(camtrap_records,
                               camtrap_operation,
                               project_information) {
@@ -5,24 +9,28 @@ check_col_schemas <- function(camtrap_records,
   pb_rec_schema <- pointblank::create_agent(
     tbl = camtrap_records,
     actions = pointblank::action_levels(stop_at = 1)) %>%
-    pointblank::col_schema_match(schema = weda::camtrap_record_schema) %>%
+    pointblank::col_schema_match(schema = weda::camtrap_record_schema,
+                                 complete = T, is_exact = F) %>%
     pointblank::interrogate()
 
   pb_op_schema <- pointblank::create_agent(
-    tbl = camtrap_operation,
+    tbl = camtrap_operation %>%
+      dplyr::mutate(dplyr::across(dplyr::where(lubridate::is.difftime), ~ as.character(.))),
     actions = pointblank::action_levels(stop_at = 1)) %>%
-    pointblank::col_schema_match(schema = weda::camtrap_operation_schema) %>%
+    pointblank::col_schema_match(schema = weda::camtrap_operation_schema,
+                                 complete = T, is_exact = F) %>%
     pointblank::interrogate()
 
   pb_proj_schema <- pointblank::create_agent(
     tbl = project_information,
     actions = pointblank::action_levels(stop_at = 1)) %>%
-    pointblank::col_schema_match(schema = weda::camtrap_project_schema) %>%
+    pointblank::col_schema_match(schema = weda::camtrap_project_schema,
+                                 complete = T, is_exact = F) %>%
     pointblank::interrogate()
 
   return(list(camtrap_records = pb_rec_schema,
               camtrap_operation = pb_op_schema,
-              project_information = pb_pi_schema))
+              project_information = pb_proj_schema))
 
 }
 
@@ -56,6 +64,7 @@ camera_trap_dq <- function(camtrap_records,
                 'n_images' ,
                 'HierarchicalSubject',
                 'metadata_Multiples',
+                'metadata_Distance',
                 'metadata_Individuals',
                 'metadata_Behaviour',
                 'metadata_Species')
@@ -77,6 +86,7 @@ camera_trap_dq <- function(camtrap_records,
                    'CameraID',
                    'CameraModel',
                    'CameraSensitivity',
+                   'CameraPhotosPerTrigger',
                    'CameraDelay')
 
   req_cols_proj <- c('ProjectName',
@@ -87,29 +97,31 @@ camera_trap_dq <- function(camtrap_records,
                      'BaitedUnbaited',
                      'BaitType')
 
-  # c1 <- colnames(camtrap_records)
-  # c2 <- colnames(camtrap_operation)
-  # c3 <- colnames(project_information)
-  #
-  # c1_c <- setdiff(c1,req_cols)
-  # c1_c2 <- setdiff(req_cols, c1)
-  #
-  # c2_c <- setdiff(c2,req_cols_op)
-  # c2_c2 <- setdiff(req_cols_op, c2)
-  #
-  # c3_c <- setdiff(c3,req_cols_proj)
-  # c3_c2 <- setdiff(req_cols_proj, c3)
-  #
-  # difflist <- list(c1_c, c1_c2, c2_c, c2_c2, c3_c, c3_c2)
-  #
-  # diffs <- lapply(difflist, length)
-  #
-  # if(!(all(sapply(diffs, purrr::is_empty)))) {
-  #   cli("Problem with column schema")
-  #   cli("Please correct the following columns:")
-  #
-  #   stop("Problem with column schema")
-  # }
+  c1 <- colnames(camtrap_records)
+  c2 <- colnames(camtrap_operation)
+  c3 <- colnames(project_information)
+
+  c1_c <- setdiff(c1,req_cols)
+  c1_c2 <- setdiff(req_cols, c1)
+
+  c2_c <- setdiff(c2,req_cols_op)
+  c2_c2 <- setdiff(req_cols_op, c2)
+
+  c3_c <- setdiff(c3,req_cols_proj)
+  c3_c2 <- setdiff(req_cols_proj, c3)
+
+  difflist <- list(c1_c, c1_c2, c2_c, c2_c2, c3_c, c3_c2)
+
+  diffs <- lapply(difflist, length)
+
+  if(sum(unlist(diffs)) > 0) {
+    cli::cli_abort(c("Problem with column schema",
+                     "Please correct (add/remove/rename) the following columns:",
+                     unlist(difflist) %>% `names<-`(rep("x", length(unlist(difflist)))),
+                     "\n",
+                     "See weda::data_dictionary and weda::camtrap_record_schema,
+                    weda::camtrap_operation_schema, weda::camtrap_project_schema for more information"))
+  }
 
 
 
@@ -118,6 +130,7 @@ camera_trap_dq <- function(camtrap_records,
   # this is a vector of column names that are required to be in the project_information dataframe
     req_cols <- c(req_cols, "metadata_Distance")
   }
+
   # vba names
   vba_sci <- weda::vba_name_conversions %>%
     dplyr::filter(.data$scientific_name %in% !!camtrap_records$scientific_name)
