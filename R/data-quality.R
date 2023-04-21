@@ -1,3 +1,31 @@
+check_col_schemas <- function(camtrap_records,
+                              camtrap_operation,
+                              project_information) {
+
+  pb_rec_schema <- pointblank::create_agent(
+    tbl = camtrap_records,
+    actions = pointblank::action_levels(stop_at = 1)) %>%
+    pointblank::col_schema_match(schema = weda::camtrap_record_schema) %>%
+    pointblank::interrogate()
+
+  pb_op_schema <- pointblank::create_agent(
+    tbl = camtrap_operation,
+    actions = pointblank::action_levels(stop_at = 1)) %>%
+    pointblank::col_schema_match(schema = weda::camtrap_operation_schema) %>%
+    pointblank::interrogate()
+
+  pb_proj_schema <- pointblank::create_agent(
+    tbl = project_information,
+    actions = pointblank::action_levels(stop_at = 1)) %>%
+    pointblank::col_schema_match(schema = weda::camtrap_project_schema) %>%
+    pointblank::interrogate()
+
+  return(list(camtrap_records = pb_rec_schema,
+              camtrap_operation = pb_op_schema,
+              project_information = pb_pi_schema))
+
+}
+
 #' Assesses the data quality of camera trap records, operations and project information
 #'
 #' @param camtrap_records this is the dataframe that contains the camera trap records (recordTable from camtrapR)
@@ -7,11 +35,83 @@
 #' @return list of pointblank objects
 #' @export
 camera_trap_dq <- function(camtrap_records,
-                               camtrap_operation,
-                               project_information) {
+                           camtrap_operation,
+                           project_information) {
 
   # this is a vector of column names that are required to be in the camtrap_operation dataframe
-  req_cols <- c('SiteID' ,'SubStation', 'Iteration', 'scientific_name', 'common_name' ,'DateTimeOriginal' ,'Date' ,'Time' ,'delta.time.secs' ,'delta.time.mins' ,'delta.time.hours' ,'delta.time.days' ,'Directory' ,'FileName' ,'n_images' ,'HierarchicalSubject', 'metadata_Multiples')
+  req_cols <- c('SiteID' ,
+                'SubStation',
+                'Iteration',
+                'scientific_name',
+                'common_name' ,
+                'DateTimeOriginal' ,
+                'Date' ,
+                'Time' ,
+                'delta.time.secs' ,
+                'delta.time.mins' ,
+                'delta.time.hours' ,
+                'delta.time.days' ,
+                'Directory' ,
+                'FileName' ,
+                'n_images' ,
+                'HierarchicalSubject',
+                'metadata_Multiples',
+                'metadata_Individuals',
+                'metadata_Behaviour',
+                'metadata_Species')
+
+  req_cols_op <- c('SiteID',
+                   'SubStation',
+                   'Iteration',
+                   'Latitude',
+                   'Longitude',
+                   'DateDeploy',
+                   'TimeDeploy',
+                   'DateRetrieve',
+                   'TimeRetrieve',
+                   'Problem1_from',
+                   'Problem1_to',
+                   'DateTimeDeploy',
+                   'DateTimeRetrieve',
+                   'CameraHeight',
+                   'CameraID',
+                   'CameraModel',
+                   'CameraSensitivity',
+                   'CameraDelay')
+
+  req_cols_proj <- c('ProjectName',
+                     'ProjectShortName',
+                     'DistanceSampling',
+                     'TerrestrialArboreal',
+                     'AllSpeciesTagged',
+                     'BaitedUnbaited',
+                     'BaitType')
+
+  # c1 <- colnames(camtrap_records)
+  # c2 <- colnames(camtrap_operation)
+  # c3 <- colnames(project_information)
+  #
+  # c1_c <- setdiff(c1,req_cols)
+  # c1_c2 <- setdiff(req_cols, c1)
+  #
+  # c2_c <- setdiff(c2,req_cols_op)
+  # c2_c2 <- setdiff(req_cols_op, c2)
+  #
+  # c3_c <- setdiff(c3,req_cols_proj)
+  # c3_c2 <- setdiff(req_cols_proj, c3)
+  #
+  # difflist <- list(c1_c, c1_c2, c2_c, c2_c2, c3_c, c3_c2)
+  #
+  # diffs <- lapply(difflist, length)
+  #
+  # if(!(all(sapply(diffs, purrr::is_empty)))) {
+  #   cli("Problem with column schema")
+  #   cli("Please correct the following columns:")
+  #
+  #   stop("Problem with column schema")
+  # }
+
+
 
   if(project_information$DistanceSampling) {
 
@@ -33,7 +133,7 @@ pb_rec <- pointblank::create_agent(
     pointblank::col_exists(columns = req_cols) %>%
     pointblank::rows_distinct() %>%
     pointblank::col_is_character(c("SiteID", "SubStation", "scientific_name", "common_name", "Time", "Directory", "FileName")) %>%
-    pointblank::col_is_integer(c("Iteration", "metadata_Multiples")) %>%
+    pointblank::col_is_integer(c("Iteration", "metadata_Multiples"))  %>%
     pointblank::col_vals_in_set("SiteID", set = camtrap_operation$SiteID) %>%
     pointblank::col_vals_in_set("SubStation", set = camtrap_operation$SubStation) %>%
     pointblank::col_vals_in_set("scientific_name", set = unique(vba_sci$scientific_name)) %>%
