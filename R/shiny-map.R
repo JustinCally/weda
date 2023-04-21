@@ -72,7 +72,7 @@ projectMapUI <- function(id,
 #' @export
 projectMapServer <- function(id, project_locations, con) {
 
-  moduleServer(
+  shiny::moduleServer(
     id,
     function(input, output, session) {
 

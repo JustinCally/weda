@@ -1,8 +1,10 @@
 # Setup load packages
 library(shiny)
+options(shiny.maxRequestSize = 30*1024^2)
 library(dplyr)
 library(leaflet)
 library(datamods)
+library(weda)
 # Database Connection
 con <- RPostgreSQL::dbConnect(odbc::odbc(),
                               Driver = "PostgreSQL Driver",
@@ -53,7 +55,8 @@ col.vars <- c("ProjectName", species_names)
 
 # Define UI for data upload app ----
 ui <- navbarPage("weda", id="nav",
-                 projectMapUI(id = "map", colour_vars = col.vars)
+                 projectMapUI(id = "map", colour_vars = col.vars),
+                 dataUploadpUI(id = "upload")
                  )
 
 # Define server logic to read selected file ----
@@ -61,6 +64,8 @@ server <- function(input, output) {
   projectMapServer(id = "map",
                    project_locations = cam_locations,
                    con = con)
+
+  dataUploadServer(id = "upload")
 }
 # Run the app ----
 shinyApp(ui, server)
