@@ -1,3 +1,30 @@
+#' check whether project is unique or already on database
+#'
+#' @param ProjectShortName A list of pointblank agents (directly from camera_trap_dq())
+#' @param con database connection
+#'
+#' @return message
+#' @export
+check_unique_project <- function(ProjectShortName, con) {
+  # check project name in database
+  pr_sn <- ProjectShortName
+
+same_proj <- dplyr::tbl(con, dbplyr::in_schema("camtrap", table = "curated_project_information")) %>%
+  dplyr::filter(ProjectShortName %in% !!pr_sn) %>%
+  dplyr::collect()
+
+if(nrow(same_proj) > 0) {
+  message(paste0("Project already exists. Data will be appended onto the existing project (",
+                 pr_sn,
+                 ")"))
+} else {
+  message(paste0("Project does not exist yet on database. Upload will create a new project (",
+                 pr_sn,
+                 ")"))
+}
+
+}
+
 #' Prepare camera trap data for upload to the database
 #'
 #' This function takes a list of agents and prepares the data for upload to the database.
