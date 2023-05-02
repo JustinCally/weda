@@ -18,6 +18,8 @@ reference:
       - '`upload_camtrap_data`'
       - '`camtrap_operation_from_records`'
       - '`camtrap_operation_mapview`'
+      - '`check_unique_project`'
+      - '`convert_to_latlong`'
   - title: "Database views"
     desc: >
       Functions used to create views on the database
