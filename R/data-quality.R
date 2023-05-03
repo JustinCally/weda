@@ -162,7 +162,7 @@ pb_rec <- pointblank::create_agent(
                                  inclusive = c(TRUE, TRUE),
                                  preconditions = function(x, lj = camtrap_operation) {
                                    dplyr::left_join(x, lj %>%
-                                                      dplyr::select(dplyr::all_of(c("SiteID", "SubStation", "DateDeploy", "DateRetrieve"))),
+                                                      dplyr::select(dplyr::all_of(c("SiteID", "SubStation", "DateDeploy", "DateRetrieve", "Iteration"))),
                                                     by = c("SiteID", "SubStation"))
                                    }) %>%
     pointblank::interrogate()
