@@ -15,6 +15,7 @@ capture_cli_messages <- function(fun) {
 }
 
 standardise_species_names2 <- capture_cli_messages(weda::standardise_species_names)
+convert_to_latlong2 <- capture_cli_messages(weda::convert_to_latlong)
 
 
 #' Data Upload Shiny Module
@@ -65,9 +66,29 @@ dataUploadpUI <- function(id,
                       actionButton(inputId = ns("standardise"),
                                    label = "Standardise Species Names",
                                    icon = icon("equals"), width = "100%"),
+                      shiny::tags$h4("Step 6"),
+                      htmlOutput(outputId = ns("step6")),
+                      actionButton(inputId = ns("convertlatlong"),
+                                   label = "Standardise Site Coordinates (e.g. 54/55 to lat/long)",
+                                   icon = icon("map-pin"), width = "100%"),
+                      shiny::tags$h4("Step 7"),
+                      htmlOutput(outputId = ns("step7")),
+                      actionButton(inputId = ns("viewsites"),
+                                   label = "Show Map of Camera Sites",
+                                   icon = icon("map"), width = "100%"),
+                      shiny::tags$h4("Step 8"),
+                      htmlOutput(outputId = ns("step8")),
+                      actionButton(inputId = ns("dataquality"),
+                                   label = "Run Data Quality",
+                                   icon = icon("user-secret"), width = "100%"),
                       width = 3),
                     mainPanel = mainPanel(verbatimTextOutput(outputId = ns("step1")),
                                           htmlOutput(outputId = ns("standardisecli")),
+                                          htmlOutput(outputId = ns("convertmessage")),
+                                          leaflet::leafletOutput(outputId = ns("sitemap")),
+                                          gt::gt_output(outputId = ns("dq1")),
+                                          gt::gt_output(outputId = ns("dq2")),
+                                          gt::gt_output(outputId = ns("dq3")),
                                           width = 9)
                   ))
 
@@ -169,12 +190,6 @@ dataUploadServer <- function(id) {
 
       st_data <- shiny::eventReactive(input$standardise, {
 
-        cat("In standardise 1")
-        # req(input$nameformat)
-        # req(input$speciescol)
-        # req(recs$data())
-        cat("In standardise 2")
-
         standardise_species_names2(
             recordTable = recs$data(),
             format = input$nameformat,
@@ -183,7 +198,7 @@ dataUploadServer <- function(id) {
 
       })
 
-      output$standardisecli <- renderText({
+      output$standardisecli <- shiny::renderText({
         req(st_data())
 
         op <- st_data()
@@ -192,6 +207,76 @@ dataUploadServer <- function(id) {
               by either filtering out records of non-taxa (e.g. 'person') or changing the names in the data to match VBA conventions. <br>",
         paste(cli::ansi_html(op[["messages"]]), collapse = "<br>"))
       })
+
+      output$step5 <- renderText({
+        req(st_data())
+        "&#10003; Step 5 Complete"
+      })
+
+      #### Step 6 ####
+
+      opers2 <- shiny::eventReactive(input$convertlatlong, {
+
+        fixed_coords <- convert_to_latlong2(data = opers$data())
+        return(fixed_coords)
+      })
+
+      output$step6 <- renderText({
+        req(opers2())
+        "&#10003; Step 6 Complete"
+      })
+
+      output$convertmessage <-  shiny::renderText({
+        req(opers2())
+
+        op2 <- opers2()
+
+        return(cli::ansi_html(op2[["messages"]]))
+
+      })
+
+      #### Step 7 ####
+
+      observeEvent(input$viewsites, {
+
+      output$sitemap <- leaflet::renderLeaflet({
+        camtrap_operation_mapview(opers2()$result)
+      })
+
+      output$step7 <- renderText({
+        "&#10003; Step 7 Complete"
+      })
+   })
+
+      #### Step 8 ####
+
+      dqlist <- eventReactive(input$dataquality, {
+
+        output$step8 <- renderText({
+          "&#10003; Step 8 Complete"
+        })
+
+        withProgress(message = 'Running Data Quality', value = 0.5, {
+        camera_trap_dq(camtrap_records = st_data()$result,
+                                            camtrap_operation = opers2()$result,
+                                            project_information = projs$data())
+        })
+      })
+
+        output$dq1 <- gt::render_gt({
+          req(dqlist())
+          dqlist()[[1]]
+        })
+
+        output$dq2 <- gt::render_gt({
+          req(dqlist())
+          dqlist()[[2]]
+        })
+
+        output$dq3 <- gt::render_gt({
+          req(dqlist())
+          dqlist()[[3]]
+        })
 
 })
 }

@@ -9,9 +9,20 @@ convert_to_latlong <- function(data) {
 
   all_cols <- all(cols %in% colnames(data))
 
-  if(!all_cols) {
+  if(all(c("Latitude", "Longitude") %in% colnames(data))) {
+
+    mess <- "Data already has 'Latitude and Longitude" %>%
+      `names<-`("v")
+
+    cli::cli({
+      cli::cli_bullets(c(mess))
+    })
+
+    return(data)
+
+  } else if(!all_cols) {
     stop(paste0("Columns: ", cols, "are not present in the data"))
-  }
+  } else {
 
   data_split <- split(data, data[["Zone"]])
   transformed_data <- list()
@@ -24,14 +35,22 @@ convert_to_latlong <- function(data) {
   }
 
   final_data <- dplyr::bind_rows(transformed_data) %>%
-    dplyr::select(-.data$Zone) %>%
+    dplyr::select(-"Zone") %>%
     cbind(dplyr::bind_rows(transformed_data) %>%
             sf::st_coordinates() %>%
             as.data.frame() %>%
             `colnames<-`(c("Longitude", "Latitude"))) %>%
     sf::st_drop_geometry()
 
+  mess <- "Successfully converted zone 54/55 to Latitude and Longitude" %>%
+    `names<-`("v")
+
+  cli::cli({
+    cli::cli_bullets(c(mess))
+  })
+
   return(final_data)
+  }
 
 }
 

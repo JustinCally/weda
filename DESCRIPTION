@@ -35,7 +35,10 @@ Imports:
     shiny,
     leaflet,
     shinyWidgets,
-    datamods
+    datamods,
+    purrr,
+    sf,
+    shinyjs
 Suggests: 
     rmarkdown,
     knitr,

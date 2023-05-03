@@ -6,7 +6,7 @@ ksource <- function(x, ...) {
 ksource("vignettes/camtrap-upload.Rmd")
 
 camtrap_record_schema <- pointblank::col_schema(raw_camtrap_records_fixed)
-camera_trap_records <- raw_camtrap_records %>%
+camera_trap_records <- raw_camtrap_records_mod %>%
   mutate(metadata_Multiples = coalesce(as.integer(metadata_Multiples), 1L))
 
 

@@ -165,7 +165,8 @@ pb_rec <- pointblank::create_agent(
                                                       dplyr::select(dplyr::all_of(c("SiteID", "SubStation", "DateDeploy", "DateRetrieve", "Iteration"))),
                                                     by = c("SiteID", "SubStation"))
                                    }) %>%
-    pointblank::interrogate()
+    pointblank::interrogate() %>%
+    pointblank::get_agent_report(title = "Data Quality Assessment on Camera Trap Records")
 
 pb_op <- pointblank::create_agent(
     tbl = camtrap_operation,
@@ -184,7 +185,8 @@ pb_op <- pointblank::create_agent(
     pointblank::col_vals_not_null(c('SiteID', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'Iteration', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger', 'BaitedUnbaited', 'BaitType')) %>%
     pointblank::col_vals_in_set("BaitedUnbaited", set = c("Baited", "Unbaited")) %>%
     pointblank::col_vals_in_set("BaitType", set = c("None", "Creamed Honey", "Small Mammal Bait", "Predator Bait")) %>%
-    pointblank::interrogate()
+    pointblank::interrogate() %>%
+    pointblank::get_agent_report(title = "Data Quality Assessment on Camera Trap Records")
 
   pb_pi <- pointblank::create_agent(
     tbl = project_information,
@@ -193,7 +195,8 @@ pb_op <- pointblank::create_agent(
     pointblank::col_vals_not_null(dplyr::everything()) %>%
     pointblank::col_is_logical(c("DistanceSampling", "AllSpeciesTagged")) %>%
     pointblank::col_vals_in_set("TerrestrialArboreal", set = c("Terrestrial", "Arboreal")) %>%
-    pointblank::interrogate()
+    pointblank::interrogate() %>%
+    pointblank::get_agent_report(title = "Data Quality Assessment on Camera Trap Records")
 
   return(list(camtrap_records = pb_rec,
               camtrap_operation = pb_op,
