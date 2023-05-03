@@ -17,8 +17,16 @@ capture_cli_messages <- function(fun) {
 standardise_species_names2 <- capture_cli_messages(weda::standardise_species_names)
 
 
+#' Data Upload Shiny Module
+#'
+#' @param id shiny samespace id
+#' @param label label of UI
+#'
+#' @return shiny module
+#' @export
 dataUploadpUI <- function(id,
                          label = "dataUpload") {
+
   shinyjs::useShinyjs()
   ns <- shiny::NS(id)
   shiny::tabPanel("Data Upload",
@@ -67,6 +75,8 @@ dataUploadpUI <- function(id,
 
 }
 
+#' @rdname dataUploadpUI
+#' @export
 dataUploadServer <- function(id) {
 
   shiny::moduleServer(

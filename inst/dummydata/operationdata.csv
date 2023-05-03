@@ -1,7 +1,7 @@
-"SiteID","SubStation","Iteration","Latitude","Longitude","DateDeploy","TimeDeploy","DateRetrieve","TimeRetrieve","Problem1_from","Problem1_to","DateTimeDeploy","DateTimeRetrieve","CameraHeight","CameraID","CameraModel","CameraSensitivity","CameraDelay","CameraPhotosPerTrigger"
-"9941",NA,1,-37.24001,141.86176,2021-10-14,14:18:00,2021-12-07,11:00:00,"","","2021-10-14 14:18:00","2021-12-07 11:00:00",1,"HO04101051","HF2x","Very High","Rapidfire",5
-"2602",NA,1,-36.56451,141.19241,2021-10-15,10:56:00,2021-12-07,14:51:00,"2021-11-18 15:56:21","2021-12-07 14:51:00","2021-10-15 10:56:00","2021-12-07 14:51:00",1,"HO04102687","HF2x","Very High","Rapidfire",5
-"832",NA,1,-35.85188,141.04509,2021-10-15,15:00:00,2021-12-08,11:00:00,"","","2021-10-15 15:00:00","2021-12-08 11:00:00",1,"HO04102395","HF2x","Very High","Rapidfire",5
-"43134",NA,1,-36.87991,146.09416,2021-10-26,17:00:00,2021-12-21,16:21:33,"","","2021-10-26 17:00:00","2021-12-21 16:21:33",1,"HO04104906","HF2x","Very High","Rapidfire",5
-"56505","A",1,-37.275058,148.742531,2021-10-26,10:56:10,2021-12-16,10:34:51,"","","2021-10-26 10:56:10","2021-12-16 10:34:51",1,"HO04104895","HF2x","Very High","Rapidfire",5
-"56505","B",1,-37.275058,148.742531,2021-10-26,10:56:10,2021-12-16,10:34:51,"","","2021-10-26 10:56:10","2021-12-16 10:34:51",1,"HO04104899","HF2x","Very High","Rapidfire",5
+SiteID,SubStation,Iteration,Latitude,Longitude,DateDeploy,TimeDeploy,DateRetrieve,TimeRetrieve,Problem1_from,Problem1_to,DateTimeDeploy,DateTimeRetrieve,CameraHeight,CameraBearing,CameraSlope,CameraID,CameraModel,CameraSensitivity,CameraDelay,CameraPhotosPerTrigger,CameraQuietPeriod,BaitedUnbaited,BaitType,BaitDistance
+9941,NA,1,-37.24001,141.86176,2021-10-14,14:18:00,2021-12-07,11:00:00,,,2021-10-14 14:18:00,2021-12-07 11:00:00,1,180,2,HO04101051,HF2x,Very High,Rapidfire,5,0,Unbaited,None,
+2602,NA,1,-36.56451,141.19241,2021-10-15,10:56:00,2021-12-07,14:51:00,2021-11-18 15:56:21,2021-12-07 14:51:00,2021-10-15 10:56:00,2021-12-07 14:51:00,1,168,4,HO04102687,HF2x,Very High,Rapidfire,5,0,Unbaited,None,
+832,NA,1,-35.85188,141.04509,2021-10-15,15:00:00,2021-12-08,11:00:00,,,2021-10-15 15:00:00,2021-12-08 11:00:00,1,175,2,HO04102395,HF2x,Very High,Rapidfire,5,0,Unbaited,None,
+43134,NA,1,-36.87991,146.09416,2021-10-26,17:00:00,2021-12-21,16:21:33,,,2021-10-26 17:00:00,2021-12-21 16:21:33,1,200,1,HO04104906,HF2x,Very High,Rapidfire,5,0,Unbaited,None,
+56505,A,1,-37.275058,148.742531,2021-10-26,10:56:10,2021-12-16,10:34:51,,,2021-10-26 10:56:10,2021-12-16 10:34:51,1,185,8,HO04104895,HF2x,Very High,Rapidfire,5,0,Unbaited,None,
+56505,B,1,-37.275058,148.742531,2021-10-26,10:56:10,2021-12-16,10:34:51,,,2021-10-26 10:56:10,2021-12-16 10:34:51,1,180,6,HO04104899,HF2x,Very High,Rapidfire,5,0,Unbaited,None,

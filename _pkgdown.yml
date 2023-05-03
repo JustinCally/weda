@@ -37,3 +37,5 @@ reference:
     contents:
       - '`projectMapUI`'
       - '`projectMapServer`'
+      - '`dataUploadpUI`'
+      - '`dataUploadServer`'

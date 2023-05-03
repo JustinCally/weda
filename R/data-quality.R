@@ -79,19 +79,26 @@ camera_trap_dq <- function(camtrap_records,
                    'DateTimeDeploy',
                    'DateTimeRetrieve',
                    'CameraHeight',
+                   'CameraBearing',
+                   'CameraSlope',
                    'CameraID',
                    'CameraModel',
                    'CameraSensitivity',
                    'CameraPhotosPerTrigger',
-                   'CameraDelay')
+                   'CameraDelay',
+                   'CameraQuietPeriod',
+                   'BaitedUnbaited',
+                   'BaitType',
+                   'BaitDistance')
 
   req_cols_proj <- c('ProjectName',
                      'ProjectShortName',
                      'DistanceSampling',
                      'TerrestrialArboreal',
                      'AllSpeciesTagged',
-                     'BaitedUnbaited',
-                     'BaitType')
+                     'DistanceForAllSpecies',
+                     'ProjectDescription',
+                     'ProjectLeader')
 
   c1 <- colnames(camtrap_records)
   c2 <- colnames(camtrap_operation)
@@ -174,7 +181,9 @@ pb_op <- pointblank::create_agent(
     pointblank::col_vals_in_set(columns = c('SubStation'), set = camtrap_records$SubStation, actions = pointblank::action_levels(stop_at = 0.99, warn_at = 1)) %>%
     pointblank::col_vals_between(columns = c('Latitude'), left = -60.55, right = -8.47) %>%
     pointblank::col_vals_between(columns = c('Longitude'), left = 93.41, right = 173.34) %>%
-    pointblank::col_vals_not_null(c('SiteID', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'Iteration', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger')) %>%
+    pointblank::col_vals_not_null(c('SiteID', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'Iteration', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger', 'BaitedUnbaited', 'BaitType')) %>%
+    pointblank::col_vals_in_set("BaitedUnbaited", set = c("Baited", "Unbaited")) %>%
+    pointblank::col_vals_in_set("BaitType", set = c("None", "Creamed Honey", "Small Mammal Bait", "Predator Bait")) %>%
     pointblank::interrogate()
 
   pb_pi <- pointblank::create_agent(
@@ -184,8 +193,6 @@ pb_op <- pointblank::create_agent(
     pointblank::col_vals_not_null(dplyr::everything()) %>%
     pointblank::col_is_logical(c("DistanceSampling", "AllSpeciesTagged")) %>%
     pointblank::col_vals_in_set("TerrestrialArboreal", set = c("Terrestrial", "Arboreal")) %>%
-    pointblank::col_vals_in_set("BaitedUnbaited", set = c("Baited", "Unbaited")) %>%
-    pointblank::col_vals_in_set("BaitType", set = c("None", "Creamed Honey", "Small Mammal Bait", "Predator Bait")) %>%
     pointblank::interrogate()
 
   return(list(camtrap_records = pb_rec,

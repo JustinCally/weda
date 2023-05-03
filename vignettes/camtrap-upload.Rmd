@@ -142,13 +142,14 @@ operationdata %>%
 Alongside the camera data and the camera site/station information we also want to develop a row with project information that can link to all cameras and camera trap records for a project. Below we show the columns that would be in the project dataset. You can check that your project shortt name isn't already used by a different project using `check_unique_project()`. The data should only be one row and can easily made with the following code:  
 
 ```{r projectdata}
-projectdata <- tibble(ProjectName = "Monitoring deer distribution, abundance, and impacts across Victoria",
-                      ProjectShortName = "StatewideDeer",
+projectdata <- tibble(ProjectName = "Dummy Data Project 2023",
+                      ProjectShortName = "DummyData",
                       DistanceSampling = TRUE, 
                       TerrestrialArboreal = "Terrestrial", 
                       AllSpeciesTagged = TRUE, 
-                      BaitedUnbaited = "Unbaited", 
-                      BaitType = "None")
+                      DistanceForAllSpecies = TRUE,
+                      ProjectDescription = "Dummy Data for the tutorial on uploading data to the database", 
+                      ProjectLeader = "Justin Cally")
 
 projectdata %>%
   kbl() %>%

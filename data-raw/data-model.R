@@ -1,6 +1,7 @@
 library(dplyr)
 library(dbplyr)
 library(weda)
+library(ReDaMoR)
 
 # schema <- "camtrap"
 #

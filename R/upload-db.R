@@ -89,9 +89,12 @@ prepare_camtrap_upload <- function(agent_list) {
 #' \dontrun{
 #' upload_camtrap_data(con = con_odbc, data_list = data_list, uploadername = "Justin Cally")
 #' }
-upload_camtrap_data <- function(con, data_list, uploadername, tables_to_upload = c("raw_camtrap_records",
-                                                                                   "raw_camtrap_operation",
-                                                                                   "raw_project_information")) {
+upload_camtrap_data <- function(con,
+                                data_list,
+                                uploadername,
+                                tables_to_upload = c("raw_camtrap_records",
+                                                     "raw_camtrap_operation",
+                                                     "raw_project_information")) {
 
   timestamp <- Sys.time()
 
