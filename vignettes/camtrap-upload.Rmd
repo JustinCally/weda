@@ -171,10 +171,9 @@ dq[[2]]
 dq[[3]]
 ```
 
-As you can see from the above data quality checks there are two issues we should fix before re-running the data quality:  
-
-1. In the camera trap records `metadata_Multiples` is not of class integer.  
-2. In the camera trap records `metadata_Multiples` has some missing values.  
+As you can see from the above data quality checks there is an issue we should fix before re-running the data quality:  
+ 
+1. In the camera trap records `metadata_Multiples` has some missing values.  
 
 For the second point when there was only one individual in a photo it was not tagged with an integer. In these cases it should be 1. To fix these issues we could run:  
 

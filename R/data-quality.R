@@ -125,13 +125,56 @@ camera_trap_dq <- function(camtrap_records,
                      "See weda::data_dictionary for more information on user inputs"))
   }
 
+  #### Automatic Conversions ####
+  # camtrap records
+  message("Automatically standardising column classes, see weda::data_dictionary for database column classes")
 
+  col_classes_recs <- weda::data_dictionary %>%
+    filter(table_name == "raw_camtrap_records") %>%
+    split(., f = .$column_class)
 
-  if(project_information$DistanceSampling) {
+  camtrap_records <- camtrap_records %>%
+    dplyr::mutate(dplyr::across(.cols = dplyr::any_of(col_classes_recs[["numeric"]]$column_name),
+                                .fns = as.numeric),
+                  dplyr::across(.cols = dplyr::any_of(col_classes_recs[["integer"]]$column_name),
+                                .fns = as.integer),
+                  dplyr::across(.cols = dplyr::any_of(col_classes_recs[["Date"]]$column_name),
+                                .fns = as.Date),
+                  dplyr::across(.cols = dplyr::any_of(col_classes_recs[["character"]]$column_name),
+                                .fns = as.character),
+                  dplyr::across(.cols = dplyr::any_of(col_classes_recs[["POSIXct, POSIXt"]]$column_name),
+                                .fns = as.POSIXct))
 
-  # this is a vector of column names that are required to be in the project_information dataframe
-    req_cols <- c(req_cols, "metadata_Distance")
-  }
+  # operation records
+  col_classes_op <- weda::data_dictionary %>%
+    filter(table_name == "raw_camtrap_operation") %>%
+    split(., f = .$column_class)
+
+  camtrap_operation <- camtrap_operation %>%
+    dplyr::mutate(dplyr::across(.cols = dplyr::any_of(col_classes_recs[["numeric"]]$column_name),
+                                .fns = as.numeric),
+                  dplyr::across(.cols = dplyr::any_of(col_classes_recs[["integer"]]$column_name),
+                                .fns = as.integer),
+                  dplyr::across(.cols = dplyr::any_of(col_classes_recs[["Date"]]$column_name),
+                                .fns = as.Date),
+                  dplyr::across(.cols = dplyr::any_of(col_classes_recs[["character"]]$column_name),
+                                .fns = as.character),
+                  dplyr::across(.cols = dplyr::any_of(col_classes_recs[["POSIXct, POSIXt"]]$column_name),
+                                .fns = as.POSIXct))
+
+  # Project information
+  col_classes_proj <- weda::data_dictionary %>%
+    filter(table_name == "raw_project_information") %>%
+    split(., f = .$column_class)
+
+  project_information <- project_information %>%
+    dplyr::mutate(dplyr::across(.cols = dplyr::any_of(col_classes_recs[["character"]]$column_name),
+                                .fns = as.character),
+                  dplyr::across(.cols = dplyr::any_of(col_classes_recs[["POSIXct, POSIXt"]]$column_name),
+                                .fns = as.POSIXct))
+
+  #### Poinblank checks ####
+
 
   # vba names
   vba_sci <- weda::vba_name_conversions %>%
