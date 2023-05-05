@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">weda</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,6 +51,22 @@
     </div>
 
     <div class="section level2">
+      <h2 id="database-connection">Database connection<a class="anchor" aria-label="anchor" href="#database-connection"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions used to connect to the database</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="weda_connect.html">weda_connect()</a></code> 
+        </dt>
+        <dd>Database Connection</dd>
+      </dl></div><div class="section level2">
       <h2 id="camera-trap-processing">Camera Trap Processing<a class="anchor" aria-label="anchor" href="#camera-trap-processing"></a></h2>
       
       <p class="section-desc"></p><p>Functions used to process, check and upload camera trap data</p>
@@ -75,7 +91,7 @@
           
           <code><a href="camera_trap_dq.html">camera_trap_dq()</a></code> 
         </dt>
-        <dd>Assesses the data quality of camera trap records, operations and project information</dd>
+        <dd>Camera Trap Data Quality Checks</dd>
       </dl><dl><dt>
           
           <code><a href="prepare_camtrap_upload.html">prepare_camtrap_upload()</a></code> 
@@ -96,6 +112,16 @@
           <code><a href="camtrap_operation_mapview.html">camtrap_operation_mapview()</a></code> 
         </dt>
         <dd>View the camera trap</dd>
+      </dl><dl><dt>
+          
+          <code><a href="check_unique_project.html">check_unique_project()</a></code> 
+        </dt>
+        <dd>check whether project is unique or already on database</dd>
+      </dl><dl><dt>
+          
+          <code><a href="convert_to_latlong.html">convert_to_latlong()</a></code> 
+        </dt>
+        <dd>Convert zone 54/55 easting/northings into lat/longs</dd>
       </dl></div><div class="section level2">
       <h2 id="database-views">Database views<a class="anchor" aria-label="anchor" href="#database-views"></a></h2>
       
@@ -133,6 +159,32 @@
           <code><a href="data_dictionary.html">data_dictionary</a></code> 
         </dt>
         <dd>Data Dictionary</dd>
+      </dl></div><div class="section level2">
+      <h2 id="shiny-app-modules">Shiny App Modules<a class="anchor" aria-label="anchor" href="#shiny-app-modules"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions used in the shiny app</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="projectMapUI.html">projectMapUI()</a></code> <code><a href="projectMapUI.html">projectMapServer()</a></code> 
+        </dt>
+        <dd>Shiny Map UI for Projects</dd>
+      </dl><dl><dt>
+          
+          <code><a href="dataUploadpUI.html">dataUploadpUI()</a></code> <code><a href="dataUploadpUI.html">dataUploadServer()</a></code> 
+        </dt>
+        <dd>Data Upload Shiny Module</dd>
+      </dl><dl><dt>
+          
+          <code><a href="camtrap_app.html">camtrap_app()</a></code> 
+        </dt>
+        <dd>Run the camera trap app</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

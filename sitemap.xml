@@ -31,10 +31,22 @@
     <loc>https://justincally.github.io/weda/reference/camera_trap_dq.html</loc>
   </url>
   <url>
+    <loc>https://justincally.github.io/weda/reference/camtrap_app.html</loc>
+  </url>
+  <url>
     <loc>https://justincally.github.io/weda/reference/camtrap_operation_from_records.html</loc>
   </url>
   <url>
     <loc>https://justincally.github.io/weda/reference/camtrap_operation_mapview.html</loc>
+  </url>
+  <url>
+    <loc>https://justincally.github.io/weda/reference/check_unique_project.html</loc>
+  </url>
+  <url>
+    <loc>https://justincally.github.io/weda/reference/convert_to_latlong.html</loc>
+  </url>
+  <url>
+    <loc>https://justincally.github.io/weda/reference/dataUploadpUI.html</loc>
   </url>
   <url>
     <loc>https://justincally.github.io/weda/reference/data_dictionary.html</loc>
@@ -52,6 +64,9 @@
     <loc>https://justincally.github.io/weda/reference/processed_SubStation_presence_absence.html</loc>
   </url>
   <url>
+    <loc>https://justincally.github.io/weda/reference/projectMapUI.html</loc>
+  </url>
+  <url>
     <loc>https://justincally.github.io/weda/reference/records_curated_view.html</loc>
   </url>
   <url>
@@ -62,5 +77,8 @@
   </url>
   <url>
     <loc>https://justincally.github.io/weda/reference/vba_name_conversions.html</loc>
+  </url>
+  <url>
+    <loc>https://justincally.github.io/weda/reference/weda_connect.html</loc>
   </url>
 </urlset>

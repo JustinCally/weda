@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">weda</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,7 +125,7 @@ set it. Ask an admin for an account if you do not already have one.</p>
 <p>Check if you have the correct odbc driver</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check odbc driver exists</span></span>
-<span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="st">"PostgreSQL Driver"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu">odbc</span><span class="fu">::</span><span class="fu">odbcListDrivers</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="st">"PostgreSQL Driver"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu">odbc</span><span class="fu">::</span><span class="fu"><a href="https://r-dbi.github.io/odbc/reference/odbcListDrivers.html" class="external-link">odbcListDrivers</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"Install the postgres driver to connect to database: https://odbc.postgresql.org/"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 </div>
@@ -135,14 +135,19 @@ set it. Ask an admin for an account if you do not already have one.</p>
 <p>Make a connection object in <code>R</code></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Note that the DB is currently configured to turn on at 7am and turn off at 7pm to reduce costs</span></span>
-<span><span class="co"># ODBC Connection : more interactive in rstudio</span></span>
-<span><span class="va">con_odbc</span> <span class="op">&lt;-</span> <span class="fu">RPostgreSQL</span><span class="fu">::</span><span class="fu">dbConnect</span><span class="op">(</span><span class="fu">odbc</span><span class="fu">::</span><span class="fu">odbc</span><span class="op">(</span><span class="op">)</span>,</span>
+<span><span class="co"># ODBC Connection : more interactive in rstudio:</span></span>
+<span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/weda_connect.html">weda_connect</a></span><span class="op">(</span>password <span class="op">=</span> <span class="fu">keyring</span><span class="fu">::</span><span class="fu">key_get</span><span class="op">(</span>service <span class="op">=</span> <span class="st">"ari-dev-weda-psql-01"</span>, </span>
+<span>                                                username <span class="op">=</span> <span class="st">"psql_user"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#### Option 2: Connect using manual connection string ####</span></span>
+<span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">RPostgreSQL</span><span class="fu">::</span><span class="fu">dbConnect</span><span class="op">(</span><span class="fu">odbc</span><span class="fu">::</span><span class="fu"><a href="https://r-dbi.github.io/odbc/reference/odbc.html" class="external-link">odbc</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>                              Driver <span class="op">=</span> <span class="st">"PostgreSQL Driver"</span>,</span>
 <span>                              Server <span class="op">=</span> <span class="st">'10.110.7.201'</span>,</span>
 <span>                              Database <span class="op">=</span> <span class="st">'ari-dev-weda-psql-01'</span>,</span>
 <span>                              UID <span class="op">=</span> <span class="st">"psql_user"</span>,</span>
 <span>                              PWD <span class="op">=</span> <span class="fu">keyring</span><span class="fu">::</span><span class="fu">key_get</span><span class="op">(</span>service <span class="op">=</span> <span class="st">"ari-dev-weda-psql-01"</span>, username <span class="op">=</span> <span class="st">"psql_user"</span><span class="op">)</span>,</span>
 <span>                              Port <span class="op">=</span> <span class="fl">5432</span>,</span>
+<span>                              BoolsAsChar <span class="op">=</span> <span class="st">'No'</span>,</span>
 <span>                              sslmode <span class="op">=</span> <span class="st">'require'</span>,</span>
 <span>                              maxvarcharsize <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># issue with binary representation of sf cols</span></span></code></pre></div>
 </div>
@@ -182,13 +187,13 @@ here:</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="co"># Check odbc driver exists</span></span>
-<span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="st">"PostgreSQL Driver"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu">odbc</span><span class="fu">::</span><span class="fu">odbcListDrivers</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="st">"PostgreSQL Driver"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu">odbc</span><span class="fu">::</span><span class="fu"><a href="https://r-dbi.github.io/odbc/reference/odbcListDrivers.html" class="external-link">odbcListDrivers</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"Install the postgres driver to connect to database: https://odbc.postgresql.org/"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="co"># Note that the DB is currently configured to turn on at 7am and turn off at 7pm to reduce costs</span></span>
 <span><span class="co"># ODBC Connection : more interactive in rstudio</span></span>
-<span><span class="va">con_odbc</span> <span class="op">&lt;-</span> <span class="fu">RPostgreSQL</span><span class="fu">::</span><span class="fu">dbConnect</span><span class="op">(</span><span class="fu">odbc</span><span class="fu">::</span><span class="fu">odbc</span><span class="op">(</span><span class="op">)</span>,</span>
+<span><span class="va">con_odbc</span> <span class="op">&lt;-</span> <span class="fu">RPostgreSQL</span><span class="fu">::</span><span class="fu">dbConnect</span><span class="op">(</span><span class="fu">odbc</span><span class="fu">::</span><span class="fu"><a href="https://r-dbi.github.io/odbc/reference/odbc.html" class="external-link">odbc</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>                              Driver <span class="op">=</span> <span class="st">"PostgreSQL Driver"</span>,</span>
 <span>                              Server <span class="op">=</span> <span class="st">'10.110.7.201'</span>,</span>
 <span>                              Database <span class="op">=</span> <span class="st">'ari-dev-weda-psql-01'</span>,</span>
