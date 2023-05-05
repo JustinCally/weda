@@ -32,7 +32,7 @@ standardise_species_names <- function(recordTable,
 
   un <- unique(recordTable[[speciesCol]])
 
-  conversions <- vba_name_conversions %>%
+  conversions <- weda::vba_name_conversions %>%
     dplyr::filter(!!rlang::sym(var_name) %in% un)
 
   # Get the species names that are not in the conversions dataframe

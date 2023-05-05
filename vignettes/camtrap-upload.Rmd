@@ -57,6 +57,22 @@ The uploading of camera trap data will be undertaken in several steps:
 
 ![Steps to undertake when uploading camera trap data](weda-camtrap.png)
 
+# Upload data using the shiny app  
+
+As of `weda v0.0.1` you can upload data to the database using an interactive shiny app. You can also view previously uploaded records on a map and download presence-absences. However, you will still need to run `camtrapR::recordTable()` beforehand to tabularise your image metadata. Thus the section below still might be relevant.
+
+To run the app from `R` set up a database connection (using `weda_connect()`) and then run the app using `camtrap_app()`:  
+
+*Note: to learn more about database connection, see vignette('database-connect')*
+
+```{r launchapp, eval = FALSE}
+# Make sure VPN is running
+con <- weda::weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01",
+                                                      username = "psql_user"))
+camtrap_app(con = con)
+```
+
+# Upload using R code  
   
 ## Get record table  
 
@@ -122,7 +138,9 @@ All ticks and no warnings means we can move onto the next step.
 
 ## Format operation data  
 
-Alongside the camera trap records there must be a table that has details about the camera trap deployment at the site and the location of the site. This will be site information data users will have obtained from field sheets or proofsafe. The format of this data is based on the camera trap operation data used in `camtrapR` (see `data(camtraps)` for an example of this). For our example we read in an example of this data below with the necessary fields for each deployment. Alongside reading in we just format columns to correct classes. Note that the default CRS/epsg for coordinates is `4283`.      
+Alongside the camera trap records there must be a table that has details about the camera trap deployment at the site and the location of the site. This will be site information data users will have obtained from field sheets or proofsafe. The format of this data is based on the camera trap operation data used in `camtrapR` (see `data(camtraps)` for an example of this). For our example we read in an example of this data below with the necessary fields for each deployment. Alongside reading in we just format columns to correct classes. Note that the default CRS/epsg for coordinates is `4283`.  
+
+If you are using Zone 54/55 coordinate reference systems (`28354/28355`) the you can use the function `convert_to_latlong()`, as long as you have the columns of *Easting*, *Northing*, and *Zone* (54 or 55) in your data. It will return your operation table with *Latitude* and *Longitude*.  
 
 ```{r readdummyoperation}
 operationdata <- readr::read_csv(system.file("dummydata/operationdata.csv", package = "weda"), 
@@ -139,16 +157,17 @@ operationdata %>%
 
 ## Create Project Data Row   
 
-Alongside the camera data and the camera site/station information we also want to develop a row with project information that can link to all cameras and camera trap records for a project. Below we show the columns that would be in the project dataset. The data should only be one row and can easily made with the following code:  
+Alongside the camera data and the camera site/station information we also want to develop a row with project information that can link to all cameras and camera trap records for a project. Below we show the columns that would be in the project dataset. You can check that your project shortt name isn't already used by a different project using `check_unique_project()`. The data should only be one row and can easily made with the following code:  
 
 ```{r projectdata}
-projectdata <- tibble(ProjectName = "Monitoring deer distribution, abundance, and impacts across Victoria",
-                      ProjectShortName = "StatewideDeer",
+projectdata <- tibble(ProjectName = "Dummy Data Project 2023",
+                      ProjectShortName = "DummyData",
                       DistanceSampling = TRUE, 
                       TerrestrialArboreal = "Terrestrial", 
                       AllSpeciesTagged = TRUE, 
-                      BaitedUnbaited = "Unbaited", 
-                      BaitType = "None")
+                      DistanceForAllSpecies = TRUE,
+                      ProjectDescription = "Dummy Data for the tutorial on uploading data to the database", 
+                      ProjectLeader = "Justin Cally")
 
 projectdata %>%
   kbl() %>%
@@ -170,10 +189,9 @@ dq[[2]]
 dq[[3]]
 ```
 
-As you can see from the above data quality checks there are two issues we should fix before re-running the data quality:  
-
-1. In the camera trap records `metadata_Multiples` is not of class integer.  
-2. In the camera trap records `metadata_Multiples` has some missing values.  
+As you can see from the above data quality checks there is an issue we should fix before re-running the data quality:  
+ 
+1. In the camera trap records `metadata_Multiples` has some missing values.  
 
 For the second point when there was only one individual in a photo it was not tagged with an integer. In these cases it should be 1. To fix these issues we could run:  
 
@@ -204,16 +222,8 @@ data_for_upload <- prepare_camtrap_upload(dq2)
 Using the data prepared for upload made above (`data_for_upload`) you can upload the the data in one line:
 
 ```{r upload, eval = FALSE}
-con_odbc <- RPostgreSQL::dbConnect(odbc::odbc(), 
-                                   Driver = "PostgreSQL Driver", 
-                                   Server = "10.110.7.201", 
-                                   Database = "ari-dev-weda-psql-01", 
-                                   UID = "psql_user", 
-                                   PWD = keyring::key_get(service = "ari-dev-weda-psql-01", 
-                                                          username = "psql_user"), 
-                                   Port = 5432, 
-                                   sslmode = "require", 
-                                   maxvarcharsize = 0)
+con_odbc <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", 
+                                                     username = "psql_user"))
 
 
 upload_camtrap_data(con = con_odbc, 

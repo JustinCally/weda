@@ -1,3 +1,30 @@
+#' check whether project is unique or already on database
+#'
+#' @param ProjectShortName A list of pointblank agents (directly from camera_trap_dq())
+#' @param con database connection
+#'
+#' @return message
+#' @export
+check_unique_project <- function(ProjectShortName, con) {
+  # check project name in database
+  pr_sn <- ProjectShortName
+
+same_proj <- dplyr::tbl(con, dbplyr::in_schema("camtrap", table = "curated_project_information")) %>%
+  dplyr::filter(ProjectShortName %in% !!pr_sn) %>%
+  dplyr::collect()
+
+if(nrow(same_proj) > 0) {
+  message(paste0("Project already exists. Data will be appended onto the existing project (",
+                 pr_sn,
+                 ")"))
+} else {
+  message(paste0("Project does not exist yet on database. Upload will create a new project (",
+                 pr_sn,
+                 ")"))
+}
+
+}
+
 #' Prepare camera trap data for upload to the database
 #'
 #' This function takes a list of agents and prepares the data for upload to the database.
@@ -11,7 +38,9 @@
 #' }
 prepare_camtrap_upload <- function(agent_list) {
 
-  if(!all(sapply(agent_list, function(x) all(!x[["validation_set"]][["stop"]])))) {
+  dq_check <- all(sapply(agent_list, function(x) all(!x[["validation_set"]][["stop"]])))
+
+  if(!dq_check) {
     stop("Not all data quality checks have passed, please amend data before uploading to the database")
   }
 
@@ -54,6 +83,7 @@ prepare_camtrap_upload <- function(agent_list) {
 #' @param data_list list of camera trap records, operations and project information (output from prepare_camtrap_upload())
 #' @param uploadername name of person uploading data
 #' @param tables_to_upload vector (characters) of tables to upload. Default is all of them
+#' @param schema schema to upload data to (options are camtrap or camtrap_dev)
 #'
 #' @return NULL
 #' @export
@@ -62,9 +92,13 @@ prepare_camtrap_upload <- function(agent_list) {
 #' \dontrun{
 #' upload_camtrap_data(con = con_odbc, data_list = data_list, uploadername = "Justin Cally")
 #' }
-upload_camtrap_data <- function(con, data_list, uploadername, tables_to_upload = c("raw_camtrap_records",
-                                                                                   "raw_camtrap_operation",
-                                                                                   "raw_project_information")) {
+upload_camtrap_data <- function(con,
+                                data_list,
+                                uploadername,
+                                tables_to_upload = c("raw_camtrap_records",
+                                                     "raw_camtrap_operation",
+                                                     "raw_project_information"),
+                                schema = "camtrap") {
 
   timestamp <- Sys.time()
 
@@ -76,19 +110,19 @@ upload_camtrap_data <- function(con, data_list, uploadername, tables_to_upload =
 
   # Append record table
   if("raw_camtrap_records" %in% tables_to_upload) {
-  DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "raw_camtrap_records"),
+  DBI::dbWriteTable(con, DBI::Id(schema = schema, table = "raw_camtrap_records"),
                     data_list[["camtrap_records"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
     message("Uploaded camera trap records")
   }
 
   if("raw_camtrap_operation" %in% tables_to_upload) {
-  DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "raw_camtrap_operation"),
+  DBI::dbWriteTable(con, DBI::Id(schema = schema, table = "raw_camtrap_operation"),
                     data_list[["camtrap_operation"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
     message("Uploaded camera trap operation details")
   }
 
   if("raw_project_information" %in% tables_to_upload) {
-  DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "raw_project_information"),
+  DBI::dbWriteTable(con, DBI::Id(schema = schema, table = "raw_project_information"),
                     data_list[["project_information"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
     message("Uploaded camera trap project information")
   }

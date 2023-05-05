@@ -6,8 +6,10 @@
 #' @export
 camtrap_operation_mapview <- function(camtrap_operation_table) {
 
-  mapview::mapview(camtrap_operation_table,
-                   xcol = "Longitude",
-                   ycol = "Latitude",
-                   crs = 4283)
+  sf_obj <- sf::st_as_sf(camtrap_operation_table, coords = c("Longitude", "Latitude"), crs = 4283)
+
+  leaflet::leaflet() %>%
+    leaflet::addTiles() %>%
+    leaflet::addCircleMarkers(data = sf_obj, popup = ~SiteID, opacity = 1, color = "black",
+                              fillColor = "DarkRed", fillOpacity = 0.9, radius = 5, weight = 1)
 }

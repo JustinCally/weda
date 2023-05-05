@@ -1,104 +1,11 @@
 {
-  "raw_project_information": {
-    "tableName": ["raw_project_information"],
-    "fields": [
-      {
-        "name": "ProjectName",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "ProjectShortName",
-        "type": "character",
-        "nullable": true,
-        "unique": true,
-        "comment": ""
-      },
-      {
-        "name": "DistanceSampling",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "TerrestrialArboreal",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "AllSpeciesTagged",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "BaitedUnbaited",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "BaitType",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "camtrap_project_database_ID",
-        "type": "character",
-        "nullable": false,
-        "unique": true,
-        "comment": ""
-      },
-      {
-        "name": "Timestamp",
-        "type": "POSIXct",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "Uploader",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      }
-    ],
-    "foreignKeys": {},
-    "indexes": [
-      {
-        "fields": ["camtrap_project_database_ID"],
-        "unique": [true]
-      },
-      {
-        "fields": ["ProjectShortName"],
-        "unique": [true]
-      }
-    ],
-    "display": {
-      "x": [664],
-      "y": [194],
-      "color": ["#FEFE8F"],
-      "comment": ["NA"]
-    },
-    "primaryKey": ["camtrap_project_database_ID"]
-  },
-  "curated_camtrap_records": {
-    "tableName": ["curated_camtrap_records"],
+  "raw_camtrap_records": {
+    "tableName": ["raw_camtrap_records"],
     "fields": [
       {
         "name": "ProjectShortName",
         "type": "character",
-        "nullable": false,
+        "nullable": true,
         "unique": false,
         "comment": ""
       },
@@ -112,6 +19,13 @@
       {
         "name": "SubStation",
         "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Iteration",
+        "type": "integer",
         "nullable": true,
         "unique": false,
         "comment": ""
@@ -201,8 +115,15 @@
         "comment": ""
       },
       {
+        "name": "metadata_Multiples",
+        "type": "integer",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
         "name": "n_images",
-        "type": "numeric",
+        "type": "integer",
         "nullable": true,
         "unique": false,
         "comment": ""
@@ -215,20 +136,6 @@
         "comment": ""
       },
       {
-        "name": "metadata_Behaviour",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "metadata_Multiples",
-        "type": "integer",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
         "name": "HierarchicalSubject",
         "type": "character",
         "nullable": true,
@@ -236,8 +143,8 @@
         "comment": ""
       },
       {
-        "name": "Iteration",
-        "type": "integer",
+        "name": "metadata_Behaviour",
+        "type": "character",
         "nullable": true,
         "unique": false,
         "comment": ""
@@ -271,38 +178,22 @@
         "comment": ""
       }
     ],
-    "foreignKeys": [
-      {
-        "refTable": ["curated_project_information"],
-        "key": [
-          {
-            "from": "ProjectShortName",
-            "to": "ProjectShortName"
-          }
-        ],
-        "cardinality": [0, -1, 1, 1]
-      }
-    ],
-    "indexes": [
-      {
-        "fields": ["Iteration", "ProjectShortName", "SiteID", "SubStation"],
-        "unique": [true]
-      }
-    ],
+    "foreignKeys": {},
+    "indexes": {},
     "display": {
-      "x": [-216],
-      "y": [-173],
-      "color": ["#9BC8FE"],
+      "x": [-675],
+      "y": [310],
+      "color": ["#FEFE8F"],
       "comment": ["NA"]
     }
   },
-  "curated_camtrap_operation": {
-    "tableName": ["curated_camtrap_operation"],
+  "raw_camtrap_operation": {
+    "tableName": ["raw_camtrap_operation"],
     "fields": [
       {
         "name": "ProjectShortName",
         "type": "character",
-        "nullable": false,
+        "nullable": true,
         "unique": false,
         "comment": ""
       },
@@ -377,20 +268,6 @@
         "comment": ""
       },
       {
-        "name": "Problem1_from",
-        "type": "POSIXct",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "Problem1_to",
-        "type": "POSIXct",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
         "name": "DateTimeDeploy",
         "type": "POSIXct",
         "nullable": true,
@@ -405,6 +282,20 @@
         "comment": ""
       },
       {
+        "name": "Problem1_from",
+        "type": "POSIXct",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Problem1_to",
+        "type": "POSIXct",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
         "name": "CameraHeight",
         "type": "numeric",
         "nullable": true,
@@ -412,14 +303,21 @@
         "comment": ""
       },
       {
-        "name": "CameraID",
-        "type": "character",
+        "name": "CameraBearing",
+        "type": "numeric",
         "nullable": true,
         "unique": false,
         "comment": ""
       },
       {
-        "name": "CameraModel",
+        "name": "CameraSlope",
+        "type": "numeric",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "CameraID",
         "type": "character",
         "nullable": true,
         "unique": false,
@@ -447,6 +345,41 @@
         "comment": ""
       },
       {
+        "name": "CameraQuietPeriod",
+        "type": "numeric",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "BaitedUnbaited",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "BaitType",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "BaitDistance",
+        "type": "numeric",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "CameraModel",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
         "name": "camtrap_operation_database_ID",
         "type": "character",
         "nullable": true,
@@ -468,50 +401,17 @@
         "comment": ""
       }
     ],
-    "foreignKeys": [
-      {
-        "refTable": ["curated_camtrap_records"],
-        "key": [
-          {
-            "from": "ProjectShortName",
-            "to": "ProjectShortName"
-          },
-          {
-            "from": "SiteID",
-            "to": "SiteID"
-          },
-          {
-            "from": "SubStation",
-            "to": "SubStation"
-          },
-          {
-            "from": "Iteration",
-            "to": "Iteration"
-          }
-        ],
-        "cardinality": [0, -1, 1, 1]
-      },
-      {
-        "refTable": ["curated_project_information"],
-        "key": [
-          {
-            "from": "ProjectShortName",
-            "to": "ProjectShortName"
-          }
-        ],
-        "cardinality": [0, -1, 1, 1]
-      }
-    ],
+    "foreignKeys": {},
     "indexes": {},
     "display": {
-      "x": [250],
-      "y": [-174],
-      "color": ["#9BC8FE"],
+      "x": [-311],
+      "y": [344],
+      "color": ["#FEFE8F"],
       "comment": ["NA"]
     }
   },
-  "curated_project_information": {
-    "tableName": ["curated_project_information"],
+  "raw_project_information": {
+    "tableName": ["raw_project_information"],
     "fields": [
       {
         "name": "ProjectName",
@@ -524,7 +424,7 @@
         "name": "ProjectShortName",
         "type": "character",
         "nullable": true,
-        "unique": true,
+        "unique": false,
         "comment": ""
       },
       {
@@ -549,14 +449,21 @@
         "comment": ""
       },
       {
-        "name": "BaitedUnbaited",
+        "name": "DistanceForAllSpecies",
         "type": "character",
         "nullable": true,
         "unique": false,
         "comment": ""
       },
       {
-        "name": "BaitType",
+        "name": "ProjectDescription",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "ProjectLeader",
         "type": "character",
         "nullable": true,
         "unique": false,
@@ -585,21 +492,16 @@
       }
     ],
     "foreignKeys": {},
-    "indexes": [
-      {
-        "fields": ["ProjectShortName"],
-        "unique": [true]
-      }
-    ],
+    "indexes": {},
     "display": {
-      "x": [657],
-      "y": [-267],
-      "color": ["#9BC8FE"],
+      "x": [55],
+      "y": [255],
+      "color": ["#FEFE8F"],
       "comment": ["NA"]
     }
   },
-  "processed_site_substation_daily_presence_absence": {
-    "tableName": ["processed_site_substation_daily_presence_absence"],
+  "curated_camtrap_records": {
+    "tableName": ["curated_camtrap_records"],
     "fields": [
       {
         "name": "ProjectShortName",
@@ -623,14 +525,126 @@
         "comment": ""
       },
       {
-        "name": "Date",
-        "type": "POSIXct",
+        "name": "Iteration",
+        "type": "integer",
         "nullable": true,
         "unique": false,
         "comment": ""
       },
       {
         "name": "scientific_name",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "DateTimeOriginal",
+        "type": "POSIXct",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Date",
+        "type": "Date",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Time",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "delta.time.secs",
+        "type": "numeric",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "delta.time.mins",
+        "type": "numeric",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "delta.time.hours",
+        "type": "numeric",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "delta.time.days",
+        "type": "numeric",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Directory",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "FileName",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "metadata_Distance",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "metadata_Species",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "metadata_Multiples",
+        "type": "integer",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "n_images",
+        "type": "integer",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "metadata_Individuals",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "HierarchicalSubject",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "metadata_Behaviour",
         "type": "character",
         "nullable": true,
         "unique": false,
@@ -644,8 +658,22 @@
         "comment": ""
       },
       {
-        "name": "Presence",
-        "type": "numeric",
+        "name": "camtrap_record_database_ID",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Timestamp",
+        "type": "POSIXct",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Uploader",
+        "type": "character",
         "nullable": true,
         "unique": false,
         "comment": ""
@@ -654,8 +682,321 @@
     "foreignKeys": {},
     "indexes": {},
     "display": {
-      "x": [428],
-      "y": [-569],
+      "x": [-673],
+      "y": [-127],
+      "color": ["#A9ECC9"],
+      "comment": ["NA"]
+    }
+  },
+  "curated_camtrap_operation": {
+    "tableName": ["curated_camtrap_operation"],
+    "fields": [
+      {
+        "name": "ProjectShortName",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "SiteID",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "SubStation",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "geohash",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Iteration",
+        "type": "integer",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Latitude",
+        "type": "numeric",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Longitude",
+        "type": "numeric",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "DateDeploy",
+        "type": "Date",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "TimeDeploy",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "DateRetrieve",
+        "type": "Date",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "TimeRetrieve",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "DateTimeDeploy",
+        "type": "POSIXct",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "DateTimeRetrieve",
+        "type": "POSIXct",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Problem1_from",
+        "type": "POSIXct",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Problem1_to",
+        "type": "POSIXct",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "CameraHeight",
+        "type": "numeric",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "CameraBearing",
+        "type": "numeric",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "CameraSlope",
+        "type": "numeric",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "CameraID",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "CameraSensitivity",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "CameraDelay",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "CameraPhotosPerTrigger",
+        "type": "integer",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "CameraQuietPeriod",
+        "type": "numeric",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "BaitedUnbaited",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "BaitType",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "BaitDistance",
+        "type": "numeric",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "CameraModel",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "camtrap_operation_database_ID",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Timestamp",
+        "type": "POSIXct",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Uploader",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      }
+    ],
+    "foreignKeys": {},
+    "indexes": {},
+    "display": {
+      "x": [-309],
+      "y": [-154],
+      "color": ["#A9ECC9"],
+      "comment": ["NA"]
+    }
+  },
+  "curated_project_information": {
+    "tableName": ["curated_project_information"],
+    "fields": [
+      {
+        "name": "ProjectName",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "ProjectShortName",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "DistanceSampling",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "TerrestrialArboreal",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "AllSpeciesTagged",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "DistanceForAllSpecies",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "ProjectDescription",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "ProjectLeader",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "camtrap_project_database_ID",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Timestamp",
+        "type": "POSIXct",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Uploader",
+        "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      }
+    ],
+    "foreignKeys": {},
+    "indexes": {},
+    "display": {
+      "x": [41],
+      "y": [-255],
       "color": ["#A9ECC9"],
       "comment": ["NA"]
     }
@@ -685,6 +1026,13 @@
         "comment": ""
       },
       {
+        "name": "Iteration",
+        "type": "integer",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
         "name": "scientific_name",
         "type": "character",
         "nullable": true,
@@ -709,19 +1057,19 @@
     "foreignKeys": {},
     "indexes": {},
     "display": {
-      "x": [-3],
-      "y": [-567],
-      "color": ["#A9ECC9"],
+      "x": [-524],
+      "y": [-495],
+      "color": ["#9BC8FE"],
       "comment": ["NA"]
     }
   },
-  "raw_camtrap_records": {
-    "tableName": ["raw_camtrap_records"],
+  "processed_site_substation_daily_presence_absence": {
+    "tableName": ["processed_site_substation_daily_presence_absence"],
     "fields": [
       {
         "name": "ProjectShortName",
         "type": "character",
-        "nullable": false,
+        "nullable": true,
         "unique": false,
         "comment": ""
       },
@@ -735,6 +1083,20 @@
       {
         "name": "SubStation",
         "type": "character",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Iteration",
+        "type": "integer",
+        "nullable": true,
+        "unique": false,
+        "comment": ""
+      },
+      {
+        "name": "Date",
+        "type": "POSIXct",
         "nullable": true,
         "unique": false,
         "comment": ""
@@ -747,125 +1109,6 @@
         "comment": ""
       },
       {
-        "name": "DateTimeOriginal",
-        "type": "POSIXct",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "Date",
-        "type": "Date",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "Time",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "delta.time.secs",
-        "type": "numeric",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "delta.time.mins",
-        "type": "numeric",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "delta.time.hours",
-        "type": "numeric",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "delta.time.days",
-        "type": "numeric",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "Directory",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "FileName",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "metadata_Distance",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "metadata_Species",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "n_images",
-        "type": "numeric",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "metadata_Individuals",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "metadata_Behaviour",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "metadata_Multiples",
-        "type": "integer",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "HierarchicalSubject",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "Iteration",
-        "type": "integer",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
         "name": "common_name",
         "type": "character",
         "nullable": true,
@@ -873,275 +1116,20 @@
         "comment": ""
       },
       {
-        "name": "camtrap_record_database_ID",
-        "type": "character",
-        "nullable": false,
-        "unique": true,
-        "comment": ""
-      },
-      {
-        "name": "Timestamp",
-        "type": "POSIXct",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "Uploader",
-        "type": "character",
+        "name": "Presence",
+        "type": "numeric",
         "nullable": true,
         "unique": false,
         "comment": ""
       }
     ],
-    "foreignKeys": [
-      {
-        "refTable": ["raw_project_information"],
-        "key": [
-          {
-            "from": "ProjectShortName",
-            "to": "ProjectShortName"
-          }
-        ],
-        "cardinality": [0, -1, 1, 1]
-      }
-    ],
-    "indexes": [
-      {
-        "fields": ["camtrap_record_database_ID"],
-        "unique": [true]
-      },
-      {
-        "fields": ["Iteration", "ProjectShortName", "SiteID", "SubStation"],
-        "unique": [true]
-      }
-    ],
+    "foreignKeys": {},
+    "indexes": {},
     "display": {
-      "x": [-209],
-      "y": [302],
-      "color": ["#FEFE8F"],
+      "x": [-107],
+      "y": [-489],
+      "color": ["#9BC8FE"],
       "comment": ["NA"]
-    },
-    "primaryKey": ["camtrap_record_database_ID"]
-  },
-  "raw_camtrap_operation": {
-    "tableName": ["raw_camtrap_operation"],
-    "fields": [
-      {
-        "name": "ProjectShortName",
-        "type": "character",
-        "nullable": false,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "SiteID",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "SubStation",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "geohash",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "Iteration",
-        "type": "integer",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "Latitude",
-        "type": "numeric",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "Longitude",
-        "type": "numeric",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "DateDeploy",
-        "type": "Date",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "TimeDeploy",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "DateRetrieve",
-        "type": "Date",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "TimeRetrieve",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "Problem1_from",
-        "type": "POSIXct",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "Problem1_to",
-        "type": "POSIXct",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "DateTimeDeploy",
-        "type": "POSIXct",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "DateTimeRetrieve",
-        "type": "POSIXct",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "CameraHeight",
-        "type": "numeric",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "CameraID",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "CameraModel",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "CameraSensitivity",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "CameraDelay",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "CameraPhotosPerTrigger",
-        "type": "integer",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "camtrap_operation_database_ID",
-        "type": "character",
-        "nullable": false,
-        "unique": true,
-        "comment": ""
-      },
-      {
-        "name": "Timestamp",
-        "type": "POSIXct",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      },
-      {
-        "name": "Uploader",
-        "type": "character",
-        "nullable": true,
-        "unique": false,
-        "comment": ""
-      }
-    ],
-    "foreignKeys": [
-      {
-        "refTable": ["raw_camtrap_records"],
-        "key": [
-          {
-            "from": "ProjectShortName",
-            "to": "ProjectShortName"
-          },
-          {
-            "from": "SiteID",
-            "to": "SiteID"
-          },
-          {
-            "from": "SubStation",
-            "to": "SubStation"
-          },
-          {
-            "from": "Iteration",
-            "to": "Iteration"
-          }
-        ],
-        "cardinality": [0, -1, 1, 1]
-      },
-      {
-        "refTable": ["raw_project_information"],
-        "key": [
-          {
-            "from": "ProjectShortName",
-            "to": "ProjectShortName"
-          }
-        ],
-        "cardinality": [0, -1, 1, 1]
-      }
-    ],
-    "indexes": [
-      {
-        "fields": ["camtrap_operation_database_ID"],
-        "unique": [true]
-      }
-    ],
-    "display": {
-      "x": [246],
-      "y": [287],
-      "color": ["#FEFE8F"],
-      "comment": ["NA"]
-    },
-    "primaryKey": ["camtrap_operation_database_ID"]
+    }
   }
 }

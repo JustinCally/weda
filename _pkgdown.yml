@@ -7,6 +7,11 @@ development:
   mode: auto
 
 reference:
+  - title: "Database connection"
+    desc: >
+      Functions used to connect to the database
+    contents:
+      - '`weda_connect`'
   - title: "Camera Trap Processing"
     desc: >
       Functions used to process, check and upload camera trap data
@@ -18,6 +23,8 @@ reference:
       - '`upload_camtrap_data`'
       - '`camtrap_operation_from_records`'
       - '`camtrap_operation_mapview`'
+      - '`check_unique_project`'
+      - '`convert_to_latlong`'
   - title: "Database views"
     desc: >
       Functions used to create views on the database
@@ -29,3 +36,12 @@ reference:
       Functions used get information on the database
     contents:
       - '`data_dictionary`'
+  - title: "Shiny App Modules"
+    desc: >
+      Functions used in the shiny app
+    contents:
+      - '`projectMapUI`'
+      - '`projectMapServer`'
+      - '`dataUploadpUI`'
+      - '`dataUploadServer`'
+      - '`camtrap_app`'

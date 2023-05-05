@@ -4,28 +4,19 @@ library(dbplyr)
 library(DBI)
 
 # Make connection
-con_odbc <- RPostgreSQL::dbConnect(odbc::odbc(),
-                                   Driver = "PostgreSQL Driver",
-                                   Server = "10.110.7.201",
-                                   Database = "ari-dev-weda-psql-01",
-                                   UID = "psql_user",
-                                   PWD = keyring::key_get(service = "ari-dev-weda-psql-01",
-                                                          username = "psql_user"),
-                                   Port = 5432,
-                                   sslmode = "require",
-                                   maxvarcharsize = 0)
+con <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", username = "psql_user"))
 
 ## Select schema
 schema <- "camtrap"
 
 ## Get tables
-tables <- dbGetQuery(con_odbc,
+tables <- dbGetQuery(con,
            paste0("SELECT table_name FROM information_schema.tables
                    WHERE table_schema='",schema,"'"))
 
 data_dict <- sapply(tables[,1], function(x) {
 
-  tab <- tbl(con_odbc, in_schema(schema = schema, table = x)) %>%
+  tab <- tbl(con, in_schema(schema = schema, table = x)) %>%
                 head() %>%
                 collect()
 
@@ -53,7 +44,7 @@ data_dictionary <- data_dict %>%
                                        table_name == "curated_project_information" ~ "Is a table that stores the most recent project information entries (i.e. no duplicate projects)",
                                        table_name == "processed_site_substation_presence_absence" ~ "Is a table with the presence and absence of each species at each site. The possible absent species from each site are only derived from the species pool for a given project. This avoids absences of species for particular projects that did not set out to record that species.",
                                        table_name == "processed_site_substation_daily_presence_absence" ~ "Is a table where presences and absences are daily. Is a table with the presence and absence of each species at each site. The possible absent species from each site are only derived from the species pool for a given project. This avoids absences of species for particular projects that did not set out to record that species. Includes early truncation of camera deployment from the `curated_camtrap_operation` dataset when there is a problem with the operation period."),
-         column_description = case_when(column_name == 'ProjectShortName' ~ "Short project name that data was collected for",
+         column_description = case_when(column_name == 'ProjectShortName' ~ "Short project name that data was collected for. Approximately five words in lowercase seperated by underscores.",
                                         column_name == 'SiteID' ~ "Site identification. Can be camera trap location or have a nesting of substations. Project specific.",
                                         column_name == 'SubStation' ~ "Nested location of camera trap within a site. Used in cases where a site has multiple camera trap deployments.",
                                         column_name == 'scientific_name' ~ "Scientific taxa name as per VBA",
@@ -89,12 +80,16 @@ data_dictionary <- data_dict %>%
                                         column_name == 'Problem1_to' ~ "If there was a problem with the camera, when (date-time) did it end (usually when camera is picked up)",
                                         column_name == 'DateTimeDeploy' ~ "Date-time camera was deployed",
                                         column_name == 'DateTimeRetrieve' ~ "Date-time camera was deployed",
-                                        column_name == 'CameraHeight' ~ "Height above ground of camera",
+                                        column_name == 'CameraHeight' ~ "Height above ground of camera (in metres)",
+                                        column_name == 'CameraBearing' ~ "The bearing (in degrees) of the camera (0-360)",
+                                        column_name == 'CameraSlope' ~ "The slope of terrain the camera is on (in percentage)",
                                         column_name == 'CameraID' ~ "ID of camera (optional)",
                                         column_name == 'CameraModel' ~ "Model of camera",
                                         column_name == 'CameraSensitivity' ~ "Sensitivity of camera (low, medium, high or very high)",
                                         column_name == 'CameraDelay' ~ "Delay of camera in taking photos (Rapidfire or time in seconds)",
                                         column_name == 'CameraPhotosPerTrigger' ~ "Number of photos per trigger (e.g. 5)",
+                                        column_name == 'CameraQuietPeriod' ~ "The time in between triggers to wait before taking more photos. Usually 'No Delay', which is listed here as 0",
+                                        column_name == 'BaitDistance' ~ "Distance of the camera to the bait (in metres)",
                                         column_name == 'camtrap_operation_database_ID' ~ "Unique ID of the cameratrap record. ID is formulated from key variables of ProjectShortName, SiteID, SubStation",
                                         column_name == 'ProjectName' ~ "Longer project name (as per official documents)",
                                         column_name == 'DistanceSampling' ~ "Logical flag (TRUE/FALSE), whether distance sampling was done for project",
@@ -102,6 +97,10 @@ data_dictionary <- data_dict %>%
                                         column_name == 'AllSpeciesTagged' ~ "Logical flag (TRUE/FALSE), whether all species seen were tagged",
                                         column_name == 'BaitedUnbaited' ~ "Whether camera was Baited or Unbaited",
                                         column_name == 'BaitType' ~ "Type of bait used: None, Creamed Honey, Small Mammal Bait or Predator Bait",
+                                        column_name == 'DistanceForAllSpecies' ~ "Whether or not distance has been tagged for all species recorded",
+                                        column_name == "ProjectDescription" ~ "Short description of the project",
+                                        column_name == "ProjectLeader" ~ "Name of the person/persons responsible for the project",
+                                        column_name == 'Presence' ~ "Whether or not the species is present",
                                         column_name == 'camtrap_project_database_ID' ~ "Unique ID of the camera trap project ID is formulated from key variables of ProjectShortName"),
          darwin_standard_core = case_when(column_name == 'ProjectName' ~ NA_character_,
                                           column_name == 'ProjectShortName' ~ NA_character_,
@@ -154,12 +153,12 @@ data_dictionary <- data_dict %>%
                                           column_name == 'CameraPhotosPerTrigger' ~ NA_character_,
                                           column_name == 'camtrap_operation_database_ID' ~ NA_character_,
                                           column_name == 'Presence' ~ 'occurrenceStatus'),
-         derived_from = case_when(column_name %in% c('TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'Problem1_from', 'Problem1_to', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'CameraModel', 'CameraSensitivity', 'CameraDelay', 'CameraPhotosPerTrigger', 'DateDeploy', 'Longitude', 'Latitude','Iteration', 'SiteID', 'SubStation', 'ProjectName','ProjectShortName', 'DistanceSampling', 'TerrestrialArboreal', 'AllSpeciesTagged', 'BaitedUnbaited', 'BaitType') ~ "UserInput",
+         derived_from = case_when(column_name %in% c('TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'Problem1_from', 'Problem1_to', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'CameraModel', 'CameraSensitivity', 'CameraDelay', 'CameraPhotosPerTrigger', 'DateDeploy', 'Longitude', 'Latitude','Iteration', 'SiteID', 'SubStation', 'ProjectName','ProjectShortName', 'DistanceSampling', 'TerrestrialArboreal', 'AllSpeciesTagged', 'BaitedUnbaited', 'BaitType', 'CameraBearing', 'CameraSlope', 'DistanceForAllSpecies', 'ProjectDescription', 'ProjectLeader', 'CameraQuietPeriod', 'BaitDistance') ~ "UserInput",
                                   column_name %in% c('Presence', 'camtrap_operation_database_ID', 'geohash', 'camtrap_record_database_ID', 'camtrap_project_database_ID', 'Timestamp', 'Uploader') ~ "automated",
                                   column_name %in% c('DateTimeOriginal', 'Date', 'Time', 'delta.time.secs', 'delta.time.mins', 'delta.time.hours', 'delta.time.days', 'Directory', 'FileName', 'metadata_Distance', 'metadata_Species', 'n_images', 'metadata_Individuals', 'metadata_Behaviour', 'metadata_Multiples', 'HierarchicalSubject') ~ "camtrapR",
                                   column_name %in% c('scientific_name', 'common_name') ~ "standardise_species_names()"))
 
 usethis::use_data(data_dictionary, overwrite = TRUE)
 
-DBI::dbWriteTable(con_odbc, DBI::Id(schema = "data_dictionary", table = "data_dictionary"),
+DBI::dbWriteTable(con, DBI::Id(schema = "data_dictionary", table = "data_dictionary"),
                   data_dictionary, row.names = FALSE, append = FALSE, overwrite = TRUE)
