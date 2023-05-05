@@ -2,6 +2,8 @@
 #'
 #' @param fun function to wrap
 #'
+#' @noRd
+#'
 #' @return results and messages
 capture_cli_messages <- function(fun) {
 
@@ -30,6 +32,8 @@ camera_trap_dq2 <- capture_cli_messages(weda::camera_trap_dq)
 #' @param content content
 #' @param placement placement
 #' @param trigger trigger
+#'
+#' @noRd
 #'
 #' @return shinyhtml
 helpPopup <- function(title = NULL, content,
