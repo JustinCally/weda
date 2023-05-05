@@ -4,28 +4,19 @@ library(dbplyr)
 library(DBI)
 
 # Make connection
-con_odbc <- RPostgreSQL::dbConnect(odbc::odbc(),
-                                   Driver = "PostgreSQL Driver",
-                                   Server = "10.110.7.201",
-                                   Database = "ari-dev-weda-psql-01",
-                                   UID = "psql_user",
-                                   PWD = keyring::key_get(service = "ari-dev-weda-psql-01",
-                                                          username = "psql_user"),
-                                   Port = 5432,
-                                   sslmode = "require",
-                                   maxvarcharsize = 0)
+con <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", username = "psql_user"))
 
 ## Select schema
 schema <- "camtrap"
 
 ## Get tables
-tables <- dbGetQuery(con_odbc,
+tables <- dbGetQuery(con,
            paste0("SELECT table_name FROM information_schema.tables
                    WHERE table_schema='",schema,"'"))
 
 data_dict <- sapply(tables[,1], function(x) {
 
-  tab <- tbl(con_odbc, in_schema(schema = schema, table = x)) %>%
+  tab <- tbl(con, in_schema(schema = schema, table = x)) %>%
                 head() %>%
                 collect()
 
@@ -169,5 +160,5 @@ data_dictionary <- data_dict %>%
 
 usethis::use_data(data_dictionary, overwrite = TRUE)
 
-DBI::dbWriteTable(con_odbc, DBI::Id(schema = "data_dictionary", table = "data_dictionary"),
+DBI::dbWriteTable(con, DBI::Id(schema = "data_dictionary", table = "data_dictionary"),
                   data_dictionary, row.names = FALSE, append = FALSE, overwrite = TRUE)

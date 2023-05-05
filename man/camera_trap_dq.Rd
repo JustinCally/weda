@@ -2,7 +2,7 @@
 % Please edit documentation in R/data-quality.R
 \name{camera_trap_dq}
 \alias{camera_trap_dq}
-\title{Assesses the data quality of camera trap records, operations and project information}
+\title{Camera Trap Data Quality Checks}
 \usage{
 camera_trap_dq(camtrap_records, camtrap_operation, project_information)
 }
@@ -17,5 +17,7 @@ camera_trap_dq(camtrap_records, camtrap_operation, project_information)
 list of pointblank objects
 }
 \description{
-Assesses the data quality of camera trap records, operations and project information
+Assesses the data quality of camera trap records, operations and project information.
+Automatically checks whether columns are present, converts them to the appropriate class and
+runs a pointblank check on the data
 }

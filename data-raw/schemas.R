@@ -32,5 +32,5 @@ list_of_datasets <- list("camera_trap_records" = camera_trap_records,
                          "camera_trap_project" = projectdata,
                          "data_dictionary" = dd_filtered)
 
-write.xlsx(list_of_datasets, file = "inst/app/camera_trap_templates.xlsx", overwrite = TRUE)
+write.xlsx(list_of_datasets, file = "inst/app/www/camera_trap_templates.xlsx", overwrite = TRUE)
 

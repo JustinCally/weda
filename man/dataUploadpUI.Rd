@@ -7,12 +7,14 @@
 \usage{
 dataUploadpUI(id, label = "dataUpload")
 
-dataUploadServer(id)
+dataUploadServer(id, con)
 }
 \arguments{
 \item{id}{shiny samespace id}
 
 \item{label}{label of UI}
+
+\item{con}{database connection}
 }
 \value{
 shiny module

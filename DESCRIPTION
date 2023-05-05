@@ -38,7 +38,13 @@ Imports:
     datamods,
     purrr,
     sf,
-    shinyjs
+    shinyjs,
+    shinyalert,
+    RPostgreSQL,
+    gt,
+    odbc,
+    shinyBS,
+    forcats
 Suggests: 
     rmarkdown,
     knitr,

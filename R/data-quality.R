@@ -30,7 +30,10 @@
 #
 # }
 
-#' Assesses the data quality of camera trap records, operations and project information
+#' Camera Trap Data Quality Checks
+#' @description Assesses the data quality of camera trap records, operations and project information.
+#' Automatically checks whether columns are present, converts them to the appropriate class and
+#' runs a pointblank check on the data
 #'
 #' @param camtrap_records this is the dataframe that contains the camera trap records (recordTable from camtrapR)
 #' @param camtrap_operation this is the dataframe that contains the information about the camera trap operation
@@ -151,15 +154,15 @@ camera_trap_dq <- function(camtrap_records,
     split(., f = .$column_class)
 
   camtrap_operation <- camtrap_operation %>%
-    dplyr::mutate(dplyr::across(.cols = dplyr::any_of(col_classes_recs[["numeric"]]$column_name),
+    dplyr::mutate(dplyr::across(.cols = dplyr::any_of(col_classes_op[["numeric"]]$column_name),
                                 .fns = as.numeric),
-                  dplyr::across(.cols = dplyr::any_of(col_classes_recs[["integer"]]$column_name),
+                  dplyr::across(.cols = dplyr::any_of(col_classes_op[["integer"]]$column_name),
                                 .fns = as.integer),
-                  dplyr::across(.cols = dplyr::any_of(col_classes_recs[["Date"]]$column_name),
+                  dplyr::across(.cols = dplyr::any_of(col_classes_op[["Date"]]$column_name),
                                 .fns = as.Date),
-                  dplyr::across(.cols = dplyr::any_of(col_classes_recs[["character"]]$column_name),
+                  dplyr::across(.cols = dplyr::any_of(col_classes_op[["character"]]$column_name),
                                 .fns = as.character),
-                  dplyr::across(.cols = dplyr::any_of(col_classes_recs[["POSIXct, POSIXt"]]$column_name),
+                  dplyr::across(.cols = dplyr::any_of(col_classes_op[["POSIXct, POSIXt"]]$column_name),
                                 .fns = as.POSIXct))
 
   # Project information
@@ -168,9 +171,9 @@ camera_trap_dq <- function(camtrap_records,
     split(., f = .$column_class)
 
   project_information <- project_information %>%
-    dplyr::mutate(dplyr::across(.cols = dplyr::any_of(col_classes_recs[["character"]]$column_name),
+    dplyr::mutate(dplyr::across(.cols = dplyr::any_of(col_classes_proj[["character"]]$column_name),
                                 .fns = as.character),
-                  dplyr::across(.cols = dplyr::any_of(col_classes_recs[["POSIXct, POSIXt"]]$column_name),
+                  dplyr::across(.cols = dplyr::any_of(col_classes_proj[["POSIXct, POSIXt"]]$column_name),
                                 .fns = as.POSIXct))
 
   #### Poinblank checks ####
@@ -208,8 +211,7 @@ pb_rec <- pointblank::create_agent(
                                                       dplyr::select(dplyr::all_of(c("SiteID", "SubStation", "DateDeploy", "DateRetrieve", "Iteration"))),
                                                     by = c("SiteID", "SubStation"))
                                    }) %>%
-    pointblank::interrogate() %>%
-    pointblank::get_agent_report(title = "Data Quality Assessment on Camera Trap Records")
+    pointblank::interrogate()
 
 pb_op <- pointblank::create_agent(
     tbl = camtrap_operation,
@@ -228,8 +230,7 @@ pb_op <- pointblank::create_agent(
     pointblank::col_vals_not_null(c('SiteID', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'Iteration', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger', 'BaitedUnbaited', 'BaitType')) %>%
     pointblank::col_vals_in_set("BaitedUnbaited", set = c("Baited", "Unbaited")) %>%
     pointblank::col_vals_in_set("BaitType", set = c("None", "Creamed Honey", "Small Mammal Bait", "Predator Bait")) %>%
-    pointblank::interrogate() %>%
-    pointblank::get_agent_report(title = "Data Quality Assessment on Camera Trap Records")
+    pointblank::interrogate()
 
   pb_pi <- pointblank::create_agent(
     tbl = project_information,
@@ -238,8 +239,7 @@ pb_op <- pointblank::create_agent(
     pointblank::col_vals_not_null(dplyr::everything()) %>%
     pointblank::col_is_logical(c("DistanceSampling", "AllSpeciesTagged")) %>%
     pointblank::col_vals_in_set("TerrestrialArboreal", set = c("Terrestrial", "Arboreal")) %>%
-    pointblank::interrogate() %>%
-    pointblank::get_agent_report(title = "Data Quality Assessment on Camera Trap Records")
+    pointblank::interrogate()
 
   return(list(camtrap_records = pb_rec,
               camtrap_operation = pb_op,

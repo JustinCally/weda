@@ -12,8 +12,8 @@
 #' @export
 projectMapUI <- function(id,
                        label = "projectMap",
-                       custom_css_path = "styles.css",
-                       custom_js_path = "gomap.js",
+                       custom_css_path = system.file("app/styles.css", package = "weda"),
+                       custom_js_path = system.file("app/gomap.js", package = "weda"),
                        colour_vars) {
 
   ns <- shiny::NS(id)

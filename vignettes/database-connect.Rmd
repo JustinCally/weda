@@ -59,7 +59,11 @@ Make a connection object in `R`
 
 ```{r connect, eval = FALSE}
 # Note that the DB is currently configured to turn on at 7am and turn off at 7pm to reduce costs
-# ODBC Connection : more interactive in rstudio
+# ODBC Connection : more interactive in rstudio:
+con_odbc <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", 
+                                                username = "psql_user"))
+
+#### Option 2: Connect using manual connection string ####
 con_odbc <- RPostgreSQL::dbConnect(odbc::odbc(),
                               Driver = "PostgreSQL Driver",
                               Server = '10.110.7.201',
@@ -67,6 +71,7 @@ con_odbc <- RPostgreSQL::dbConnect(odbc::odbc(),
                               UID = "psql_user",
                               PWD = keyring::key_get(service = "ari-dev-weda-psql-01", username = "psql_user"),
                               Port = 5432,
+                              BoolsAsChar = 'No',
                               sslmode = 'require',
                               maxvarcharsize = 0) # issue with binary representation of sf cols
 ```

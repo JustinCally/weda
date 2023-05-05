@@ -7,6 +7,11 @@ development:
   mode: auto
 
 reference:
+  - title: "Database connection"
+    desc: >
+      Functions used to connect to the database
+    contents:
+      - '`weda_connect`'
   - title: "Camera Trap Processing"
     desc: >
       Functions used to process, check and upload camera trap data
@@ -39,3 +44,4 @@ reference:
       - '`projectMapServer`'
       - '`dataUploadpUI`'
       - '`dataUploadServer`'
+      - '`camtrap_app`'

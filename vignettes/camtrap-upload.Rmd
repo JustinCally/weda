@@ -204,16 +204,8 @@ data_for_upload <- prepare_camtrap_upload(dq2)
 Using the data prepared for upload made above (`data_for_upload`) you can upload the the data in one line:
 
 ```{r upload, eval = FALSE}
-con_odbc <- RPostgreSQL::dbConnect(odbc::odbc(), 
-                                   Driver = "PostgreSQL Driver", 
-                                   Server = "10.110.7.201", 
-                                   Database = "ari-dev-weda-psql-01", 
-                                   UID = "psql_user", 
-                                   PWD = keyring::key_get(service = "ari-dev-weda-psql-01", 
-                                                          username = "psql_user"), 
-                                   Port = 5432, 
-                                   sslmode = "require", 
-                                   maxvarcharsize = 0)
+con_odbc <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", 
+                                                     username = "psql_user"))
 
 
 upload_camtrap_data(con = con_odbc, 
