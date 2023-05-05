@@ -361,7 +361,7 @@ dataUploadServer <- function(id, con) {
           weda::upload_camtrap_data(con = con,
                               data_list = data_for_upload,
                               uploadername = input$name,
-                              schema = "camtrap_dev")
+                              schema = "camtrap")
 
           output$uploadcompletion <- shiny::renderText({
             "Upload Complete. Restart app to see project data on map pane"

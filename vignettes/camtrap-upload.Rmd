@@ -57,6 +57,19 @@ The uploading of camera trap data will be undertaken in several steps:
 
 ![Steps to undertake when uploading camera trap data](weda-camtrap.png)
 
+# Upload data using the shiny app  
+
+As of `weda v0.0.1` you can upload data to the database using an interactive shiny app. You can also view previously uploaded records on a map and download presence-absences. To run the app from `R` set up a database connection (using `weda_connect()`) and then run the app using `camtrap_app()`:  
+
+*Note: to learn more about database connection, see vignette('database-connect')*
+
+```{r launchapp, eval = FALSE}
+con <- weda::weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01",
+                                                      username = "psql_user"))
+camtrap_app(con = con)
+```
+
+# Upload using R code  
   
 ## Get record table  
 
@@ -122,7 +135,9 @@ All ticks and no warnings means we can move onto the next step.
 
 ## Format operation data  
 
-Alongside the camera trap records there must be a table that has details about the camera trap deployment at the site and the location of the site. This will be site information data users will have obtained from field sheets or proofsafe. The format of this data is based on the camera trap operation data used in `camtrapR` (see `data(camtraps)` for an example of this). For our example we read in an example of this data below with the necessary fields for each deployment. Alongside reading in we just format columns to correct classes. Note that the default CRS/epsg for coordinates is `4283`.      
+Alongside the camera trap records there must be a table that has details about the camera trap deployment at the site and the location of the site. This will be site information data users will have obtained from field sheets or proofsafe. The format of this data is based on the camera trap operation data used in `camtrapR` (see `data(camtraps)` for an example of this). For our example we read in an example of this data below with the necessary fields for each deployment. Alongside reading in we just format columns to correct classes. Note that the default CRS/epsg for coordinates is `4283`.  
+
+If you are using Zone 54/55 coordinate reference systems (`28354/28355`) the you can use the function `convert_to_latlong()`, as long as you have the columns of *Easting*, *Northing*, and *Zone* (54 or 55) in your data. It will return your operation table with *Latitude* and *Longitude*.  
 
 ```{r readdummyoperation}
 operationdata <- readr::read_csv(system.file("dummydata/operationdata.csv", package = "weda"), 
