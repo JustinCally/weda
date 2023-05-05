@@ -1,3 +1,10 @@
+# weda 0.0.2
+
+* Fixed issue with multiple iterations not joining in data quality 
+* Added help boxes to shiny app  
+* shinyBS loads properly 
+* dataquality returns messages in app  
+
 # weda 0.0.1
 
 * First main iteration of the app
