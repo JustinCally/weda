@@ -59,11 +59,14 @@ The uploading of camera trap data will be undertaken in several steps:
 
 # Upload data using the shiny app  
 
-As of `weda v0.0.1` you can upload data to the database using an interactive shiny app. You can also view previously uploaded records on a map and download presence-absences. To run the app from `R` set up a database connection (using `weda_connect()`) and then run the app using `camtrap_app()`:  
+As of `weda v0.0.1` you can upload data to the database using an interactive shiny app. You can also view previously uploaded records on a map and download presence-absences. However, you will still need to run `camtrapR::recordTable()` beforehand to tabularise your image metadata. Thus the section below still might be relevant.
+
+To run the app from `R` set up a database connection (using `weda_connect()`) and then run the app using `camtrap_app()`:  
 
 *Note: to learn more about database connection, see vignette('database-connect')*
 
 ```{r launchapp, eval = FALSE}
+# Make sure VPN is running
 con <- weda::weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01",
                                                       username = "psql_user"))
 camtrap_app(con = con)
