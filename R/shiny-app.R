@@ -17,6 +17,7 @@
 camtrap_app <- function(con) {
   # Setup load packages
   options(shiny.maxRequestSize = 30*1024^2)
+  shiny::addResourcePath("sbs", system.file("www", package="shinyBS"))
   # Database Connection: supply to app
   # con <- weda::weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", username = "psql_user"))
 

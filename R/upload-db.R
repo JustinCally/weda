@@ -38,7 +38,7 @@ if(nrow(same_proj) > 0) {
 #' }
 prepare_camtrap_upload <- function(agent_list) {
 
-  dq_check <- all(sapply(agent_list, function(x) all(!x[["validation_set"]][["stop"]])))
+  dq_check <- !is.null(agent_list) && all(sapply(agent_list, function(x) all(!x[["validation_set"]][["stop"]])))
 
   if(!dq_check) {
     stop("Not all data quality checks have passed, please amend data before uploading to the database")

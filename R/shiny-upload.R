@@ -22,7 +22,7 @@ capture_cli_messages <- function(fun) {
 
 standardise_species_names2 <- capture_cli_messages(weda::standardise_species_names)
 convert_to_latlong2 <- capture_cli_messages(weda::convert_to_latlong)
-
+camera_trap_dq2 <- capture_cli_messages(weda::camera_trap_dq)
 
 #' Shiny help popup
 #'
@@ -178,6 +178,7 @@ dataUploadpUI <- function(id,
                                             shinyBS::bsCollapsePanel(title = "Step 7 Output",
                                                                    leaflet::leafletOutput(outputId = ns("sitemap"))),
                                             shinyBS::bsCollapsePanel(title = "Step 8 Output",
+                                                                     shiny::htmlOutput(outputId = ns("dqmessages")),
                                                                    gt::gt_output(outputId = ns("dq1")),
                                                                    gt::gt_output(outputId = ns("dq2")),
                                                                    gt::gt_output(outputId = ns("dq3"))),
@@ -336,12 +337,12 @@ dataUploadServer <- function(id, con) {
       })
 
       output$step6 <- shiny::renderText({
-        req(opers2())
+        shiny::req(opers2())
         "&#10003; Step 6 Complete"
       })
 
       output$convertmessage <-  shiny::renderText({
-        req(opers2())
+        shiny::req(opers2())
 
         op2 <- opers2()
 
@@ -377,34 +378,42 @@ dataUploadServer <- function(id, con) {
         })
 
         shiny::withProgress(message = 'Running Data Quality', value = 0.5, {
-        weda::camera_trap_dq(camtrap_records = st_data()$result,
+        camera_trap_dq2(camtrap_records = st_data()$result,
                              camtrap_operation = opers2()$result,
                              project_information = projs$data())
         })
       })
 
+      output$dqmessages <- shiny::renderText({
+        shiny::req(dqlist())
+
+        dqmess <- dqlist()
+
+        return(cli::ansi_html(dqmess[["messages"]]))
+      })
+
         output$dq1 <- gt::render_gt({
-          shiny::req(dqlist())
-          dqlist()[[1]] %>%
+          shiny::req(dqlist()$result)
+          dqlist()$result[[1]] %>%
             pointblank::get_agent_report(title = "Data Quality Assessment on Camera Trap Records")
         })
 
         output$dq2 <- gt::render_gt({
-          shiny::req(dqlist())
-          dqlist()[[2]] %>%
+          shiny::req(dqlist()$result)
+          dqlist()$result[[2]] %>%
             pointblank::get_agent_report(title = "Data Quality Assessment on Camera Operation Records")
         })
 
         output$dq3 <- gt::render_gt({
-          shiny::req(dqlist())
-          dqlist()[[3]] %>%
+          shiny::req(dqlist()$result)
+          dqlist()$result[[3]] %>%
             pointblank::get_agent_report(title = "Data Quality Assessment on Project Information")
         })
 
         #### Step 9 ####
 
         observeEvent(input$uploaddata, {
-          shiny::req(dqlist())
+          shiny::req(dqlist()$result)
           shinyBS::updateCollapse(session = session, id = "collapsepanel",
                                   open = "Step 9 Output", close = "Step 8 Output")
 
@@ -435,7 +444,7 @@ dataUploadServer <- function(id, con) {
           shiny::req(input$name)
 
           shiny::withProgress(message = 'Preparing Upload', value = 0.5, {
-          data_for_upload <- weda::prepare_camtrap_upload(agent_list = dqlist())
+          data_for_upload <- weda::prepare_camtrap_upload(agent_list = dqlist()$result)
 
           shiny::incProgress(amount = 0.25, message = "Uploading Data")
 
