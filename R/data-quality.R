@@ -121,11 +121,12 @@ camera_trap_dq <- function(camtrap_records,
   diffs <- lapply(difflist, length)
 
   if(sum(unlist(diffs)) > 0) {
-    cli::cli_abort(c("Problem with column schema",
+    cli::cli_alert_danger(c("Problem with column schema",
                      "Please correct (add/remove/rename) the following columns:",
                      unlist(difflist) %>% `names<-`(rep("x", length(unlist(difflist)))),
                      "\n",
                      "See weda::data_dictionary for more information on user inputs"))
+    return(NULL)
   }
 
   #### Automatic Conversions ####
@@ -133,7 +134,7 @@ camera_trap_dq <- function(camtrap_records,
   message("Automatically standardising column classes, see weda::data_dictionary for database column classes")
 
   col_classes_recs <- weda::data_dictionary %>%
-    filter(table_name == "raw_camtrap_records") %>%
+    dplyr::filter(table_name == "raw_camtrap_records") %>%
     split(., f = .$column_class)
 
   camtrap_records <- camtrap_records %>%
@@ -150,7 +151,7 @@ camera_trap_dq <- function(camtrap_records,
 
   # operation records
   col_classes_op <- weda::data_dictionary %>%
-    filter(table_name == "raw_camtrap_operation") %>%
+    dplyr::filter(table_name == "raw_camtrap_operation") %>%
     split(., f = .$column_class)
 
   camtrap_operation <- camtrap_operation %>%
@@ -167,7 +168,7 @@ camera_trap_dq <- function(camtrap_records,
 
   # Project information
   col_classes_proj <- weda::data_dictionary %>%
-    filter(table_name == "raw_project_information") %>%
+    dplyr::filter(table_name == "raw_project_information") %>%
     split(., f = .$column_class)
 
   project_information <- project_information %>%
@@ -209,7 +210,7 @@ pb_rec <- pointblank::create_agent(
                                  preconditions = function(x, lj = camtrap_operation) {
                                    dplyr::left_join(x, lj %>%
                                                       dplyr::select(dplyr::all_of(c("SiteID", "SubStation", "DateDeploy", "DateRetrieve", "Iteration"))),
-                                                    by = c("SiteID", "SubStation"))
+                                                    by = c("SiteID", "SubStation", "Iteration"))
                                    }) %>%
     pointblank::interrogate()
 

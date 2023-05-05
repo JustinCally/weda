@@ -1,4 +1,12 @@
+#' capture messages
+#'
+#' @param fun function to wrap
+#'
+#' @noRd
+#'
+#' @return results and messages
 capture_cli_messages <- function(fun) {
+
   function(..., .quiet = TRUE) {
 
     output <- list(result = NULL, messages = NULL)
@@ -16,6 +24,40 @@ capture_cli_messages <- function(fun) {
 
 standardise_species_names2 <- capture_cli_messages(weda::standardise_species_names)
 convert_to_latlong2 <- capture_cli_messages(weda::convert_to_latlong)
+camera_trap_dq2 <- capture_cli_messages(weda::camera_trap_dq)
+
+#' Shiny help popup
+#'
+#' @param title title
+#' @param content content
+#' @param placement placement
+#' @param trigger trigger
+#'
+#' @noRd
+#'
+#' @return shinyhtml
+helpPopup <- function(title = NULL, content,
+                      placement=c('right', 'top', 'left', 'bottom'),
+                      trigger=c('click', 'hover', 'focus', 'manual')) {
+  shiny::tagList(
+    shiny::singleton(
+      shiny::tags$head(
+        shiny::tags$style(shiny::HTML(".popover{
+    max-width: 600px;
+    container: 'body'}")),
+        shiny::tags$script("$(function() { $(\"[data-toggle='popover']\").popover(); })")
+      )
+    ),
+    shiny::tags$a(
+      href = "#", class = "btn btn-mini", `data-toggle` = "popover", style="padding: 0px 5px 5px 0px;display:inline-block",
+      title = title, `data-content` = shiny::HTML(as.character(content)), `data-animation` = TRUE, `data-html`="true",
+      `data-placement` = match.arg(placement, several.ok=TRUE)[1],
+      `data-trigger` = match.arg(trigger, several.ok=TRUE)[1],
+
+      shiny::icon("question")
+    )
+  )
+}
 
 
 #' Data Upload Shiny Module
@@ -35,26 +77,43 @@ dataUploadpUI <- function(id,
                     shiny::sidebarPanel(
                       shinyWidgets::downloadBttn(
                         outputId = ns("downloadSample"),style = "bordered", label = "Download Example Data", size = "xs", color = "primary"),
-                      shiny::tags$h4("Step 1"), shiny::htmlOutput(outputId = ns("step1tick")),
+                      shiny::br(),
+                      shiny::div(shiny::tags$h4("Step 1", style="display:inline-block"),
+                                 helpPopup(title = "Step 1 Guide", content = "This step shows R code that can be used to obtain a
+                                           tabularised record of the metadata from the camera trap images. It is based on the
+                                           recordTable() function from the camtrapR package. Users should use this function within an
+                                           interactive R session. If there are lots of images this function can take a bit of time and
+                                           thus it is not automated in this shiny app.")),
+                      shiny::htmlOutput(outputId = ns("step1tick")),
                       shiny::actionButton(inputId = ns("generateCode"),
                                           label = "Generate camtrapR code",
-                                          icon = icon("code"), width = "100%"),
-                      shiny::tags$h4("Step 2"),
+                                          icon = shiny::icon("code"), width = "100%"),
+                      shiny::div(shiny::tags$h4("Step 2", style="display:inline-block"),
+                                 helpPopup(title = "Step 2 Guide", content = "Upload the camera trap records generated in step 1.
+                                           Make sure the data has all the columns in the example data template (download above)")),
                       shiny::htmlOutput(outputId = ns("step2")),
                       shiny::actionButton(inputId = ns("RecordButton"),
                                    label = "Import Camera Records",
-                                   icon = icon("upload"), width = "100%"),
-                      shiny::tags$h4("Step 3"),
+                                   icon = shiny::icon("upload"), width = "100%"),
+                      shiny::div(shiny::tags$h4("Step 3", style="display:inline-block"),
+                                 helpPopup(title = "Step 3 Guide", content = "Upload the camera trap operation data (generated from proofsafe or manually from field data).
+                                           Make sure the data has all the columns in the example data template (download above)")),
                       shiny::htmlOutput(outputId = ns("step3")),
                       shiny::actionButton(inputId = ns("OperationButton"),
                                    label = "Import Camera Operation",
-                                   icon = icon("upload"), width = "100%"),
-                      shiny::tags$h4("Step 4"),
+                                   icon = shiny::icon("upload"), width = "100%"),
+                      shiny::div(shiny::tags$h4("Step 4", style="display:inline-block"),
+                                 helpPopup(title = "Step 4 Guide", content = "Upload the camera trap project information.
+                                           Make sure the data has all the columns in the example data template (download above)")),
                       shiny::htmlOutput(outputId = ns("step4")),
                       shiny::actionButton(inputId = ns("ProjectButton"),
                                    label = "Import Project Information",
-                                   icon = icon("upload"), width = "100%"),
-                      shiny::tags$h4("Step 5"),
+                                   icon = shiny::icon("upload"), width = "100%"),
+                      shiny::div(shiny::tags$h4("Step 5", style="display:inline-block"),
+                                 helpPopup(title = "Step 5 Guide", content = "This step standardises species names (scientific to common or vice versa).
+                                           Choose the format that you tagged the species names in (scientific or common) and the name of the column with
+                                           species name (default is 'Species'). If some conversions are not possible they will also be tagged in Step 8.
+                                           The database only accepts species listed in the VBA.")),
                       shiny::htmlOutput(outputId = ns("step5")),
                       shinyWidgets::radioGroupButtons(
                         inputId = ns("nameformat"),
@@ -67,27 +126,51 @@ dataUploadpUI <- function(id,
                                        value = "Species", width = "45%"),
                       shiny::actionButton(inputId = ns("standardise"),
                                    label = "Standardise Species Names",
-                                   icon = icon("equals"), width = "100%"),
-                      shiny::tags$h4("Step 6"),
+                                   icon = shiny::icon("equals"), width = "100%"),
+                      shiny::div(shiny::tags$h4("Step 6", style="display:inline-block"),
+                                 helpPopup(title = "Step 6 Guide", content = "This step checks and standardises the coordinates in the operation data.
+                                           It will confirm that you have Latitude and Longitude fields. If you have an 'Easting', 'Northing' and 'Zone' fields
+                                           instead, it will convert these to 'Latitude' and 'Longitude'")),
                       shiny::htmlOutput(outputId = ns("step6")),
                       shiny::actionButton(inputId = ns("convertlatlong"),
                                    label = "Standardise Site Coords (e.g. 54/55 to lat/long)",
-                                   icon = icon("map-pin"), width = "100%"),
-                      shiny::tags$h4("Step 7"),
+                                   icon = shiny::icon("map-pin"), width = "100%"),
+                      shiny::div(shiny::tags$h4("Step 7", style="display:inline-block"),
+                                 helpPopup(title = "Step 7 Guide", content = "Map showing the sites (with SiteID). Check that they are correct.")),
                       shiny::htmlOutput(outputId = ns("step7")),
                       shiny::actionButton(inputId = ns("viewsites"),
                                    label = "Show Map of Camera Sites",
-                                   icon = icon("map"), width = "100%"),
-                      shiny::tags$h4("Step 8"),
+                                   icon = shiny::icon("map"), width = "100%"),
+                      shiny::div(shiny::tags$h4("Step 8", style="display:inline-block"),
+                                 helpPopup(title = "Step 8 Guide", content = shiny::div(shiny::tags$h5("This step may take some time to run.
+                                           It conducts 100 data checks to make sure there are no issues in the quality of your data.
+                                           All data checks need to pass for uploads to succeed."),
+                                                                                   shiny::tags$ul(
+                                                                                     shiny::tags$li("The 'STEP' column outlines the type of check performed. Hover over it for more detail"),
+                                                                                     shiny::tags$li("The 'COLUMNS' column outlines the columns the check was performed on. Some columns are newly created ones in order to investigate the effect of a derived/generated data value"),
+                                                                                     shiny::tags$li("The 'TBL' column shows whether some data modification took place in order to generate a derived variable"),
+                                                                                     shiny::tags$li("The 'EVAL' column shows whether the analysis was completed"),
+                                                                                     shiny::tags$li("The 'UNITS' column shows how many data points were evaluated (number of rows)"),
+                                                                                     shiny::tags$li("The 'PASS' column outlines the number of units passing the checks (and the proportion)"),
+                                                                                     shiny::tags$li("The 'FAIL' column outlines the number of units failing the checks (and the proportion)"),
+                                                                                     shiny::tags$li("The 'W' column is a 'WARNING' that the data quality should be checked and investigated further. A warning (yellow dot), does not mean the analysis is not possible. However, fixing the data for a warning can help maximise the usability and value of the data, albeit not essential. Sometimes this warning is just present in order to double-check odd results."),
+                                                                                     shiny::tags$li("The 'S' column is a 'STOP' indicator. This means that the data should not be used for this data entry. In order for us to use that data without further cleaning and guesswork it should be fixed"),
+                                                                                     shiny::tags$li("The 'N' column 'NOTIFYS' the user of an odd (but not unusable) concern with the data such as high counts or odd patterns. Double check that this data is accurate"),
+                                                                                     shiny::tags$li(shiny::HTML(paste0("The colour of the filled dot indicates which of the above three conditions were met. ", shiny::strong("Ultimately, if there are no red dots the data is usable")))),
+                                                                                     shiny::tags$li(shiny::HTML(paste0("The 'EXT' column is a button to download the failing rows of the data. Download this CSV to help find which rows need to be fixed. ", shiny::strong("Do not edit the CSV, instead use it to find the rows in the original data (on sharepoint) to clean/fix/ammend"))))
+                                                                                   )))),
                       shiny::htmlOutput(outputId = ns("step8")),
                       shiny::actionButton(inputId = ns("dataquality"),
                                    label = "Run Data Quality",
-                                   icon = icon("user-secret"), width = "100%"),
-                      shiny::tags$h4("Step 9"),
+                                   icon = shiny::icon("user-secret"), width = "100%"),
+                      shiny::div(shiny::tags$h4("Step 9", style="display:inline-block"),
+                                 helpPopup(title = "Step 9 Guide", content = "Upload the data. Data must pass all previous steps (including no 'Stops' in the data quality).
+                                           You must enter your name and confirm the upload. If data is successfully uploaded you will receive a message in the main panel.
+                                           Note this step may take some time if data is large. Please be patient.")),
                       shiny::htmlOutput(outputId = ns("step9")),
                       shiny::actionButton(inputId = ns("uploaddata"),
                                    label = "Upload to Database",
-                                   icon = icon("database"), width = "100%"),
+                                   icon = shiny::icon("database"), width = "100%"),
                       width = 3),
                     mainPanel = shiny::mainPanel(shinyBS::bsCollapse(id = ns("collapsepanel"), multiple = FALSE,
                                             shinyBS::bsCollapsePanel(title = "Step 1 Output",
@@ -99,6 +182,7 @@ dataUploadpUI <- function(id,
                                             shinyBS::bsCollapsePanel(title = "Step 7 Output",
                                                                    leaflet::leafletOutput(outputId = ns("sitemap"))),
                                             shinyBS::bsCollapsePanel(title = "Step 8 Output",
+                                                                     shiny::htmlOutput(outputId = ns("dqmessages")),
                                                                    gt::gt_output(outputId = ns("dq1")),
                                                                    gt::gt_output(outputId = ns("dq2")),
                                                                    gt::gt_output(outputId = ns("dq3"))),
@@ -150,8 +234,10 @@ dataUploadServer <- function(id, con) {
                                metadataSpeciesTag = "Species",
                                removeDuplicateRecords = FALSE,
                                returnFileNamesMissingTags = TRUE)
-
-                    saveRDS(raw_camtrap_records, "raw_camtrap_records.rds")'
+  # Save as an rds object (good for R usage)
+                    saveRDS(raw_camtrap_records, "raw_camtrap_records.rds")
+  # Save as csv (good for viewing in excel)
+                    write.csv(raw_camtrap_records, "raw_camtrap_records.csv")'
       })
 
       output$step1 <- shiny::renderText({
@@ -255,12 +341,12 @@ dataUploadServer <- function(id, con) {
       })
 
       output$step6 <- shiny::renderText({
-        req(opers2())
+        shiny::req(opers2())
         "&#10003; Step 6 Complete"
       })
 
       output$convertmessage <-  shiny::renderText({
-        req(opers2())
+        shiny::req(opers2())
 
         op2 <- opers2()
 
@@ -296,34 +382,42 @@ dataUploadServer <- function(id, con) {
         })
 
         shiny::withProgress(message = 'Running Data Quality', value = 0.5, {
-        weda::camera_trap_dq(camtrap_records = st_data()$result,
+        camera_trap_dq2(camtrap_records = st_data()$result,
                              camtrap_operation = opers2()$result,
                              project_information = projs$data())
         })
       })
 
+      output$dqmessages <- shiny::renderText({
+        shiny::req(dqlist())
+
+        dqmess <- dqlist()
+
+        return(cli::ansi_html(dqmess[["messages"]]))
+      })
+
         output$dq1 <- gt::render_gt({
-          shiny::req(dqlist())
-          dqlist()[[1]] %>%
+          shiny::req(dqlist()$result)
+          dqlist()$result[[1]] %>%
             pointblank::get_agent_report(title = "Data Quality Assessment on Camera Trap Records")
         })
 
         output$dq2 <- gt::render_gt({
-          shiny::req(dqlist())
-          dqlist()[[2]] %>%
+          shiny::req(dqlist()$result)
+          dqlist()$result[[2]] %>%
             pointblank::get_agent_report(title = "Data Quality Assessment on Camera Operation Records")
         })
 
         output$dq3 <- gt::render_gt({
-          shiny::req(dqlist())
-          dqlist()[[3]] %>%
+          shiny::req(dqlist()$result)
+          dqlist()$result[[3]] %>%
             pointblank::get_agent_report(title = "Data Quality Assessment on Project Information")
         })
 
         #### Step 9 ####
 
         observeEvent(input$uploaddata, {
-          shiny::req(dqlist())
+          shiny::req(dqlist()$result)
           shinyBS::updateCollapse(session = session, id = "collapsepanel",
                                   open = "Step 9 Output", close = "Step 8 Output")
 
@@ -354,7 +448,7 @@ dataUploadServer <- function(id, con) {
           shiny::req(input$name)
 
           shiny::withProgress(message = 'Preparing Upload', value = 0.5, {
-          data_for_upload <- weda::prepare_camtrap_upload(agent_list = dqlist())
+          data_for_upload <- weda::prepare_camtrap_upload(agent_list = dqlist()$result)
 
           shiny::incProgress(amount = 0.25, message = "Uploading Data")
 
