@@ -150,8 +150,10 @@ dataUploadServer <- function(id, con) {
                                metadataSpeciesTag = "Species",
                                removeDuplicateRecords = FALSE,
                                returnFileNamesMissingTags = TRUE)
-
-                    saveRDS(raw_camtrap_records, "raw_camtrap_records.rds")'
+  # Save as an rds object (good for R usage)
+                    saveRDS(raw_camtrap_records, "raw_camtrap_records.rds")
+  # Save as csv (good for viewing in excel)
+                    write.csv(raw_camtrap_records, "raw_camtrap_records.csv")'
       })
 
       output$step1 <- shiny::renderText({
