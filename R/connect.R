@@ -19,15 +19,13 @@ weda_connect <- function(username = "psql_user",
                          password,
                          ...) {
 
-  RPostgreSQL::dbConnect(odbc::odbc(),
-                         Driver = "PostgreSQL Driver",
-                         Server = '10.110.7.201',
-                         Database = 'ari-dev-weda-psql-01',
-                         UID = username,
-                         PWD = password,
-                         Port = 5432,
-                         BoolsAsChar = 'No',
-                         sslmode = 'require',
-                         maxvarcharsize = 0,
+  RPostgreSQL::dbConnect(RPostgres::Postgres(),
+                                host = '10.110.7.201',
+                                dbname = 'ari-dev-weda-psql-01',
+                                user = username,
+                                password = password,
+                                port = 5432,
+                                service = NULL,
+                                list(sslmode = "require"),
                          ...)
 }
