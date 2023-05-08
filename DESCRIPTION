@@ -44,7 +44,8 @@ Imports:
     gt,
     odbc,
     shinyBS,
-    forcats
+    forcats,
+    RPostgres
 Suggests: 
     rmarkdown,
     knitr,

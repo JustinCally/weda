@@ -63,7 +63,9 @@ Make a connection object in `R`
 con <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", 
                                                 username = "psql_user"))
 
-#### Option 2: Connect using manual connection string ####
+#### Option 2: You can also connect using a manual connection string ####
+
+#### Note the following requires an odbc driver, weda_connect doesn't ####
 con <- RPostgreSQL::dbConnect(odbc::odbc(),
                               Driver = "PostgreSQL Driver",
                               Server = '10.110.7.201',
