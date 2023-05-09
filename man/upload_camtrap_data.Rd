@@ -29,6 +29,7 @@ Upload camera trap data to database
 }
 \examples{
 \dontrun{
-upload_camtrap_data(con = con_odbc, data_list = data_list, uploadername = "Justin Cally")
+con <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", username = "psql_user"))
+upload_camtrap_data(con = con, data_list = data_list, uploadername = "Justin Cally")
 }
 }

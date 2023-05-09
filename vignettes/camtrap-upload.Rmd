@@ -217,16 +217,16 @@ data_for_upload <- prepare_camtrap_upload(dq2)
 
 ## Upload the data  
 
-*Note that before uploading data you will need to have an established connection to the database (e.g. `con_odbc`) in your `R` environment. See the [vignette on database connection for more details](https://JustinCally.github.io/weda/articles/database-connect.html)*  
+*Note that before uploading data you will need to have an established connection to the database (e.g. `con`) in your `R` environment. See the [vignette on database connection for more details](https://JustinCally.github.io/weda/articles/database-connect.html)*  
 
 Using the data prepared for upload made above (`data_for_upload`) you can upload the the data in one line:
 
 ```{r upload, eval = FALSE}
-con_odbc <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", 
+con <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", 
                                                      username = "psql_user"))
 
 
-upload_camtrap_data(con = con_odbc, 
+upload_camtrap_data(con = con, 
                     data_list = data_for_upload, 
                     uploadername = "Justin Cally")
 ```
@@ -253,13 +253,13 @@ The processed layer is more heavily processed with duplicates removed and joins,
 
 ```{r, eval = FALSE}
 # This is how you write the views. It only needs to be done once: 
-DBI::dbExecute(conn = con_odbc, paste(DBI::SQL("CREATE VIEW camtrap.curated_camtrap_records AS"), records_curated_view(con_odbc)))
-DBI::dbExecute(conn = con_odbc, paste(DBI::SQL("CREATE VIEW camtrap.curated_camtrap_operation AS"), operation_curated_view(con_odbc)))
-DBI::dbExecute(conn = con_odbc, paste(DBI::SQL("CREATE VIEW camtrap.curated_project_information AS"), project_curated_view(con_odbc)))
+DBI::dbExecute(conn = con, paste(DBI::SQL("CREATE VIEW camtrap.curated_camtrap_records AS"), records_curated_view(con)))
+DBI::dbExecute(conn = con, paste(DBI::SQL("CREATE VIEW camtrap.curated_camtrap_operation AS"), operation_curated_view(con)))
+DBI::dbExecute(conn = con, paste(DBI::SQL("CREATE VIEW camtrap.curated_project_information AS"), project_curated_view(con)))
 
-DBI::dbExecute(conn = con_odbc, paste(DBI::SQL("CREATE VIEW camtrap.processed_site_substation_presence_absence AS"), processed_SubStation_presence_absence(con = con_odbc, return_data = FALSE)))
+DBI::dbExecute(conn = con, paste(DBI::SQL("CREATE VIEW camtrap.processed_site_substation_presence_absence AS"), processed_SubStation_presence_absence(con = con, return_data = FALSE)))
 
-DBI::dbExecute(conn = con_odbc, paste(DBI::SQL("CREATE VIEW camtrap.processed_site_substation_daily_presence_absence AS"), processed_SubStation_presence_absence(con = con_odbc, daily = TRUE, return_data = FALSE)))
+DBI::dbExecute(conn = con, paste(DBI::SQL("CREATE VIEW camtrap.processed_site_substation_daily_presence_absence AS"), processed_SubStation_presence_absence(con = con, daily = TRUE, return_data = FALSE)))
 ```
 
 # Appendix  

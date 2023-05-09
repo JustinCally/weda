@@ -42,7 +42,7 @@ keyring::key_set(service = "ari-dev-weda-psql-01", username = "psql_user")
 }
 ```
 
-# Step 3: Check capability  
+# Step 3: Check capability (OPTIONAL: Only if using ODBC, can skip if using `RPostgres`)  
 
 Check if you have the correct odbc driver
 
@@ -59,13 +59,14 @@ Make a connection object in `R`
 
 ```{r connect, eval = FALSE}
 # Note that the DB is currently configured to turn on at 7am and turn off at 7pm to reduce costs
-# ODBC Connection : more interactive in rstudio:
+# RPostgres Connection : less interactive in rstudio:
 con <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", 
                                                 username = "psql_user"))
 
 #### Option 2: You can also connect using a manual connection string ####
 
 #### Note the following requires an odbc driver, weda_connect doesn't ####
+#### The odbc connection can be good to view in the connection pane ####
 con <- RPostgreSQL::dbConnect(odbc::odbc(),
                               Driver = "PostgreSQL Driver",
                               Server = '10.110.7.201',

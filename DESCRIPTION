@@ -42,7 +42,6 @@ Imports:
     shinyalert,
     RPostgreSQL,
     gt,
-    odbc,
     shinyBS,
     forcats,
     RPostgres
@@ -50,7 +49,8 @@ Suggests:
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),
-    covr
+    covr,
+    odbc
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Remotes: 
