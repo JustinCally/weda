@@ -1,5 +1,7 @@
+# weda (development version)
+* Use `RPostgres::Postgres()` as default connection method  
+
 # weda 0.0.2
-* Use `RPostgres::Postgres()` as default connection method
 
 * Fixed issue with multiple iterations not joining in data quality 
 * Added help boxes to shiny app  

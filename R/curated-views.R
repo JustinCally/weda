@@ -9,7 +9,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' con <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", username = "psql_user"))
+#' con <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01",
+#' username = "psql_user"))
 #' DBI::dbExecute(conn = con,
 #'                paste(DBI::SQL("CREATE VIEW camtrap.curated_camtrap_records AS"),
 #'                records_curated_view(con)))
