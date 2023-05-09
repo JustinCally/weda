@@ -19,7 +19,7 @@ if(!("PostgreSQL Driver" %in% odbc::odbcListDrivers()$name)) {
 }
 
 # Note that the DB is currently configured to turn on at 7am and turn off at 7pm to reduce costs
-# ODBC Connection : more interactive in rstudio
+# ODBC Connection : more interactive in rstudio but requires ODBC driver
 con_odbc <- RPostgreSQL::dbConnect(odbc::odbc(),
                               Driver = "PostgreSQL Driver",
                               Server = '10.110.7.201',

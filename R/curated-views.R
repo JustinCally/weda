@@ -9,15 +9,17 @@
 #'
 #' @examples
 #' \dontrun{
-#' DBI::dbExecute(conn = con_odbc,
+#' con <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01",
+#' username = "psql_user"))
+#' DBI::dbExecute(conn = con,
 #'                paste(DBI::SQL("CREATE VIEW camtrap.curated_camtrap_records AS"),
-#'                records_curated_view(con_odbc)))
-#' DBI::dbExecute(conn = con_odbc,
+#'                records_curated_view(con)))
+#' DBI::dbExecute(conn = con,
 #'                paste(DBI::SQL("CREATE VIEW camtrap.curated_camtrap_operation AS"),
-#'                operation_curated_view(con_odbc)))
-#' DBI::dbExecute(conn = con_odbc,
+#'                operation_curated_view(con)))
+#' DBI::dbExecute(conn = con,
 #'                paste(DBI::SQL("CREATE VIEW camtrap.curated_project_information AS"),
-#'                project_curated_view(con_odbc)))
+#'                project_curated_view(con)))
 #' }
 records_curated_view <- function(con, return_data = FALSE) {
 

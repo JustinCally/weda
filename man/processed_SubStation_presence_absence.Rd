@@ -28,8 +28,10 @@ presence-absence data views for each site/substation (including a daily presence
 }
 \examples{
 \dontrun{
-DBI::dbExecute(conn = con_odbc,
+con <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01",
+username = "psql_user"))
+DBI::dbExecute(conn = con,
                paste(SQL("CREATE VIEW camtrap.processed_site_substation_presence_absence AS"),
-               processed_SubStation_presence_absence(con = con_odbc, return_data = FALSE)))
+               processed_SubStation_presence_absence(con = con, return_data = FALSE)))
 }
 }
