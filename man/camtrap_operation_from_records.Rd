@@ -4,14 +4,12 @@
 \alias{camtrap_operation_from_records}
 \title{Operation from records}
 \usage{
-camtrap_operation_from_records(records, start_tag = "AAAA", end_tag = "ZZZ")
+camtrap_operation_from_records(records, get_cam_model = TRUE)
 }
 \arguments{
 \item{records}{camera trap records from camtrapR  with Species, SiteID and SubStation}
 
-\item{start_tag}{Species tag for camera deploy (default is "AAAA")}
-
-\item{end_tag}{Species tag for camera pickup (default is "AAAA")}
+\item{get_cam_model}{logical flag (default is TRUE) of whether you want to get cam model and serial number (drive with photos needs to be attached)}
 }
 \value{
 data.frame

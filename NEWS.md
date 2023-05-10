@@ -1,5 +1,6 @@
 # weda (development version)
 * Use `RPostgres::Postgres()` as default connection method  
+* `camtrap_operation_from_records` helps make operation table for date times and camera model 
 
 # weda 0.0.2
 
