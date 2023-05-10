@@ -4,10 +4,14 @@
 \alias{camtrap_operation_from_records}
 \title{Operation from records}
 \usage{
-camtrap_operation_from_records(records)
+camtrap_operation_from_records(records, start_tag = "AAAA", end_tag = "ZZZ")
 }
 \arguments{
-\item{records}{camera trap records from camtrapR}
+\item{records}{camera trap records from camtrapR  with Species, SiteID and SubStation}
+
+\item{start_tag}{Species tag for camera deploy (default is "AAAA")}
+
+\item{end_tag}{Species tag for camera pickup (default is "AAAA")}
 }
 \value{
 data.frame
