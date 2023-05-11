@@ -6,7 +6,11 @@ vba_name_conversions <- sf::st_read("data-raw/VBA_TAXA_LIST") %>%
   dplyr::select(taxon_id = TAXON_ID,
                 scientific_name = SCI_NAME,
                 common_name = COMM_NAME) %>%
-  distinct()
+  dplyr::distinct() %>%
+  dplyr::filter(!(scientific_name %in% c("Vulpes spp.",
+                                         "fam. Canidae gen. Vulpes",
+                                         "fam. Cervidae gen. Dama")))
+# Remove dodgy conversions
 
 # vba_name_conversions <- readRDS("data-raw/vba_name_conversions.rds")
 
