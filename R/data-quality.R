@@ -179,7 +179,6 @@ camera_trap_dq <- function(camtrap_records,
 
   #### Poinblank checks ####
 
-
   # vba names
   vba_sci <- weda::vba_name_conversions %>%
     dplyr::filter(.data$scientific_name %in% !!camtrap_records$scientific_name)
@@ -188,7 +187,6 @@ camera_trap_dq <- function(camtrap_records,
     dplyr::filter(.data$common_name %in% !!camtrap_records$common_name)
 
   # Create a pointblank object
-
 pb_rec <- pointblank::create_agent(
     tbl = camtrap_records,
     actions = pointblank::action_levels(stop_at = 1)) %>%
@@ -211,8 +209,15 @@ pb_rec <- pointblank::create_agent(
                                    dplyr::left_join(x, lj %>%
                                                       dplyr::select(dplyr::all_of(c("SiteID", "SubStation", "DateDeploy", "DateRetrieve", "Iteration"))),
                                                     by = c("SiteID", "SubStation", "Iteration"))
-                                   }) %>%
-    pointblank::interrogate()
+                                   })
+# check in cases where distance is always tagged
+if(project_information$DistanceSampling[1] & project_information$DistanceForAllSpecies[1])  {
+  pb_rec <- pb_rec %>%
+    pointblank::col_vals_not_null(c("metadata_Distance"))
+}
+
+pb_rec <- pb_rec %>%
+  pointblank::interrogate()
 
 pb_op <- pointblank::create_agent(
     tbl = camtrap_operation,
