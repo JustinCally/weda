@@ -1,18 +1,36 @@
+#' VBA Upload format for camera trap data
+#'
+#' @description A presence-absence view of camera trap surveys using the VBA upload template
+#'
+#' @param con database connection
+#' @param return_data logical flag to return data (TRUE) or sql query (default is FALSE)
+#'
+#' @return sql or data.frame
+#' @export
+#' @examples
+#'  \dontrun{
+#' con <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01",
+#' username = "psql_user"))
+#' DBI::dbExecute(conn = con,
+#'                paste(SQL("CREATE VIEW camtrap.processed_vba_format AS"),
+#'                vba_format(con = con, return_data = FALSE)))
+#' }
 vba_format <- function(con,
                        return_data = FALSE) {
 
-  presence_only <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_camtrap_records")) %>%
-    dplyr::group_by(ProjectShortName, SiteID, SubStation, Iteration, common_name, scientific_name) %>%
-    dplyr::summarise(Date = max(Date, na.rm = TRUE)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(Count = 1)
+  presence_only <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "processed_site_substation_presence_absence")) %>%
+    dplyr::mutate(SiteStation = paste(SiteID, SubStation, sep = "_")) %>%
+    dplyr::group_by(ProjectShortName, SiteStation, Iteration, common_name, scientific_name) %>%
+    dplyr::summarise(Presence = max(Presence, na.rm = TRUE)) %>%
+    dplyr::ungroup()
 
-  curated_camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_camtrap_operation"))
+  curated_camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_camtrap_operation")) %>%
+    dplyr::mutate(SiteStation = paste(SiteID, SubStation, sep = "_"))
   curated_project_information <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_project_information"))
   db_vba_name_conversions <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "vba_name_conversions"))
 
   presence_cam_details <- presence_only %>%
-    dplyr::left_join(curated_camtrap_operation, by = c("ProjectShortName", "SiteID", "SubStation", "Iteration")) %>%
+    dplyr::left_join(curated_camtrap_operation, by = c("ProjectShortName", "SiteStation", "Iteration")) %>%
     dplyr::left_join(curated_project_information, by = c("ProjectShortName")) %>%
     dplyr::left_join(db_vba_name_conversions, by = c("scientific_name", "common_name")) %>%
     dplyr::transmute(`VBA Project ID` = NA,
@@ -22,7 +40,7 @@ vba_format <- function(con,
                   `VBA Site ID` = NA,
                   `Restricted Site (y)` = NA,
                   `leave blank 3` = NA,
-                  `Site Name` = paste(SiteID, SubStation, sep = "_"),
+                  `Site Name` = SiteStation,
                   `Location description` = ProjectDescription,
                   `Survey Name` = ProjectName,
                   `Start date (use this)` = DateDeploy,
@@ -45,8 +63,12 @@ vba_format <- function(con,
                   `Taxon Name` = scientific_name,
                   `Taxon Common Name` = common_name,
                   `Taxon ID` = taxon_id,
-                  `Count` = Count,
-                  `Extra Information` = "Presence-only",
+                  `Count` = Presence,
+                  `Extra Information` = paste("Presence = 1, Absence = 0 | The camera was:",
+                                              BaitedUnbaited, "and was set at", CameraHeight,
+                                              "m above the ground. The camera model was", CameraModel,
+                                              "set to", CameraSensitivity, "sensitivity, with", CameraPhotosPerTrigger,
+                                              "photos per trigger, and camera delay was", CameraDelay),
                   `Type of Observation` = "o",
                   `Behaviour of taxa` = NA,
                   `Count Qualifier (e.g. 1-M/2-AF)` = NA,
