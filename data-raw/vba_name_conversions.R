@@ -10,7 +10,9 @@ vba_name_conversions <- sf::st_read("data-raw/VBA_TAXA_LIST") %>%
   dplyr::distinct() %>%
   dplyr::filter(!(scientific_name %in% c("Vulpes spp.",
                                          "fam. Canidae gen. Vulpes",
-                                         "fam. Cervidae gen. Dama")))
+                                         "fam. Cervidae gen. Dama",
+                                         "fam. Corvidae gen. Corvus",
+                                         "fam. Dasyuridae gen. Antechinus")))
 # Remove dodgy conversions
 
 # vba_name_conversions <- readRDS("data-raw/vba_name_conversions.rds")

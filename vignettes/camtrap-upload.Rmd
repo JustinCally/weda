@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, echo = FALSE, results='hide', message=FALSE, warning=FALSE}
+```{r setup, echo = TRUE, results='hide', message=FALSE, warning=FALSE}
 library(weda)
 library(dplyr)
 library(camtrapR)
@@ -69,7 +69,7 @@ To run the app from `R` set up a database connection (using `weda_connect()`) an
 # Make sure VPN is running
 con <- weda::weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01",
                                                       username = "psql_user"))
-camtrap_app(con = con)
+weda::camtrap_app(con = con)
 ```
 
 # Upload using R code  
