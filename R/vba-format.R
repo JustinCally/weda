@@ -3,6 +3,7 @@
 #' @description A presence-absence view of camera trap surveys using the VBA upload template
 #'
 #' @param con database connection
+#' @param ProjectShortName ProjectShortName field
 #' @param return_data logical flag to return data (TRUE) or sql query (default is FALSE)
 #'
 #' @return sql or data.frame
@@ -16,13 +17,19 @@
 #'                vba_format(con = con, return_data = FALSE)))
 #' }
 vba_format <- function(con,
+                       ProjectShortName = "all",
                        return_data = FALSE) {
 
-  presence_only <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "processed_site_substation_presence_absence")) %>%
-    dplyr::mutate(SiteStation = paste(SiteID, SubStation, sep = "_")) %>%
-    dplyr::group_by(ProjectShortName, SiteStation, Iteration, common_name, scientific_name) %>%
-    dplyr::summarise(Presence = max(Presence, na.rm = TRUE)) %>%
-    dplyr::ungroup()
+  if(ProjectShortName == "all") {
+    presence_only <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "processed_site_substation_daily_presence_absence")) %>%
+      dplyr::filter(Presence == 1) %>%
+      dplyr::mutate(SiteStation = paste(SiteID, SubStation, sep = "_"))
+  } else {
+    presence_only <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "processed_site_substation_daily_presence_absence")) %>%
+      dplyr::filter(Presence == 1 & ProjectShortName %in% !!ProjectShortName) %>%
+      dplyr::mutate(SiteStation = paste(SiteID, SubStation, sep = "_"))
+  }
+
 
   curated_camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_camtrap_operation")) %>%
     dplyr::mutate(SiteStation = paste(SiteID, SubStation, sep = "_"))
@@ -43,8 +50,8 @@ vba_format <- function(con,
                   `Site Name` = SiteStation,
                   `Location description` = ProjectDescription,
                   `Survey Name` = ProjectName,
-                  `Start date (use this)` = DateDeploy,
-                  `End date` = dplyr::coalesce(as.Date(Problem1_from), DateRetrieve),
+                  `Start date (use this)` = Date,
+                  `End date` = Date,
                   `Type of coordinate system` = "latlong",
                   `GPS used (y, n)` = "y",
                   `Datum code (g,a)` = "g",
@@ -58,13 +65,13 @@ vba_format <- function(con,
                   `Method code` = 9090,
                   `Method details code` = 101,
                   `leave blank 4` = NA,
-                  `Sampling details - Numeric Value` = round(DateRetrieve-DateDeploy),
+                  `Sampling details - Numeric Value` = 1,
                   `Sampling details - Text value` = NA,
                   `Taxon Name` = scientific_name,
                   `Taxon Common Name` = common_name,
                   `Taxon ID` = taxon_id,
-                  `Count` = Presence,
-                  `Extra Information` = paste("Presence = 1, Absence = 0 | The camera was:",
+                  `Count` = NA,
+                  `Extra Information` = paste("Presence = Blank (presence only dataset) | The camera was:",
                                               BaitedUnbaited, "and was set at", CameraHeight,
                                               "m above the ground. The camera model was", CameraModel,
                                               "set to", CameraSensitivity, "sensitivity, with", CameraPhotosPerTrigger,
