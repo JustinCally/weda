@@ -5,6 +5,7 @@
 #' @param con database connection
 #' @param ProjectShortName ProjectShortName field
 #' @param return_data logical flag to return data (TRUE) or sql query (default is FALSE)
+#' @param schema which schema to use
 #'
 #' @return sql or data.frame
 #' @export
@@ -18,23 +19,32 @@
 #' }
 vba_format <- function(con,
                        ProjectShortName = "all",
-                       return_data = FALSE) {
+                       return_data = FALSE,
+                       schema = "camtrap") {
 
   if(ProjectShortName == "all") {
-    presence_only <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "processed_site_substation_daily_presence_absence")) %>%
-      dplyr::filter(Presence == 1) %>%
-      dplyr::mutate(SiteStation = paste(SiteID, SubStation, sep = "_"))
+    presence_only <- dplyr::tbl(con, dbplyr::in_schema(schema, "curated_camtrap_records")) %>%
+      dplyr::mutate(SiteStation = paste(SiteID, SubStation, sep = "_")) %>%
+      dplyr::group_by(SiteID, SubStation, SiteStation, Iteration, Date, common_name, scientific_name) %>%
+      dplyr::slice_sample(n = 1) %>%
+      dplyr::mutate(Presence = 1) %>%
+      dplyr::ungroup()
+
   } else {
-    presence_only <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "processed_site_substation_daily_presence_absence")) %>%
-      dplyr::filter(Presence == 1 & ProjectShortName %in% !!ProjectShortName) %>%
-      dplyr::mutate(SiteStation = paste(SiteID, SubStation, sep = "_"))
+    presence_only <- dplyr::tbl(con, dbplyr::in_schema(schema, "curated_camtrap_records")) %>%
+      dplyr::filter(ProjectShortName %in% !!ProjectShortName) %>%
+      dplyr::mutate(SiteStation = paste(SiteID, SubStation, sep = "_")) %>%
+      dplyr::group_by(SiteID, SubStation, SiteStation, Iteration, Date, common_name, scientific_name) %>%
+      dplyr::slice_sample(n = 1) %>%
+      dplyr::mutate(Presence = 1) %>%
+      dplyr::ungroup()
   }
 
 
-  curated_camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_camtrap_operation")) %>%
+  curated_camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema(schema, "curated_camtrap_operation")) %>%
     dplyr::mutate(SiteStation = paste(SiteID, SubStation, sep = "_"))
-  curated_project_information <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_project_information"))
-  db_vba_name_conversions <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "vba_name_conversions"))
+  curated_project_information <- dplyr::tbl(con, dbplyr::in_schema(schema, "curated_project_information"))
+  db_vba_name_conversions <- dplyr::tbl(con, dbplyr::in_schema(schema, "vba_name_conversions"))
 
   presence_cam_details <- presence_only %>%
     dplyr::left_join(curated_camtrap_operation, by = c("ProjectShortName", "SiteStation", "Iteration")) %>%

@@ -4,10 +4,12 @@
 \alias{vba_format}
 \title{VBA Upload format for camera trap data}
 \usage{
-vba_format(con, return_data = FALSE)
+vba_format(con, ProjectShortName = "all", return_data = FALSE)
 }
 \arguments{
 \item{con}{database connection}
+
+\item{ProjectShortName}{ProjectShortName field}
 
 \item{return_data}{logical flag to return data (TRUE) or sql query (default is FALSE)}
 }
