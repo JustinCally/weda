@@ -1,6 +1,9 @@
-# weda (development version)
+# weda 0.0.3
 * Use `RPostgres::Postgres()` as default connection method  
 * `camtrap_operation_from_records` helps make operation table for date times and camera model 
+* VBA data format view and download available through the app  
+* Additional options available for bait type during upload  
+* `mcrecordTable()` allows a more customised way of extracting camera trap data  
 
 # weda 0.0.2
 

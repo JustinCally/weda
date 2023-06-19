@@ -25,6 +25,7 @@ reference:
       - '`camtrap_operation_mapview`'
       - '`check_unique_project`'
       - '`convert_to_latlong`'
+      - '`mcrecordTable`'
   - title: "Database views"
     desc: >
       Functions used to create views on the database
