@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">weda</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,9 +94,11 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbExecute.html" class="external-link">dbExecute</a></span><span class="op">(</span>conn <span class="op">=</span> <span class="va">con_odbc</span>,</span></span>
+<span class="r-in"><span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu"><a href="weda_connect.html">weda_connect</a></span><span class="op">(</span>password <span class="op">=</span> <span class="fu">keyring</span><span class="fu">::</span><span class="fu">key_get</span><span class="op">(</span>service <span class="op">=</span> <span class="st">"ari-dev-weda-psql-01"</span>,</span></span>
+<span class="r-in"><span>username <span class="op">=</span> <span class="st">"psql_user"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbExecute.html" class="external-link">dbExecute</a></span><span class="op">(</span>conn <span class="op">=</span> <span class="va">con</span>,</span></span>
 <span class="r-in"><span>               <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu">SQL</span><span class="op">(</span><span class="st">"CREATE VIEW camtrap.processed_site_substation_presence_absence AS"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>               <span class="fu">processed_SubStation_presence_absence</span><span class="op">(</span>con <span class="op">=</span> <span class="va">con_odbc</span>, return_data <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>               <span class="fu">processed_SubStation_presence_absence</span><span class="op">(</span>con <span class="op">=</span> <span class="va">con</span>, return_data <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>

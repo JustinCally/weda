@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">weda</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -120,7 +120,8 @@ set it. Ask an admin for an account if you do not already have one.</p>
 <span><span class="op">}</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="step-3-check-capability">Step 3: Check capability<a class="anchor" aria-label="anchor" href="#step-3-check-capability"></a>
+<h2 id="step-3-check-capability-optional-only-if-using-odbc-can-skip-if-using-rpostgres">Step 3: Check capability (OPTIONAL: Only if using ODBC, can skip if
+using <code>RPostgres</code>)<a class="anchor" aria-label="anchor" href="#step-3-check-capability-optional-only-if-using-odbc-can-skip-if-using-rpostgres"></a>
 </h2>
 <p>Check if you have the correct odbc driver</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -135,11 +136,14 @@ set it. Ask an admin for an account if you do not already have one.</p>
 <p>Make a connection object in <code>R</code></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Note that the DB is currently configured to turn on at 7am and turn off at 7pm to reduce costs</span></span>
-<span><span class="co"># ODBC Connection : more interactive in rstudio:</span></span>
+<span><span class="co"># RPostgres Connection : less interactive in rstudio:</span></span>
 <span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/weda_connect.html">weda_connect</a></span><span class="op">(</span>password <span class="op">=</span> <span class="fu">keyring</span><span class="fu">::</span><span class="fu">key_get</span><span class="op">(</span>service <span class="op">=</span> <span class="st">"ari-dev-weda-psql-01"</span>, </span>
 <span>                                                username <span class="op">=</span> <span class="st">"psql_user"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#### Option 2: Connect using manual connection string ####</span></span>
+<span><span class="co">#### Option 2: You can also connect using a manual connection string ####</span></span>
+<span></span>
+<span><span class="co">#### Note the following requires an odbc driver, weda_connect doesn't ####</span></span>
+<span><span class="co">#### The odbc connection can be good to view in the connection pane ####</span></span>
 <span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">RPostgreSQL</span><span class="fu">::</span><span class="fu">dbConnect</span><span class="op">(</span><span class="fu">odbc</span><span class="fu">::</span><span class="fu"><a href="https://r-dbi.github.io/odbc/reference/odbc.html" class="external-link">odbc</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>                              Driver <span class="op">=</span> <span class="st">"PostgreSQL Driver"</span>,</span>
 <span>                              Server <span class="op">=</span> <span class="st">'10.110.7.201'</span>,</span>
@@ -176,7 +180,7 @@ here:</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dbplyr.tidyverse.org/" class="external-link">dbplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mablab.org/rpostgis/index.html" class="external-link">rpostgis</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mablab.org/rpostgis/" class="external-link">rpostgis</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rpostgres.r-dbi.org" class="external-link">RPostgres</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-dbi.github.io/odbc/" class="external-link">odbc</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span></span>
@@ -192,7 +196,7 @@ here:</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="co"># Note that the DB is currently configured to turn on at 7am and turn off at 7pm to reduce costs</span></span>
-<span><span class="co"># ODBC Connection : more interactive in rstudio</span></span>
+<span><span class="co"># ODBC Connection : more interactive in rstudio but requires ODBC driver</span></span>
 <span><span class="va">con_odbc</span> <span class="op">&lt;-</span> <span class="fu">RPostgreSQL</span><span class="fu">::</span><span class="fu">dbConnect</span><span class="op">(</span><span class="fu">odbc</span><span class="fu">::</span><span class="fu"><a href="https://r-dbi.github.io/odbc/reference/odbc.html" class="external-link">odbc</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>                              Driver <span class="op">=</span> <span class="st">"PostgreSQL Driver"</span>,</span>
 <span>                              Server <span class="op">=</span> <span class="st">'10.110.7.201'</span>,</span>
@@ -204,7 +208,7 @@ here:</p>
 <span>                              maxvarcharsize <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># issue with binary representation of sf cols</span></span>
 <span></span>
 <span><span class="co"># Postgres connection: better for rasters (and easier to set up)</span></span>
-<span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">RPostgreSQL</span><span class="fu">::</span><span class="fu">dbConnect</span><span class="op">(</span><span class="fu">RPostgres</span><span class="fu">::</span><span class="fu">Postgres</span><span class="op">(</span><span class="op">)</span>,</span>
+<span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">RPostgreSQL</span><span class="fu">::</span><span class="fu">dbConnect</span><span class="op">(</span><span class="fu">RPostgres</span><span class="fu">::</span><span class="fu"><a href="https://rpostgres.r-dbi.org/reference/Postgres.html" class="external-link">Postgres</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>                               host <span class="op">=</span> <span class="st">'10.110.7.201'</span>,</span>
 <span>                               dbname <span class="op">=</span> <span class="st">'ari-dev-weda-psql-01'</span>,</span>
 <span>                               user <span class="op">=</span> <span class="st">"psql_user"</span>,</span>
