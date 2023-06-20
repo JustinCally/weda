@@ -17,3 +17,23 @@ data.frame
 \description{
 Operation from records
 }
+\examples{
+library(weda)
+raw_camtrap_records <- camtrapR::recordTable(inDir  = system.file("dummydata/images",
+package = "weda"),
+                                             IDfrom = "metadata",
+                                             cameraID = "directory",
+                                             stationCol = "SiteID",
+                                             camerasIndependent = TRUE,
+                                             timeZone = Sys.timezone(location = TRUE),
+                                             metadataSpeciesTag = "Species",
+                                             removeDuplicateRecords = FALSE,
+                                             returnFileNamesMissingTags = TRUE) \%>\%
+dplyr::rename(SubStation = Camera) \%>\%
+dplyr::mutate(SubStation = dplyr::case_when(SiteID == SubStation ~ NA_character_,
+                                            TRUE ~ SubStation),
+              Iteration = 1L)
+
+ op_table <- camtrap_operation_from_records(raw_camtrap_records)
+
+}

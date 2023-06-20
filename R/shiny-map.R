@@ -57,6 +57,12 @@ projectMapUI <- function(id,
                                outputId = ns("downloadData"),
                                style = "bordered",
                                size = "sm",
+                               color = "primary"),
+                             shinyWidgets::downloadBttn(
+                               outputId = ns("downloadVBA"),
+                               style = "bordered",
+                               label = "Download VBA Data",
+                               size = "sm",
                                color = "primary")
                )
            )
@@ -177,6 +183,21 @@ projectMapServer <- function(id, project_locations, con) {
           },
           content = function(dl_con) {
             readr::write_csv(map_data, dl_con)
+          }
+        )
+
+        output$downloadVBA <- shiny::downloadHandler(
+          filename = function() {
+            paste('camtrap_vba_data_', Sys.Date(), '.csv', sep='')
+          },
+          content = function(dl_con) {
+            shinycssloaders::showPageSpinner(background = "#FFFFFFD0", type = 6, caption = "Formatting VBA Data")
+            vba_data <- vba_format(con = con,
+                                   return_data = T,
+                                   schema = "camtrap",
+                                   ProjectShortName = unique(map_data$ProjectShortName))
+            readr::write_csv(vba_data, dl_con)
+            shinycssloaders::hidePageSpinner()
           }
         )
 

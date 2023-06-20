@@ -5,8 +5,10 @@
 #'
 #' @return data.frame
 #' @export
-#' @example
-#' raw_camtrap_records <- camtrapR::recordTable(inDir  = system.file("dummydata/images", package = "weda"),
+#' @examples
+#' library(weda)
+#' raw_camtrap_records <- camtrapR::recordTable(inDir  = system.file("dummydata/images",
+#' package = "weda"),
 #'                                              IDfrom = "metadata",
 #'                                              cameraID = "directory",
 #'                                              stationCol = "SiteID",
@@ -15,10 +17,10 @@
 #'                                              metadataSpeciesTag = "Species",
 #'                                              removeDuplicateRecords = FALSE,
 #'                                              returnFileNamesMissingTags = TRUE) %>%
-#'                     rename(SubStation = Camera) %>%
-#'                     mutate(SubStation = case_when(SiteID == SubStation ~ NA_character_,
-#'                                                  TRUE ~ SubStation),
-#'                                                       Iteration = 1L)
+#' dplyr::rename(SubStation = Camera) %>%
+#' dplyr::mutate(SubStation = dplyr::case_when(SiteID == SubStation ~ NA_character_,
+#'                                             TRUE ~ SubStation),
+#'               Iteration = 1L)
 #'
 #'  op_table <- camtrap_operation_from_records(raw_camtrap_records)
 #'

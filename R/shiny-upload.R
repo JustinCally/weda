@@ -187,7 +187,13 @@ dataUploadpUI <- function(id,
                                                                    gt::gt_output(outputId = ns("dq2")),
                                                                    gt::gt_output(outputId = ns("dq3"))),
                                           shinyBS::bsCollapsePanel(title = "Step 9 Output",
-                                                                   shiny::htmlOutput(outputId = ns("uploadcompletion")))),
+                                                                   shiny::htmlOutput(outputId = ns("uploadcompletion")),
+                                                                   shinyWidgets::downloadBttn(
+                                                                     outputId = ns("downloadVBA"),
+                                                                     style = "bordered",
+                                                                     label = "Download VBA Data",
+                                                                     size = "sm",
+                                                                     color = "primary"))),
                                           width = 9)
                   ))
 
@@ -460,6 +466,19 @@ dataUploadServer <- function(id, con) {
           output$uploadcompletion <- shiny::renderText({
             "Upload Complete. Restart app to see project data on map pane"
           })
+
+          output$downloadVBA <- shiny::downloadHandler(
+            filename = function() {
+              paste('camtrap_vba_data_', Sys.Date(), '.csv', sep='')
+            },
+            content = function(dl_con) {
+              vba_data <- vba_format(con = con,
+                                     return_data = T,
+                                     schema = "camtrap",
+                                     ProjectShortName = data_for_upload[["project_information"]]$ProjectShortName)
+              readr::write_csv(vba_data, dl_con)
+            }
+          )
 
           output$step9 <- shiny::renderText({
             "&#10003; Step 9 Complete"

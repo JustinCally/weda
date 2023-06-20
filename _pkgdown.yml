@@ -25,12 +25,14 @@ reference:
       - '`camtrap_operation_mapview`'
       - '`check_unique_project`'
       - '`convert_to_latlong`'
+      - '`mcrecordTable`'
   - title: "Database views"
     desc: >
       Functions used to create views on the database
     contents:
       - '`records_curated_view`'
       - '`processed_SubStation_presence_absence`'
+      - '`vba_format`'
   - title: "Database information"
     desc: >
       Functions used get information on the database
