@@ -53,7 +53,7 @@ camtrap_operation_from_records <- function(records, get_cam_model = TRUE) {
       tidyr::pivot_wider(names_from = tag_name, values_from = value)
 
     if(nrow(tags[[i]]) == 0) {
-      data.frame(UserLabel = "Unknown", SerialNumber = "Unknown")
+      tags[[i]] <- data.frame(UserLabel = "Unknown", SerialNumber = "Unknown")
     }
   }
 
