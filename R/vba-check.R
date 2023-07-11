@@ -48,6 +48,10 @@ standardise_species_names <- function(recordTable,
 
   conversions_grouped <- conversions %>%
     dplyr::group_by(!!rlang::sym(var_name)) %>%
+    dplyr::mutate(rows = dplyr::n()) %>%
+    dplyr::ungroup() %>%
+    dplyr::filter((rows > 1 & stringr::str_detect(!!rlang::sym(other_name), "fam.", negate = T)) | rows == 1) %>%
+    dplyr::group_by(!!rlang::sym(var_name)) %>%
     dplyr::summarise(dplyr::across(!!rlang::sym(other_name), .fns = ~ paste(.x, collapse = "/")),
                      n = dplyr::n()) %>%
     dplyr::ungroup() %>%
