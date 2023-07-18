@@ -47,3 +47,8 @@ reference:
       - '`dataUploadpUI`'
       - '`dataUploadServer`'
       - '`camtrap_app`'
+  - title: "Obtaining Data"
+    desc: >
+      Functions used get data from the database
+    contents:
+      - '`DBdetectionHistory`'

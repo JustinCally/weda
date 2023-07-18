@@ -33,13 +33,13 @@ projectMapServer(id, project_locations, con)
 \value{
 shiny module
 
-
+shiny module
 }
 \description{
 Shiny module creating an interactive project map
 }
 \section{Functions}{
 \itemize{
-\item \code{projectMapServer}: 
-}}
+\item \code{projectMapServer()}: 
 
+}}

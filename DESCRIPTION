@@ -8,7 +8,7 @@ Description: Wildlife Ecology Data Analytics (weda) supports database connection
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 URL: https://justincally.github.io/weda/, https://github.com/JustinCally/weda
 Depends: 
     R (>= 2.10)
@@ -25,7 +25,7 @@ Imports:
     DBI,
     dbplyr,
     tidyr,
-    camtrapR,
+    camtrapR (>= 2.2.0.8),
     kableExtra,
     fs,
     readr,
@@ -46,7 +46,9 @@ Imports:
     forcats,
     RPostgres,
     bettermc (>= 1.2.2),
-    data.table
+    data.table,
+    lubridate,
+    stringr
 Suggests: 
     rmarkdown,
     knitr,
@@ -58,4 +60,5 @@ Config/testthat/edition: 3
 Remotes: 
     rich-iannone/pointblank,
     daattali/shinycssloaders,
-    gfkse/bettermc
+    gfkse/bettermc,
+    jniedballa/camtrapR

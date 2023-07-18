@@ -74,7 +74,7 @@ projectMapUI <- function(id,
 #' @param project_locations data.frame of survey locations
 #' @param con database connection
 #'
-#' @return
+#' @return shiny module
 #' @export
 projectMapServer <- function(id, project_locations, con) {
 
