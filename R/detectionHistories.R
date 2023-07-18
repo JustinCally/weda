@@ -87,18 +87,18 @@ camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_camtr
 
 camtrap_operation_fix <- camtrap_operation %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(DateTimeRetrieve = lubridate::ymd_hms(DateTimeRetrieve, tz = "Australia/Queensland"),
-                DateTimeDeploy = lubridate::ymd_hms(DateTimeDeploy, tz = "Australia/Queensland"),
-                # DateTimeDeploy = dplyr::case_when(format(DateTimeDeploy, "%H:%M:%S") == "00:00:00" ~ DateTimeDeploy + lubridate::seconds(1),
-                #                                   TRUE ~ DateTimeDeploy),
-                # DateTimeRetrieve = dplyr::case_when(format(DateTimeRetrieve, "%H:%M:%S") == "00:00:00" ~ DateTimeRetrieve + lubridate::seconds(1),
-                #                                   TRUE ~ DateTimeRetrieve),
+  dplyr::mutate(DateTimeRetrieve = lubridate::ymd_hms(paste(DateRetrieve, TimeRetrieve), tz = "Australia/Queensland"),
+                DateTimeDeploy = lubridate::ymd_hms(paste(DateDeploy, TimeDeploy), tz = "Australia/Queensland"),
+                DateTimeDeploy = dplyr::case_when(format(DateTimeDeploy, "%H:%M:%S") == "00:00:00" ~ DateTimeDeploy + lubridate::seconds(1),
+                                                  TRUE ~ DateTimeDeploy),
+                DateTimeRetrieve = dplyr::case_when(format(DateTimeRetrieve, "%H:%M:%S") == "00:00:00" ~ DateTimeRetrieve + lubridate::seconds(1),
+                                                  TRUE ~ DateTimeRetrieve),
                 DateTimeRetrieve = dplyr::case_when(DateTimeRetrieve == DateTimeDeploy ~ DateTimeRetrieve + lubridate::seconds(1),
                                                     TRUE ~ DateTimeRetrieve),
-                Problem1_from = format(Problem1_from, tz = "Australia/Queensland", "%Y-%m-%d %H:%M:%S"),
-                Problem1_to = format(Problem1_to, tz = "Australia/Queensland", "%Y-%m-%d %H:%M:%S"),
-                Problem1_from = as.POSIXct(max(Problem1_from, DateTimeDeploy, na.rm = F), tz = "Australia/Queensland"),
-                Problem1_to = as.POSIXct(min(Problem1_to, DateTimeRetrieve, na.rm = F), tz = "Australia/Queensland"),
+                Problem1_from = lubridate::ymd_hms(Problem1_from, tz = "Australia/Queensland"),
+                Problem1_to = lubridate::ymd_hms(Problem1_to, tz = "Australia/Queensland"),
+                Problem1_from = lubridate::ymd_hms(max(Problem1_from, DateTimeDeploy, na.rm = F), tz = "Australia/Queensland"),
+                Problem1_to = lubridate::ymd_hms(min(Problem1_to, DateTimeRetrieve, na.rm = F), tz = "Australia/Queensland"),
                 DateDeploy =as.Date(DateTimeDeploy),
                 DateRetrieve =as.Date(DateTimeRetrieve)) %>%
   dplyr::ungroup()
@@ -109,7 +109,8 @@ if(all(is.na(camtrap_operation_fix$Problem1_from))) {
   hp <- TRUE
 }
 
-opmat <- camtrapR::cameraOperation(camtrap_operation_fix,
+if(byCamera) {
+  opmat <- camtrapR::cameraOperation(camtrap_operation_fix,
                                    stationCol = "SiteID",
                                    cameraCol = "SubStation",
                                    setupCol = "DateTimeDeploy",
@@ -120,6 +121,18 @@ opmat <- camtrapR::cameraOperation(camtrap_operation_fix,
                                    allCamsOn = TRUE,
                                    camerasIndependent = camerasIndependent,
                                    occasionStartTime = occasionStartTime)
+} else {
+  opmat <- camtrapR::cameraOperation(camtrap_operation_fix,
+                                     stationCol = "SiteID",
+                                     setupCol = "DateTimeDeploy",
+                                     retrievalCol = "DateTimeRetrieve",
+                                     hasProblems = hp,
+                                     byCamera = FALSE,
+                                     dateFormat = "ymd HMS",
+                                     allCamsOn = TRUE,
+                                     camerasIndependent = camerasIndependent,
+                                     occasionStartTime = occasionStartTime)
+}
 
 if(byCamera) {
   camtrap_records <- camtrap_records %>%
