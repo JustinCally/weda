@@ -87,8 +87,8 @@ camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_camtr
 
 camtrap_operation_fix <- camtrap_operation %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(DateTimeRetrieve = lubridate::ymd_hms(paste(DateRetrieve, TimeRetrieve), tz = "Australia/Queensland"),
-                DateTimeDeploy = lubridate::ymd_hms(paste(DateDeploy, TimeDeploy), tz = "Australia/Queensland"),
+  dplyr::mutate(DateTimeRetrieve = lubridate::ymd_hms(DateTimeRetrieve, tz = "Australia/Queensland"),
+                DateTimeDeploy = lubridate::ymd_hms(DateTimeDeploy, tz = "Australia/Queensland"),
                 DateTimeDeploy = dplyr::case_when(format(DateTimeDeploy, "%H:%M:%S") == "00:00:00" ~ DateTimeDeploy + lubridate::seconds(1),
                                                   TRUE ~ DateTimeDeploy),
                 DateTimeRetrieve = dplyr::case_when(format(DateTimeRetrieve, "%H:%M:%S") == "00:00:00" ~ DateTimeRetrieve + lubridate::seconds(1),
