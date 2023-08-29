@@ -50,11 +50,15 @@ camtrap_operation_from_records <- function(records, get_cam_model = TRUE) {
     tags[[i]] <- camtrapR::exifTagNames(fileName = files_to_extract$FileFullPath[i]) %>%
       dplyr::filter(tag_name %in% c("UserLabel", "SerialNumber")) %>%
       dplyr::select(-tag_group) %>%
-      tidyr::pivot_wider(names_from = tag_name, values_from = value) %>%
-      dplyr::rename(CameraModel = UserLabel, CameraID = SerialNumber)
+      tidyr::pivot_wider(names_from = tag_name, values_from = value)
+
+    if(nrow(tags[[i]]) == 0) {
+      tags[[i]] <- data.frame(UserLabel = "Unknown", SerialNumber = "Unknown")
+    }
   }
 
-  tags_bound <- dplyr::bind_rows(tags)
+  tags_bound <- dplyr::bind_rows(tags) %>%
+  dplyr::rename(CameraModel = UserLabel, CameraID = SerialNumber)
 
   return_data <- dplyr::bind_cols(setup_packdown, tags_bound)
 

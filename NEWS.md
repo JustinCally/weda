@@ -1,3 +1,9 @@
+# weda 0.0.4
+* Have a `DBDetectionHistory()` to get camtrap data in observation periods (e.g. for use in unmarked)  
+* Additional vignette on how to download and use data  
+* Create spatial view for camera trap deployments  
+* Fixes to data quality to check unique iteration, siteID and substation combinations  
+
 # weda 0.0.3
 * Use `RPostgres::Postgres()` as default connection method  
 * `camtrap_operation_from_records` helps make operation table for date times and camera model 

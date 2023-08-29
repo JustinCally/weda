@@ -186,6 +186,11 @@ camera_trap_dq <- function(camtrap_records,
   vba_com <- weda::vba_name_conversions %>%
     dplyr::filter(.data$common_name %in% !!camtrap_records$common_name)
 
+  # Create Unique Iteration SiteId and SubStation
+  uq_iss <- paste(camtrap_operation$Iteration,
+                  camtrap_operation$SiteID,
+                  camtrap_operation$SubStation, sep = "_")
+
   # Create a pointblank object
 pb_rec <- pointblank::create_agent(
     tbl = camtrap_records,
@@ -196,6 +201,8 @@ pb_rec <- pointblank::create_agent(
     pointblank::col_is_integer(c("Iteration", "metadata_Multiples"))  %>%
     pointblank::col_vals_in_set("SiteID", set = camtrap_operation$SiteID) %>%
     pointblank::col_vals_in_set("SubStation", set = camtrap_operation$SubStation) %>%
+    pointblank::col_vals_in_set("Iteration", set = camtrap_operation$Iteration) %>%
+    pointblank::col_vals_in_set("Iteration_SiteID_SubStation", set = uq_iss, preconditions = ~ . %>% dplyr::mutate(Iteration_SiteID_SubStation = paste(Iteration, SiteID, SubStation, sep = "_")), label = "Combination of Iteration, SiteID, and SubStation") %>%
     pointblank::col_vals_in_set("scientific_name", set = unique(vba_sci$scientific_name)) %>%
     pointblank::col_vals_in_set("common_name", set = unique(vba_com$common_name)) %>%
     pointblank::col_vals_not_null(c("SiteID", "scientific_name", "common_name", "Date", "Time", "DateTimeOriginal", "Iteration", "metadata_Multiples")) %>%
