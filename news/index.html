@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">weda</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,6 +25,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/camtrap-upload.html">Uploading camera trap records to database</a>
+    <a class="dropdown-item" href="../articles/data-download.html">Using and downloading data</a>
     <a class="dropdown-item" href="../articles/database-connect.html">Connecting to the database</a>
   </div>
 </li>
@@ -51,6 +52,13 @@
       <small>Source: <a href="https://github.com/JustinCally/weda/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.4" id="weda-004">weda 0.0.4<a class="anchor" aria-label="anchor" href="#weda-004"></a></h2>
+<ul><li>Have a <code>DBDetectionHistory()</code> to get camtrap data in observation periods (e.g. for use in unmarked)<br></li>
+<li>Additional vignette on how to download and use data<br></li>
+<li>Create spatial view for camera trap deployments<br></li>
+<li>Fixes to data quality to check unique iteration, siteID and substation combinations</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.3" id="weda-003">weda 0.0.3<a class="anchor" aria-label="anchor" href="#weda-003"></a></h2>
 <ul><li>Use <code><a href="https://rpostgres.r-dbi.org/reference/Postgres.html" class="external-link">RPostgres::Postgres()</a></code> as default connection method<br></li>

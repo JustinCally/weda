@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">weda</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,6 +25,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/camtrap-upload.html">Uploading camera trap records to database</a>
+    <a class="dropdown-item" href="../articles/data-download.html">Using and downloading data</a>
     <a class="dropdown-item" href="../articles/database-connect.html">Connecting to the database</a>
   </div>
 </li>
@@ -95,15 +96,6 @@
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>SubStation <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">SiteID</span> <span class="op">==</span> <span class="va">SubStation</span> <span class="op">~</span> <span class="cn">NA_character_</span>,</span></span>
 <span class="r-in"><span>                                            <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">SubStation</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>              Iteration <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The legacy packages maptools, rgdal, and rgeos, underpinning this package</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> will retire shortly. Please refer to R-spatial evolution reports on</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> https://r-spatial.org/r/2023/05/15/evolution4.html for details.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> This package is now running under evolution status 0 </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2602 :      1 images      |====                |   20%</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 43134:      1 images      |========            |   40%</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 56505:      2 images      |============        |   60%</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 832  :      1 images      |================    |   80%</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 9941 :      2 images      |====================|  100%</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="va">op_table</span> <span class="op">&lt;-</span> <span class="fu">camtrap_operation_from_records</span><span class="op">(</span><span class="va">raw_camtrap_records</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Metadata of:</span>

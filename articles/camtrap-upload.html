@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">weda</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +42,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/camtrap-upload.html">Uploading camera trap records to database</a>
+    <a class="dropdown-item" href="../articles/data-download.html">Using and downloading data</a>
     <a class="dropdown-item" href="../articles/database-connect.html">Connecting to the database</a>
   </div>
 </li>
@@ -75,7 +76,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Uploading camera trap records to database</h1>
             
-            <h4 data-toc-skip class="date">2023-06-20</h4>
+            <h4 data-toc-skip class="date">2023-08-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/JustinCally/weda/blob/HEAD/vignettes/camtrap-upload.Rmd" class="external-link"><code>vignettes/camtrap-upload.Rmd</code></a></small>
       <div class="d-none name"><code>camtrap-upload.Rmd</code></div>
@@ -122,8 +123,8 @@ database. Automatic database views will process this raw data into the
 <code>curated</code> layer and <code>processed</code> layer. Zoom in to
 the figure below to see details about the data model:</p>
 <div class="figure">
-<div class="visNetwork html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-de81ff9d9d6eaa70ba24" style="width:100%;height:432.632880098888px;"></div>
-<script type="application/json" data-for="htmlwidget-de81ff9d9d6eaa70ba24">{"x":{"nodes":{"tableName":["raw_camtrap_records","raw_camtrap_operation","raw_project_information","curated_camtrap_records","curated_camtrap_operation","curated_project_information","processed_site_substation_presence_absence","processed_site_substation_daily_presence_absence"],"label":["<b>raw_camtrap_records<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (scientific_name {character})\n    - (DateTimeOriginal {POSIXct})\n    - (Date {Date})\n    - (Time {character})\n    - (delta.time.secs {numeric})\n    - (delta.time.mins {numeric})\n    - (delta.time.hours {numeric})\n    - (delta.time.days {numeric})\n    - (Directory {character})\n    - (FileName {character})\n    - (metadata_Distance {character})\n    - (metadata_Species {character})\n    - (metadata_Multiples {integer})\n    - (n_images {integer})\n    - (metadata_Individuals {character})\n    - (HierarchicalSubject {character})\n    - (metadata_Behaviour {character})\n    - (common_name {character})\n    - (camtrap_record_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>raw_camtrap_operation<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (geohash {character})\n    - (Iteration {integer})\n    - (Latitude {numeric})\n    - (Longitude {numeric})\n    - (DateDeploy {Date})\n    - (TimeDeploy {character})\n    - (DateRetrieve {Date})\n    - (TimeRetrieve {character})\n    - (DateTimeDeploy {POSIXct})\n    - (DateTimeRetrieve {POSIXct})\n    - (Problem1_from {POSIXct})\n    - (Problem1_to {POSIXct})\n    - (CameraHeight {numeric})\n    - (CameraBearing {numeric})\n    - (CameraSlope {numeric})\n    - (CameraID {character})\n    - (CameraSensitivity {character})\n    - (CameraDelay {character})\n    - (CameraPhotosPerTrigger {integer})\n    - (CameraQuietPeriod {numeric})\n    - (BaitedUnbaited {character})\n    - (BaitType {character})\n    - (BaitDistance {numeric})\n    - (CameraModel {character})\n    - (camtrap_operation_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>raw_project_information<\/b>\n    - (ProjectName {character})\n    - (ProjectShortName {character})\n    - (DistanceSampling {character})\n    - (TerrestrialArboreal {character})\n    - (AllSpeciesTagged {character})\n    - (DistanceForAllSpecies {character})\n    - (ProjectDescription {character})\n    - (ProjectLeader {character})\n    - (camtrap_project_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_camtrap_records<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (scientific_name {character})\n    - (DateTimeOriginal {POSIXct})\n    - (Date {Date})\n    - (Time {character})\n    - (delta.time.secs {numeric})\n    - (delta.time.mins {numeric})\n    - (delta.time.hours {numeric})\n    - (delta.time.days {numeric})\n    - (Directory {character})\n    - (FileName {character})\n    - (metadata_Distance {character})\n    - (metadata_Species {character})\n    - (metadata_Multiples {integer})\n    - (n_images {integer})\n    - (metadata_Individuals {character})\n    - (HierarchicalSubject {character})\n    - (metadata_Behaviour {character})\n    - (common_name {character})\n    - (camtrap_record_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_camtrap_operation<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (geohash {character})\n    - (Iteration {integer})\n    - (Latitude {numeric})\n    - (Longitude {numeric})\n    - (DateDeploy {Date})\n    - (TimeDeploy {character})\n    - (DateRetrieve {Date})\n    - (TimeRetrieve {character})\n    - (DateTimeDeploy {POSIXct})\n    - (DateTimeRetrieve {POSIXct})\n    - (Problem1_from {POSIXct})\n    - (Problem1_to {POSIXct})\n    - (CameraHeight {numeric})\n    - (CameraBearing {numeric})\n    - (CameraSlope {numeric})\n    - (CameraID {character})\n    - (CameraSensitivity {character})\n    - (CameraDelay {character})\n    - (CameraPhotosPerTrigger {integer})\n    - (CameraQuietPeriod {numeric})\n    - (BaitedUnbaited {character})\n    - (BaitType {character})\n    - (BaitDistance {numeric})\n    - (CameraModel {character})\n    - (camtrap_operation_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_project_information<\/b>\n    - (ProjectName {character})\n    - (ProjectShortName {character})\n    - (DistanceSampling {character})\n    - (TerrestrialArboreal {character})\n    - (AllSpeciesTagged {character})\n    - (DistanceForAllSpecies {character})\n    - (ProjectDescription {character})\n    - (ProjectLeader {character})\n    - (camtrap_project_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>processed_site_substation_presence_absence<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (scientific_name {character})\n    - (common_name {character})\n    - (Presence {numeric})","<b>processed_site_substation_daily_presence_absence<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (Date {POSIXct})\n    - (scientific_name {character})\n    - (common_name {character})\n    - (Presence {numeric})"],"title":["<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_camtrap_records<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>DateTimeOriginal<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>Time<\/strong><\/li> <li><strong>delta.time.secs<\/strong><\/li> <li><strong>delta.time.mins<\/strong><\/li> <li><strong>delta.time.hours<\/strong><\/li> <li><strong>delta.time.days<\/strong><\/li> <li><strong>Directory<\/strong><\/li> <li><strong>FileName<\/strong><\/li> <li><strong>metadata_Distance<\/strong><\/li> <li><strong>metadata_Species<\/strong><\/li> <li><strong>metadata_Multiples<\/strong><\/li> <li><strong>n_images<\/strong><\/li> <li><strong>metadata_Individuals<\/strong><\/li> <li><strong>HierarchicalSubject<\/strong><\/li> <li><strong>metadata_Behaviour<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>camtrap_record_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_camtrap_operation<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>geohash<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>Latitude<\/strong><\/li> <li><strong>Longitude<\/strong><\/li> <li><strong>DateDeploy<\/strong><\/li> <li><strong>TimeDeploy<\/strong><\/li> <li><strong>DateRetrieve<\/strong><\/li> <li><strong>TimeRetrieve<\/strong><\/li> <li><strong>DateTimeDeploy<\/strong><\/li> <li><strong>DateTimeRetrieve<\/strong><\/li> <li><strong>Problem1_from<\/strong><\/li> <li><strong>Problem1_to<\/strong><\/li> <li><strong>CameraHeight<\/strong><\/li> <li><strong>CameraBearing<\/strong><\/li> <li><strong>CameraSlope<\/strong><\/li> <li><strong>CameraID<\/strong><\/li> <li><strong>CameraSensitivity<\/strong><\/li> <li><strong>CameraDelay<\/strong><\/li> <li><strong>CameraPhotosPerTrigger<\/strong><\/li> <li><strong>CameraQuietPeriod<\/strong><\/li> <li><strong>BaitedUnbaited<\/strong><\/li> <li><strong>BaitType<\/strong><\/li> <li><strong>BaitDistance<\/strong><\/li> <li><strong>CameraModel<\/strong><\/li> <li><strong>camtrap_operation_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_project_information<\/strong><\/p> <ul> <li><strong>ProjectName<\/strong><\/li> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>DistanceSampling<\/strong><\/li> <li><strong>TerrestrialArboreal<\/strong><\/li> <li><strong>AllSpeciesTagged<\/strong><\/li> <li><strong>DistanceForAllSpecies<\/strong><\/li> <li><strong>ProjectDescription<\/strong><\/li> <li><strong>ProjectLeader<\/strong><\/li> <li><strong>camtrap_project_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_camtrap_records<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>DateTimeOriginal<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>Time<\/strong><\/li> <li><strong>delta.time.secs<\/strong><\/li> <li><strong>delta.time.mins<\/strong><\/li> <li><strong>delta.time.hours<\/strong><\/li> <li><strong>delta.time.days<\/strong><\/li> <li><strong>Directory<\/strong><\/li> <li><strong>FileName<\/strong><\/li> <li><strong>metadata_Distance<\/strong><\/li> <li><strong>metadata_Species<\/strong><\/li> <li><strong>metadata_Multiples<\/strong><\/li> <li><strong>n_images<\/strong><\/li> <li><strong>metadata_Individuals<\/strong><\/li> <li><strong>HierarchicalSubject<\/strong><\/li> <li><strong>metadata_Behaviour<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>camtrap_record_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_camtrap_operation<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>geohash<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>Latitude<\/strong><\/li> <li><strong>Longitude<\/strong><\/li> <li><strong>DateDeploy<\/strong><\/li> <li><strong>TimeDeploy<\/strong><\/li> <li><strong>DateRetrieve<\/strong><\/li> <li><strong>TimeRetrieve<\/strong><\/li> <li><strong>DateTimeDeploy<\/strong><\/li> <li><strong>DateTimeRetrieve<\/strong><\/li> <li><strong>Problem1_from<\/strong><\/li> <li><strong>Problem1_to<\/strong><\/li> <li><strong>CameraHeight<\/strong><\/li> <li><strong>CameraBearing<\/strong><\/li> <li><strong>CameraSlope<\/strong><\/li> <li><strong>CameraID<\/strong><\/li> <li><strong>CameraSensitivity<\/strong><\/li> <li><strong>CameraDelay<\/strong><\/li> <li><strong>CameraPhotosPerTrigger<\/strong><\/li> <li><strong>CameraQuietPeriod<\/strong><\/li> <li><strong>BaitedUnbaited<\/strong><\/li> <li><strong>BaitType<\/strong><\/li> <li><strong>BaitDistance<\/strong><\/li> <li><strong>CameraModel<\/strong><\/li> <li><strong>camtrap_operation_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_project_information<\/strong><\/p> <ul> <li><strong>ProjectName<\/strong><\/li> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>DistanceSampling<\/strong><\/li> <li><strong>TerrestrialArboreal<\/strong><\/li> <li><strong>AllSpeciesTagged<\/strong><\/li> <li><strong>DistanceForAllSpecies<\/strong><\/li> <li><strong>ProjectDescription<\/strong><\/li> <li><strong>ProjectLeader<\/strong><\/li> <li><strong>camtrap_project_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">processed_site_substation_presence_absence<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>Presence<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">processed_site_substation_daily_presence_absence<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>Presence<\/strong><\/li> <\/ul><\/div>"],"shape":["box","box","box","box","box","box","box","box"],"font.multi":[true,true,true,true,true,true,true,true],"font.align":["left","left","left","left","left","left","left","left"],"x":[-675,-311,55,-673,-309,41,-524,-107],"y":[310,344,255,-127,-154,-255,-495,-489],"color.background":["#FEFE8F","#FEFE8F","#FEFE8F","#A9ECC9","#A9ECC9","#A9ECC9","#9BC8FE","#9BC8FE"],"color.border":["black","black","black","black","black","black","black","black"],"color.highlight.border":["orange","orange","orange","orange","orange","orange","orange","orange"],"color.highlight.background":["#FEFE8F","#FEFE8F","#FEFE8F","#A9ECC9","#A9ECC9","#A9ECC9","#9BC8FE","#9BC8FE"],"id":["raw_camtrap_records","raw_camtrap_operation","raw_project_information","curated_camtrap_records","curated_camtrap_operation","curated_project_information","processed_site_substation_presence_absence","processed_site_substation_daily_presence_absence"]},"edges":{"id":[],"from":[],"to":[]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","borderWidth":2,"labelHighlightBold":false},"manipulation":{"enabled":false},"edges":{"width":2,"selectionWidth":2},"interaction":{"multiselect":true,"zoomSpeed":1},"layout":{"randomSeed":2},"physics":{"enabled":false}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false},"byselection":{"enabled":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><p class="caption">
+<div class="visNetwork html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-ad135d4cc01863a2dabc" style="width:100%;height:432.632880098888px;"></div>
+<script type="application/json" data-for="htmlwidget-ad135d4cc01863a2dabc">{"x":{"nodes":{"tableName":["raw_camtrap_records","raw_camtrap_operation","raw_project_information","curated_camtrap_records","curated_camtrap_operation","curated_project_information","processed_site_substation_presence_absence","processed_site_substation_daily_presence_absence"],"label":["<b>raw_camtrap_records<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (scientific_name {character})\n    - (DateTimeOriginal {POSIXct})\n    - (Date {Date})\n    - (Time {character})\n    - (delta.time.secs {numeric})\n    - (delta.time.mins {numeric})\n    - (delta.time.hours {numeric})\n    - (delta.time.days {numeric})\n    - (Directory {character})\n    - (FileName {character})\n    - (metadata_Distance {character})\n    - (metadata_Species {character})\n    - (metadata_Multiples {integer})\n    - (n_images {integer})\n    - (metadata_Individuals {character})\n    - (HierarchicalSubject {character})\n    - (metadata_Behaviour {character})\n    - (common_name {character})\n    - (camtrap_record_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>raw_camtrap_operation<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (geohash {character})\n    - (Iteration {integer})\n    - (Latitude {numeric})\n    - (Longitude {numeric})\n    - (DateDeploy {Date})\n    - (TimeDeploy {character})\n    - (DateRetrieve {Date})\n    - (TimeRetrieve {character})\n    - (DateTimeDeploy {POSIXct})\n    - (DateTimeRetrieve {POSIXct})\n    - (Problem1_from {POSIXct})\n    - (Problem1_to {POSIXct})\n    - (CameraHeight {numeric})\n    - (CameraBearing {numeric})\n    - (CameraSlope {numeric})\n    - (CameraID {character})\n    - (CameraSensitivity {character})\n    - (CameraDelay {character})\n    - (CameraPhotosPerTrigger {integer})\n    - (CameraQuietPeriod {numeric})\n    - (BaitedUnbaited {character})\n    - (BaitType {character})\n    - (BaitDistance {numeric})\n    - (CameraModel {character})\n    - (camtrap_operation_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>raw_project_information<\/b>\n    - (ProjectName {character})\n    - (ProjectShortName {character})\n    - (DistanceSampling {character})\n    - (TerrestrialArboreal {character})\n    - (AllSpeciesTagged {character})\n    - (DistanceForAllSpecies {character})\n    - (ProjectDescription {character})\n    - (ProjectLeader {character})\n    - (camtrap_project_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_camtrap_records<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (scientific_name {character})\n    - (DateTimeOriginal {POSIXct})\n    - (Date {Date})\n    - (Time {character})\n    - (delta.time.secs {numeric})\n    - (delta.time.mins {numeric})\n    - (delta.time.hours {numeric})\n    - (delta.time.days {numeric})\n    - (Directory {character})\n    - (FileName {character})\n    - (metadata_Distance {character})\n    - (metadata_Species {character})\n    - (metadata_Multiples {integer})\n    - (n_images {integer})\n    - (metadata_Individuals {character})\n    - (HierarchicalSubject {character})\n    - (metadata_Behaviour {character})\n    - (common_name {character})\n    - (camtrap_record_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_camtrap_operation<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (geohash {character})\n    - (Iteration {integer})\n    - (Latitude {numeric})\n    - (Longitude {numeric})\n    - (DateDeploy {Date})\n    - (TimeDeploy {character})\n    - (DateRetrieve {Date})\n    - (TimeRetrieve {character})\n    - (DateTimeDeploy {POSIXct})\n    - (DateTimeRetrieve {POSIXct})\n    - (Problem1_from {POSIXct})\n    - (Problem1_to {POSIXct})\n    - (CameraHeight {numeric})\n    - (CameraBearing {numeric})\n    - (CameraSlope {numeric})\n    - (CameraID {character})\n    - (CameraSensitivity {character})\n    - (CameraDelay {character})\n    - (CameraPhotosPerTrigger {integer})\n    - (CameraQuietPeriod {numeric})\n    - (BaitedUnbaited {character})\n    - (BaitType {character})\n    - (BaitDistance {numeric})\n    - (CameraModel {character})\n    - (camtrap_operation_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_project_information<\/b>\n    - (ProjectName {character})\n    - (ProjectShortName {character})\n    - (DistanceSampling {character})\n    - (TerrestrialArboreal {character})\n    - (AllSpeciesTagged {character})\n    - (DistanceForAllSpecies {character})\n    - (ProjectDescription {character})\n    - (ProjectLeader {character})\n    - (camtrap_project_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>processed_site_substation_presence_absence<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (scientific_name {character})\n    - (common_name {character})\n    - (Presence {numeric})","<b>processed_site_substation_daily_presence_absence<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (Date {POSIXct})\n    - (scientific_name {character})\n    - (common_name {character})\n    - (Presence {numeric})"],"title":["<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_camtrap_records<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>DateTimeOriginal<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>Time<\/strong><\/li> <li><strong>delta.time.secs<\/strong><\/li> <li><strong>delta.time.mins<\/strong><\/li> <li><strong>delta.time.hours<\/strong><\/li> <li><strong>delta.time.days<\/strong><\/li> <li><strong>Directory<\/strong><\/li> <li><strong>FileName<\/strong><\/li> <li><strong>metadata_Distance<\/strong><\/li> <li><strong>metadata_Species<\/strong><\/li> <li><strong>metadata_Multiples<\/strong><\/li> <li><strong>n_images<\/strong><\/li> <li><strong>metadata_Individuals<\/strong><\/li> <li><strong>HierarchicalSubject<\/strong><\/li> <li><strong>metadata_Behaviour<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>camtrap_record_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_camtrap_operation<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>geohash<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>Latitude<\/strong><\/li> <li><strong>Longitude<\/strong><\/li> <li><strong>DateDeploy<\/strong><\/li> <li><strong>TimeDeploy<\/strong><\/li> <li><strong>DateRetrieve<\/strong><\/li> <li><strong>TimeRetrieve<\/strong><\/li> <li><strong>DateTimeDeploy<\/strong><\/li> <li><strong>DateTimeRetrieve<\/strong><\/li> <li><strong>Problem1_from<\/strong><\/li> <li><strong>Problem1_to<\/strong><\/li> <li><strong>CameraHeight<\/strong><\/li> <li><strong>CameraBearing<\/strong><\/li> <li><strong>CameraSlope<\/strong><\/li> <li><strong>CameraID<\/strong><\/li> <li><strong>CameraSensitivity<\/strong><\/li> <li><strong>CameraDelay<\/strong><\/li> <li><strong>CameraPhotosPerTrigger<\/strong><\/li> <li><strong>CameraQuietPeriod<\/strong><\/li> <li><strong>BaitedUnbaited<\/strong><\/li> <li><strong>BaitType<\/strong><\/li> <li><strong>BaitDistance<\/strong><\/li> <li><strong>CameraModel<\/strong><\/li> <li><strong>camtrap_operation_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_project_information<\/strong><\/p> <ul> <li><strong>ProjectName<\/strong><\/li> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>DistanceSampling<\/strong><\/li> <li><strong>TerrestrialArboreal<\/strong><\/li> <li><strong>AllSpeciesTagged<\/strong><\/li> <li><strong>DistanceForAllSpecies<\/strong><\/li> <li><strong>ProjectDescription<\/strong><\/li> <li><strong>ProjectLeader<\/strong><\/li> <li><strong>camtrap_project_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_camtrap_records<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>DateTimeOriginal<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>Time<\/strong><\/li> <li><strong>delta.time.secs<\/strong><\/li> <li><strong>delta.time.mins<\/strong><\/li> <li><strong>delta.time.hours<\/strong><\/li> <li><strong>delta.time.days<\/strong><\/li> <li><strong>Directory<\/strong><\/li> <li><strong>FileName<\/strong><\/li> <li><strong>metadata_Distance<\/strong><\/li> <li><strong>metadata_Species<\/strong><\/li> <li><strong>metadata_Multiples<\/strong><\/li> <li><strong>n_images<\/strong><\/li> <li><strong>metadata_Individuals<\/strong><\/li> <li><strong>HierarchicalSubject<\/strong><\/li> <li><strong>metadata_Behaviour<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>camtrap_record_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_camtrap_operation<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>geohash<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>Latitude<\/strong><\/li> <li><strong>Longitude<\/strong><\/li> <li><strong>DateDeploy<\/strong><\/li> <li><strong>TimeDeploy<\/strong><\/li> <li><strong>DateRetrieve<\/strong><\/li> <li><strong>TimeRetrieve<\/strong><\/li> <li><strong>DateTimeDeploy<\/strong><\/li> <li><strong>DateTimeRetrieve<\/strong><\/li> <li><strong>Problem1_from<\/strong><\/li> <li><strong>Problem1_to<\/strong><\/li> <li><strong>CameraHeight<\/strong><\/li> <li><strong>CameraBearing<\/strong><\/li> <li><strong>CameraSlope<\/strong><\/li> <li><strong>CameraID<\/strong><\/li> <li><strong>CameraSensitivity<\/strong><\/li> <li><strong>CameraDelay<\/strong><\/li> <li><strong>CameraPhotosPerTrigger<\/strong><\/li> <li><strong>CameraQuietPeriod<\/strong><\/li> <li><strong>BaitedUnbaited<\/strong><\/li> <li><strong>BaitType<\/strong><\/li> <li><strong>BaitDistance<\/strong><\/li> <li><strong>CameraModel<\/strong><\/li> <li><strong>camtrap_operation_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_project_information<\/strong><\/p> <ul> <li><strong>ProjectName<\/strong><\/li> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>DistanceSampling<\/strong><\/li> <li><strong>TerrestrialArboreal<\/strong><\/li> <li><strong>AllSpeciesTagged<\/strong><\/li> <li><strong>DistanceForAllSpecies<\/strong><\/li> <li><strong>ProjectDescription<\/strong><\/li> <li><strong>ProjectLeader<\/strong><\/li> <li><strong>camtrap_project_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">processed_site_substation_presence_absence<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>Presence<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">processed_site_substation_daily_presence_absence<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>Presence<\/strong><\/li> <\/ul><\/div>"],"shape":["box","box","box","box","box","box","box","box"],"font.multi":[true,true,true,true,true,true,true,true],"font.align":["left","left","left","left","left","left","left","left"],"x":[-675,-311,55,-673,-309,41,-524,-107],"y":[310,344,255,-127,-154,-255,-495,-489],"color.background":["#FEFE8F","#FEFE8F","#FEFE8F","#A9ECC9","#A9ECC9","#A9ECC9","#9BC8FE","#9BC8FE"],"color.border":["black","black","black","black","black","black","black","black"],"color.highlight.border":["orange","orange","orange","orange","orange","orange","orange","orange"],"color.highlight.background":["#FEFE8F","#FEFE8F","#FEFE8F","#A9ECC9","#A9ECC9","#A9ECC9","#9BC8FE","#9BC8FE"],"id":["raw_camtrap_records","raw_camtrap_operation","raw_project_information","curated_camtrap_records","curated_camtrap_operation","curated_project_information","processed_site_substation_presence_absence","processed_site_substation_daily_presence_absence"]},"edges":{"id":[],"from":[],"to":[]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","borderWidth":2,"labelHighlightBold":false},"manipulation":{"enabled":false},"edges":{"width":2,"selectionWidth":2},"interaction":{"multiselect":true,"zoomSpeed":1},"layout":{"randomSeed":2},"physics":{"enabled":false}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false},"byselection":{"enabled":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><p class="caption">
 Camera trap database model with the colour signifying the layer of
 processing. All data is appended to the raw layer and then flows up
 automatically through database views. Data tables in raw and curated
@@ -220,11 +221,6 @@ prefix. See <code>recordTableSample</code> for more details.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>SubStation <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">SiteID</span> <span class="op">==</span> <span class="va">SubStation</span> <span class="op">~</span> <span class="cn">NA_character_</span>, </span>
 <span>                                <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">SubStation</span><span class="op">)</span>, </span>
 <span>         Iteration <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 2602 :      1 images      |====                |   20%</span></span>
-<span><span class="co">#&gt; 43134:      1 images      |========            |   40%</span></span>
-<span><span class="co">#&gt; 56505:      2 images      |============        |   60%</span></span>
-<span><span class="co">#&gt; 832  :      1 images      |================    |   80%</span></span>
-<span><span class="co">#&gt; 9941 :      2 images      |====================|  100%</span></span>
 <span></span>
 <span><span class="va">raw_camtrap_records</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -733,6 +729,15 @@ Distance|5 - 7.5, Species|Vulpes vulpes
 </tbody>
 </table>
 </div>
+<p>Note that with some older models of cameras <code>exifTool</code> and
+subsequently <code>camtrapR</code> has difficulty in reading the
+date-time format. To fix this you can run the
+<code><a href="https://jniedballa.github.io/camtrapR/reference/fixDateTimeOriginal.html" class="external-link">camtrapR::fixDateTimeOriginal()</a></code> function on the directory
+if needed:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Optional if using old and problematic cameras: </span></span>
+<span><span class="fu"><a href="https://jniedballa.github.io/camtrapR/reference/fixDateTimeOriginal.html" class="external-link">fixDateTimeOriginal</a></span><span class="op">(</span>inDir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummydata/images"</span>, package <span class="op">=</span> <span class="st">"weda"</span><span class="op">)</span>, </span>
+<span>                    recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="standardise-species-names">Standardise species names<a class="anchor" aria-label="anchor" href="#standardise-species-names"></a>
@@ -745,14 +750,12 @@ possibilities can be obtained in the exported dataset:
 <code>View(weda::vba_name_conversions)</code>).</p>
 <p>Firstly, we can run the function just to check the names for
 conversion:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/standardise_species_names.html">standardise_species_names</a></span><span class="op">(</span><span class="va">raw_camtrap_records</span>, </span>
 <span>                          format <span class="op">=</span> <span class="st">"scientific"</span>, </span>
 <span>                          speciesCol <span class="op">=</span> <span class="st">"Species"</span>,</span>
 <span>                          return_data <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in standardise_species_names(raw_camtrap_records, format =</span></span>
-<span><span class="co">#&gt; "scientific", : No match found for Rusa unicolor. Please provide names within</span></span>
-<span><span class="co">#&gt; the VBA taxa list</span></span>
+<span><span class="co">#&gt; Warning in standardise_species_names(raw_camtrap_records, format = "scientific", : No match found for Rusa unicolor. Please provide names within the VBA taxa list</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Dama dama -&gt; Fallow Deer</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Dromaius novaehollandiae -&gt; Emu</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Macropus giganteus -&gt; Eastern Grey Kangaroo</span></span>
@@ -761,7 +764,7 @@ conversion:</p>
 <p>As seen above, <em>Rusa unicolor</em> is not an accepted scientific
 name. In the VBA sambar deer are listed as <em>Cervus unicolor</em>. We
 can change this with code:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">raw_camtrap_records_mod</span> <span class="op">&lt;-</span> <span class="va">raw_camtrap_records</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Species <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">==</span> <span class="st">"Rusa unicolor"</span> <span class="op">~</span> <span class="st">"Cervus unicolor"</span>, </span>
 <span>                             <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span></span>
@@ -774,6 +777,13 @@ can change this with code:</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Dromaius novaehollandiae -&gt; Emu</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Macropus giganteus -&gt; Eastern Grey Kangaroo</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Vulpes vulpes -&gt; Red Fox</span></span></code></pre></div>
+<p>Note that it may still occur that you have issues in converting names
+where a common name matches two scientific name. Unfortunately there is
+no easy way to fix this, automatically only one name will be chosen but
+it may not be the scientific name you wanted. To avoid this then tagging
+using scientific names may be worth considering. Otherwise you can
+manually edit the output based on the VBA names
+<code><a href="../reference/vba_name_conversions.html">weda::vba_name_conversions</a></code>.</p>
 <p>All ticks and no warnings means we can move onto the next step.</p>
 </div>
 <div class="section level3">
@@ -795,7 +805,7 @@ classes. Note that the default CRS/epsg for coordinates is
 <em>Easting</em>, <em>Northing</em>, and <em>Zone</em> (54 or 55) in
 your data. It will return your operation table with <em>Latitude</em>
 and <em>Longitude</em>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">operationdata</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummydata/operationdata.csv"</span>, package <span class="op">=</span> <span class="st">"weda"</span><span class="op">)</span>, </span>
 <span>                                 show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>SiteID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">SiteID</span><span class="op">)</span>, </span>
@@ -1362,7 +1372,7 @@ that would be in the project dataset. You can check that your project
 shortt name isn’t already used by a different project using
 <code><a href="../reference/check_unique_project.html">check_unique_project()</a></code>. The data should only be one row and
 can easily made with the following code:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">projectdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>ProjectName <span class="op">=</span> <span class="st">"Dummy Data Project 2023"</span>,</span>
 <span>                      ProjectShortName <span class="op">=</span> <span class="st">"DummyData"</span>,</span>
 <span>                      DistanceSampling <span class="op">=</span> <span class="cn">TRUE</span>, </span>
@@ -1445,7 +1455,7 @@ checks. For data to be of sufficient quality it must pass all checks.
 The output of <code><a href="../reference/camera_trap_dq.html">camera_trap_dq()</a></code> provides three data quality
 statements (one for each table). You can use this to help identify
 errors in the data to fix before preparing the data for upload.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/camera_trap_dq.html">camera_trap_dq</a></span><span class="op">(</span>camtrap_records <span class="op">=</span> <span class="va">raw_camtrap_records_standardised</span>, </span>
 <span>                    camtrap_operation <span class="op">=</span> <span class="va">operationdata</span>, </span>
 <span>                    project_information <span class="op">=</span> <span class="va">projectdata</span><span class="op">)</span></span>
@@ -1940,7 +1950,7 @@ errors in the data to fix before preparing the data for upload.</p>
     </tr>
 <tr class="gt_heading">
 <td colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;">
-<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-06-20|00:10:40]</span>
+<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-08-29|06:11:32]</span>
 <div style="height:25px;">
 <span style="background-color:#9933CC;color:#FFFFFF;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #9933CC;padding:2px 15px 2px 15px;font-size:smaller;">data frame</span>
 <span style="background-color:none;color:#222222;padding:0.5em 0.5em;position:inherit;margin:5px 10px 5px -4px;font-weight:bold;border:solid 1px #9933CC;padding:2px 15px 2px 15px;font-size:smaller;">camtrap_records</span><span style="background-color:#E5AB00;color:white;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #E5AB00;padding:2px 15px 2px 15px;font-size:smaller;">WARN</span>
@@ -3490,6 +3500,107 @@ errors in the data to fix before preparing the data for upload.</p>
 <td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">34</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
+<div aria-label="Expect that values in `Iteration` should be in the set of `1`, `1`, `1` (and 3 more). " data-balloon-pos="right" style="width:fit-content;">
+  <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
+<?xml version="1.0" encoding="UTF-8"?><svg width="30px" height="30px" viewbox="0 0 67 67" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>col_vals_in_set</title>
+<g id="All-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="col_vals_in_set" transform="translate(0.000000, 0.172414)"><path d="M56.712234,1 C59.1975153,1 61.4475153,2.00735931 63.076195,3.63603897 C64.7048747,5.26471863 65.712234,7.51471863 65.712234,10 L65.712234,10 L65.712234,65 L10.712234,65 C8.22695259,65 5.97695259,63.9926407 4.34827294,62.363961 C2.71959328,60.7352814 1.71223397,58.4852814 1.71223397,56 L1.71223397,56 L1.71223397,10 C1.71223397,7.51471863 2.71959328,5.26471863 4.34827294,3.63603897 C5.97695259,2.00735931 8.22695259,1 10.712234,1 L10.712234,1 Z" id="rectangle" stroke="#000000" stroke-width="2" fill="#FFFFFF"></path><path d="M44.127969,41.1538382 L31.0814568,41.1538382 C29.9510748,41.1536429 28.8827052,40.9256134 27.9079888,40.5136953 C26.4467442,39.8960136 25.19849,38.8599685 24.3189894,37.5577099 C23.8792391,36.906727 23.5314818,36.1899233 23.2936866,35.4252675 C23.2130217,35.16589 23.1460289,34.9005554 23.0913409,34.6307286 L44.1278714,34.6307286 C45.028466,34.6306309 45.7586488,33.9004481 45.7586488,32.9998535 C45.7586488,32.0992589 45.028466,31.3690761 44.1278714,31.3690761 L23.0905596,31.3690761 C23.1990567,30.8337194 23.3597028,30.3180894 23.5675173,29.8264831 C24.185199,28.3652386 25.2212442,27.1169844 26.5236004,26.2374838 C27.1745833,25.7977334 27.891387,25.4499762 28.6560428,25.2122786 C29.4208939,24.9744833 30.2334994,24.8459665 31.0813591,24.8459665 L44.1277737,24.8459665 C45.0283683,24.8459665 45.7586488,24.1157837 45.7586488,23.2151891 C45.7586488,22.3145945 45.0283683,21.5844117 44.1277737,21.5844117 L31.0813591,21.5844117 C29.5096643,21.5844117 28.0039858,21.9038483 26.6373711,22.4820765 C24.5866678,23.3498583 22.8469049,24.7950871 21.6163267,26.616296 C20.3856508,28.4362354 19.665136,30.6413347 19.6658191,33.0000488 C19.6658191,34.5717436 19.9852563,36.0774222 20.5635822,37.4440369 C21.4312663,39.4947402 22.8765927,41.2345031 24.697704,42.4650813 C26.5176434,43.6957572 28.7227427,44.4155883 31.0814568,44.4155883 L44.1278714,44.4155883 C45.028466,44.4155883 45.7586488,43.6854055 45.7586488,42.7848109 C45.7586488,41.8842163 45.0285636,41.1538382 44.127969,41.1538382 Z" id="set_of" fill="#000000" fill-rule="nonzero"></path></g></g></svg>
+</div>
+  <code style="font-size:11px;"> col_vals_in_set()</code>
+</div>
+</div></td>
+<td headers="columns" class="gt_row gt_left" style="border-left-width: 1px; border-left-style: dashed; border-left-color: #E5E5E5; height: 40px"><div class="gt_from_md">
+<div aria-label="Iteration" data-balloon-pos="left">
+  <p style="margin-top:0;margin-bottom:0;font-size:11px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;line-height:2em;">
+    <code><span style="color:purple;">&amp;marker;</span>Iteration</code>
+  </p>
+</div>
+</div></td>
+<td headers="values" class="gt_row gt_left" style="border-left-width: 1px; border-left-style: dashed; border-left-color: #E5E5E5; height: 40px"><div class="gt_from_md">
+<div aria-label="1, 1, 1, 1, 1, 1" data-balloon-pos="left"><p style="margin-top: 0px; margin-bottom: 0px; font-size: 11px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><code>1, 1, 1, 1, 1, 1</code></p></div>
+</div></td>
+<td headers="precon" class="gt_row gt_center" style="border-left-width: 1px; border-left-style: solid; border-left-color: #D3D3D3; background-color: #FCFCFC; height: 40px"><div class="gt_from_md">
+<p><span style="background:transparent;padding:0;color:#333333;vertical-align:middle;font-size:10px;border:none;border-radius:4px;" aria-label="No modifications of the table." data-balloon-pos="left"><svg width="25px" height="25px" viewbox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="vertical-align: middle;"><g id="unchanged" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="unchanged" transform="translate(0.500000, 0.570147)"><rect id="Rectangle" x="0.125132506" y="0" width="23.749735" height="23.7894737"></rect><path d="M5.80375046,8.18194736 C3.77191832,8.18194736 2.11875046,9.83495328 2.11875046,11.8669474 C2.11875046,13.8989414 3.77191832,15.5519474 5.80375046,15.5519474 C7.8355826,15.5519474 9.48875046,13.8989414 9.48875046,11.8669474 C9.48875046,9.83495328 7.83552863,8.18194736 5.80375046,8.18194736 Z M5.80375046,14.814915 C4.17821997,14.814915 2.85578285,13.4924778 2.85578285,11.8669474 C2.85578285,10.2414169 4.17821997,8.91897975 5.80375046,8.91897975 C7.42928095,8.91897975 8.75171807,10.2414169 8.75171807,11.8669474 C8.75171807,13.4924778 7.42928095,14.814915 5.80375046,14.814915 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path><path d="M13.9638189,8.699335 C13.9364621,8.70430925 13.9091059,8.71176968 13.8842359,8.71923074 C13.7822704,8.73663967 13.6877654,8.77643115 13.6056956,8.83860518 L10.2433156,11.3852598 C10.0766886,11.5046343 9.97720993,11.6986181 9.97720993,11.9025491 C9.97720993,12.1064807 10.0766886,12.3004639 10.2433156,12.4198383 L13.6056956,14.966493 C13.891697,15.1803725 14.2970729,15.1231721 14.5109517,14.8371707 C14.7248313,14.5511692 14.6676309,14.145794 14.3816294,13.9319145 L12.5313257,12.5392127 L21.8812495,12.5392127 L21.8812495,11.2658854 L12.5313257,11.2658854 L14.3816294,9.87318364 C14.6377872,9.71650453 14.7497006,9.40066014 14.6477351,9.11714553 C14.5482564,8.83363156 14.262255,8.65954352 13.9638189,8.699335 Z" id="arrow" fill="#000000" transform="translate(15.929230, 11.894737) rotate(-180.000000) translate(-15.929230, -11.894737) "></path></g></g></svg></span></p>
+</div></td>
+<td headers="eval_sym" class="gt_row gt_center" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3; background-color: #FCFCFC; height: 40px"><div class="gt_from_md">
+<p><span style="background:transparent;padding:5px;color:#4CA64C;vertical-align:middle;font-size:15px;border:none;" aria-label="No evaluation issues." data-balloon-pos="left">✓</span></p>
+</div></td>
+<td headers="units" class="gt_row gt_right" style="font-size: 11px; height: 40px"><code>7</code></td>
+<td headers="n_pass" class="gt_row gt_right" style="border-left-width: 1px; border-left-style: dashed; border-left-color: #E5E5E5; font-size: 11px; height: 40px">
+<code>7</code><br><code>1.00</code>
+</td>
+<td headers="n_fail" class="gt_row gt_right" style="border-left-width: 1px; border-left-style: dashed; border-left-color: #E5E5E5; font-size: 11px; height: 40px">
+<code>0</code><br><code>0.00</code>
+</td>
+<td headers="W" class="gt_row gt_center" style="border-left-width: 1px; border-left-style: solid; border-left-color: #D3D3D3; background-color: #FCFCFC; height: 40px"><div class="gt_from_md">
+<p>—</p>
+</div></td>
+<td headers="S" class="gt_row gt_center" style="background-color: #FCFCFC; height: 40px"><div class="gt_from_md">
+<p><span style="color: #CF142B;">○</span></p>
+</div></td>
+<td headers="N" class="gt_row gt_center" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3; background-color: #FCFCFC; height: 40px"><div class="gt_from_md">
+<p>—</p>
+</div></td>
+<td headers="extract" class="gt_row gt_center" style="height: 40px"><div class="gt_from_md">
+<p>—</p>
+</div></td>
+</tr>
+<tr>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">35</td>
+<td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
+<div aria-label="Expect that values in `Iteration_SiteID_SubStation` (computed column) should be in the set of `1_9941_NA`, `1_2602_NA`, `1_832_NA` (and 3 more). Precondition applied: `. %&gt;% ...`." data-balloon-pos="right" style="width:fit-content;">
+  <div style="float:left;width:30px;"><div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
+<?xml version="1.0" encoding="UTF-8"?><svg width="30px" height="30px" viewbox="0 0 67 67" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>col_vals_in_set</title>
+<g id="All-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="col_vals_in_set" transform="translate(0.000000, 0.172414)"><path d="M56.712234,1 C59.1975153,1 61.4475153,2.00735931 63.076195,3.63603897 C64.7048747,5.26471863 65.712234,7.51471863 65.712234,10 L65.712234,10 L65.712234,65 L10.712234,65 C8.22695259,65 5.97695259,63.9926407 4.34827294,62.363961 C2.71959328,60.7352814 1.71223397,58.4852814 1.71223397,56 L1.71223397,56 L1.71223397,10 C1.71223397,7.51471863 2.71959328,5.26471863 4.34827294,3.63603897 C5.97695259,2.00735931 8.22695259,1 10.712234,1 L10.712234,1 Z" id="rectangle" stroke="#000000" stroke-width="2" fill="#FFFFFF"></path><path d="M44.127969,41.1538382 L31.0814568,41.1538382 C29.9510748,41.1536429 28.8827052,40.9256134 27.9079888,40.5136953 C26.4467442,39.8960136 25.19849,38.8599685 24.3189894,37.5577099 C23.8792391,36.906727 23.5314818,36.1899233 23.2936866,35.4252675 C23.2130217,35.16589 23.1460289,34.9005554 23.0913409,34.6307286 L44.1278714,34.6307286 C45.028466,34.6306309 45.7586488,33.9004481 45.7586488,32.9998535 C45.7586488,32.0992589 45.028466,31.3690761 44.1278714,31.3690761 L23.0905596,31.3690761 C23.1990567,30.8337194 23.3597028,30.3180894 23.5675173,29.8264831 C24.185199,28.3652386 25.2212442,27.1169844 26.5236004,26.2374838 C27.1745833,25.7977334 27.891387,25.4499762 28.6560428,25.2122786 C29.4208939,24.9744833 30.2334994,24.8459665 31.0813591,24.8459665 L44.1277737,24.8459665 C45.0283683,24.8459665 45.7586488,24.1157837 45.7586488,23.2151891 C45.7586488,22.3145945 45.0283683,21.5844117 44.1277737,21.5844117 L31.0813591,21.5844117 C29.5096643,21.5844117 28.0039858,21.9038483 26.6373711,22.4820765 C24.5866678,23.3498583 22.8469049,24.7950871 21.6163267,26.616296 C20.3856508,28.4362354 19.665136,30.6413347 19.6658191,33.0000488 C19.6658191,34.5717436 19.9852563,36.0774222 20.5635822,37.4440369 C21.4312663,39.4947402 22.8765927,41.2345031 24.697704,42.4650813 C26.5176434,43.6957572 28.7227427,44.4155883 31.0814568,44.4155883 L44.1278714,44.4155883 C45.028466,44.4155883 45.7586488,43.6854055 45.7586488,42.7848109 C45.7586488,41.8842163 45.0285636,41.1538382 44.127969,41.1538382 Z" id="set_of" fill="#000000" fill-rule="nonzero"></path></g></g></svg>
+</div></div>
+  <div style="line-height:0.7em;margin-left:32px;padding-left:3px;">
+    <p style="margin:0;padding-top:4px;font-size:9px;">Combination of Iteration, SiteID, and SubStation</p>
+    <p style="margin:0;">
+      <code style="font-size:11px;">col_vals_in_set()</code>
+    </p>
+  </div>
+</div>
+</div></td>
+<td headers="columns" class="gt_row gt_left" style="border-left-width: 1px; border-left-style: dashed; border-left-color: #E5E5E5; height: 40px"><div class="gt_from_md">
+<div aria-label="Iteration_SiteID_SubStation" data-balloon-pos="left">
+  <p style="margin-top:0;margin-bottom:0;font-size:11px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;line-height:2em;">
+    <code><span style="color:purple;">&amp;marker;</span>Iteration_SiteID_SubStation</code>
+  </p>
+</div>
+</div></td>
+<td headers="values" class="gt_row gt_left" style="border-left-width: 1px; border-left-style: dashed; border-left-color: #E5E5E5; height: 40px"><div class="gt_from_md">
+<div aria-label="1_9941_NA, 1_2602_NA, 1_832_NA, 1_43134_NA, 1_56505_A, 1_56505_B" data-balloon-pos="left"><p style="margin-top: 0px; margin-bottom: 0px; font-size: 11px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><code>1_9941_NA, 1_2602_NA, 1_832_NA, 1_43134_NA, 1_56505_A, 1_56505_B</code></p></div>
+</div></td>
+<td headers="precon" class="gt_row gt_center" style="border-left-width: 1px; border-left-style: solid; border-left-color: #D3D3D3; background-color: #FCFCFC; height: 40px"><div class="gt_from_md">
+<p><span style="background:transparent;padding:0;color:#3C898A;vertical-align:middle;font-size:18px;border:none;border-radius:4px;" aria-label="The data table was modified for this step." data-balloon-pos="left"><svg width="24px" height="25px" viewbox="0 0 24 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="vertical-align: middle;"><g id="modified" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="modified" transform="translate(0.000000, 0.570147)"><rect id="Rectangle" x="0.125132506" y="0" width="23.749735" height="23.7894737"></rect><rect id="Rectangle" fill="#000000" x="15.2215626" y="14.8025885" width="6.34089821" height="6.34089821"></rect><rect id="Rectangle" fill="#9A7CB4" x="16.1264309" y="15.7074568" width="4.53116158" height="4.53116158"></rect><path d="M4.40094816,14.3498527 C2.36911602,14.3498527 0.715948163,16.0028586 0.715948163,18.0348527 C0.715948163,20.0668467 2.36911602,21.7198527 4.40094816,21.7198527 C6.43278031,21.7198527 8.08594816,20.0668467 8.08594816,18.0348527 C8.08594816,16.0028586 6.43272633,14.3498527 4.40094816,14.3498527 Z M4.40094816,20.9828203 C2.77541767,20.9828203 1.45298055,19.6603831 1.45298055,18.0348527 C1.45298055,16.4093222 2.77541767,15.086885 4.40094816,15.086885 C6.02647865,15.086885 7.34891578,16.4093222 7.34891578,18.0348527 C7.34891578,19.6603831 6.02647865,20.9828203 4.40094816,20.9828203 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path><path d="M18.4333601,-0.640287588 L18.4333601,14.5882952 L9.52131131,14.5882952 L11.3716151,15.980997 C11.6576165,16.1948765 11.7148169,16.6002518 11.5009374,16.8862532 C11.2870585,17.1722546 10.8816827,17.229455 10.5956813,17.0155755 L10.5956813,17.0155755 L7.23330126,14.4689208 C7.06667429,14.3495464 6.96719559,14.1555632 6.96719559,13.9516316 C6.96719559,13.7477006 7.06667429,13.5537168 7.23330126,13.4343424 L7.23330126,13.4343424 L10.5956813,10.8876877 C10.677751,10.8255137 10.7722561,10.7857222 10.8742216,10.7683132 C10.8990916,10.7608522 10.9264478,10.7533918 10.9538046,10.7484175 C11.2522407,10.708626 11.5382421,10.8827141 11.6377208,11.166228 C11.7396863,11.4497426 11.6277729,11.765587 11.3716151,11.9222661 L11.3716151,11.9222661 L9.52131131,13.3149679 L17.1593533,13.3147124 L17.1594577,0.633614828 L6.9283533,0.633614828 L6.9283533,-0.640287588 L18.4333601,-0.640287588 Z" id="arrow" fill="#000000" transform="translate(12.680857, 8.252286) rotate(-90.000000) translate(-12.680857, -8.252286) "></path></g></g></svg></span></p>
+</div></td>
+<td headers="eval_sym" class="gt_row gt_center" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3; background-color: #FCFCFC; height: 40px"><div class="gt_from_md">
+<p><span style="background:transparent;padding:5px;color:#4CA64C;vertical-align:middle;font-size:15px;border:none;" aria-label="No evaluation issues." data-balloon-pos="left">✓</span></p>
+</div></td>
+<td headers="units" class="gt_row gt_right" style="font-size: 11px; height: 40px"><code>7</code></td>
+<td headers="n_pass" class="gt_row gt_right" style="border-left-width: 1px; border-left-style: dashed; border-left-color: #E5E5E5; font-size: 11px; height: 40px">
+<code>7</code><br><code>1.00</code>
+</td>
+<td headers="n_fail" class="gt_row gt_right" style="border-left-width: 1px; border-left-style: dashed; border-left-color: #E5E5E5; font-size: 11px; height: 40px">
+<code>0</code><br><code>0.00</code>
+</td>
+<td headers="W" class="gt_row gt_center" style="border-left-width: 1px; border-left-style: solid; border-left-color: #D3D3D3; background-color: #FCFCFC; height: 40px"><div class="gt_from_md">
+<p>—</p>
+</div></td>
+<td headers="S" class="gt_row gt_center" style="background-color: #FCFCFC; height: 40px"><div class="gt_from_md">
+<p><span style="color: #CF142B;">○</span></p>
+</div></td>
+<td headers="N" class="gt_row gt_center" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3; background-color: #FCFCFC; height: 40px"><div class="gt_from_md">
+<p>—</p>
+</div></td>
+<td headers="extract" class="gt_row gt_center" style="height: 40px"><div class="gt_from_md">
+<p>—</p>
+</div></td>
+</tr>
+<tr>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">36</td>
+<td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `scientific_name` should be in the set of `Macropus giganteus`, `Vulpes vulpes`, `Dromaius novaehollandiae` (and 2 more). " data-balloon-pos="right" style="width:fit-content;">
   <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
 <?xml version="1.0" encoding="UTF-8"?><svg width="30px" height="30px" viewbox="0 0 67 67" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>col_vals_in_set</title>
@@ -3536,7 +3647,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </tr>
 <tr>
 <td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
-<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">35</td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">37</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `common_name` should be in the set of `Eastern Grey Kangaroo`, `Red Fox`, `Emu` (and 2 more). " data-balloon-pos="right" style="width:fit-content;">
   <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
@@ -3584,7 +3695,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </tr>
 <tr>
 <td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
-<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">36</td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">38</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `SiteID` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
   <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
@@ -3630,7 +3741,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </tr>
 <tr>
 <td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
-<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">37</td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">39</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `scientific_name` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
   <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
@@ -3676,7 +3787,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </tr>
 <tr>
 <td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
-<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">38</td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">40</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `common_name` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
   <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
@@ -3722,7 +3833,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </tr>
 <tr>
 <td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
-<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">39</td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">41</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `Date` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
   <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
@@ -3768,7 +3879,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </tr>
 <tr>
 <td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
-<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">40</td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">42</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `Time` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
   <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
@@ -3814,7 +3925,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </tr>
 <tr>
 <td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
-<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">41</td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">43</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `DateTimeOriginal` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
   <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
@@ -3860,7 +3971,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </tr>
 <tr>
 <td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
-<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">42</td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">44</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `Iteration` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
   <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
@@ -3906,7 +4017,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </tr>
 <tr>
 <td headers="status_color" class="gt_row gt_left" style="background-color: #CF142B; height: 40px"></td>
-<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">43</td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">45</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `metadata_Multiples` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
   <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
@@ -3947,14 +4058,14 @@ errors in the data to fix before preparing the data for upload.</p>
 <p>—</p>
 </div></td>
 <td headers="extract" class="gt_row gt_center" style="height: 40px"><div class="gt_from_md">
-<a href="data:text/csv;base64,IlNpdGVJRCIsIlN1YlN0YXRpb24iLCJzY2llbnRpZmljX25hbWUiLCJEYXRlVGltZU9yaWdpbmFsIiwiRGF0ZSIsIlRpbWUiLCJkZWx0YS50aW1lLnNlY3MiLCJkZWx0YS50aW1lLm1pbnMiLCJkZWx0YS50aW1lLmhvdXJzIiwiZGVsdGEudGltZS5kYXlzIiwiRGlyZWN0b3J5IiwiRmlsZU5hbWUiLCJtZXRhZGF0YV9EaXN0YW5jZSIsIm1ldGFkYXRhX1NwZWNpZXMiLCJuX2ltYWdlcyIsIm1ldGFkYXRhX0luZGl2aWR1YWxzIiwibWV0YWRhdGFfQmVoYXZpb3VyIiwibWV0YWRhdGFfTXVsdGlwbGVzIiwiSGllcmFyY2hpY2FsU3ViamVjdCIsIkl0ZXJhdGlvbiIsImNvbW1vbl9uYW1lIgoiMjYwMiIsTkEsIk1hY3JvcHVzIGdpZ2FudGV1cyIsMjAyMS0xMC0xNyAwMTozMjo0NywyMDIxLTEwLTE3LCIwMTozMjo0NyIsMCwwLDAsMCwiL2hvbWUvcnVubmVyL3dvcmsvX3RlbXAvTGlicmFyeS93ZWRhL2R1bW15ZGF0YS9pbWFnZXMvMjYwMiIsIjI2MDJfXzIwMjEtMTAtMTdfXzAxLTMyLTQ3KDUpLkpQRyIsIjIuNSAtIDUiLCJNYWNyb3B1cyBnaWdhbnRldXMiLDEsTkEsTkEsTkEsIkRpc3RhbmNlfDIuNSAtIDUsIFNwZWNpZXN8TWFjcm9wdXMgZ2lnYW50ZXVzIiwxLCJFYXN0ZXJuIEdyZXkgS2FuZ2Fyb28iCiI0MzEzNCIsTkEsIkRhbWEgZGFtYSIsMjAyMS0xMS0xNiAxODoxNToyNiwyMDIxLTExLTE2LCIxODoxNToyNiIsMCwwLDAsMCwiL2hvbWUvcnVubmVyL3dvcmsvX3RlbXAvTGlicmFyeS93ZWRhL2R1bW15ZGF0YS9pbWFnZXMvNDMxMzQiLCI0MzEzNF9fMjAyMS0xMS0xNl9fMTgtMTUtMjYoMjIpLkpQRyIsIjAgLSAyLjUiLCJEYW1hIGRhbWEiLDEsIkZlbWFsZTEiLE5BLE5BLCJEaXN0YW5jZXwwIC0gMi41LCBJbmRpdmlkdWFsc3xGZW1hbGUxLCBTcGVjaWVzfERhbWEgZGFtYSIsMSwiRmFsbG93IERlZXIiCiI1NjUwNSIsIkEiLCJDZXJ2dXMgdW5pY29sb3IiLDIwMjEtMTEtMzAgMDg6NTA6MTcsMjAyMS0xMS0zMCwiMDg6NTA6MTciLDAsMCwwLDAsIi9ob21lL3J1bm5lci93b3JrL190ZW1wL0xpYnJhcnkvd2VkYS9kdW1teWRhdGEvaW1hZ2VzLzU2NTA1L0EiLCI1NjUwNV9fMjAyMS0xMS0zMF9fMDgtNTAtMTcoMikuSlBHIiwiMi41IC0gNSIsIlJ1c2EgdW5pY29sb3IiLDEsIk1hbGUxIiwiTkEiLE5BLCJEaXN0YW5jZXwyLjUgLSA1LCBJbmRpdmlkdWFsc3xNYWxlMSwgU3BlY2llc3xSdXNhIHVuaWNvbG9yIiwxLCJTYW1iYXIgRGVlciIKIjU2NTA1IiwiQiIsIkNlcnZ1cyB1bmljb2xvciIsMjAyMS0xMS0zMCAwODo1MDo1NywyMDIxLTExLTMwLCIwODo1MDo1NyIsMCwwLDAsMCwiL2hvbWUvcnVubmVyL3dvcmsvX3RlbXAvTGlicmFyeS93ZWRhL2R1bW15ZGF0YS9pbWFnZXMvNTY1MDUvQiIsIjU2NTA1X18yMDIxLTExLTMwX18wOC01MC01Nyg1OSkuSlBHIiwiMCAtIDIuNSIsIlJ1c2EgdW5pY29sb3IiLDEsIk1hbGUxIiwiQ2FtZXJhSW50ZXJhY3Rpb24iLE5BLCJCZWhhdmlvdXJ8Q2FtZXJhSW50ZXJhY3Rpb24sIERpc3RhbmNlfDAgLSAyLjUsIEluZGl2aWR1YWxzfE1hbGUxLCBTcGVjaWVzfFJ1c2EgdW5pY29sb3IiLDEsIlNhbWJhciBEZWVyIgoiODMyIixOQSwiRHJvbWFpdXMgbm92YWVob2xsYW5kaWFlIiwyMDIxLTEwLTIxIDE0OjMwOjM4LDIwMjEtMTAtMjEsIjE0OjMwOjM4IiwwLDAsMCwwLCIvaG9tZS9ydW5uZXIvd29yay9fdGVtcC9MaWJyYXJ5L3dlZGEvZHVtbXlkYXRhL2ltYWdlcy84MzIiLCI4MzJfXzIwMjEtMTAtMjFfXzE0LTMwLTM4KDgpLkpQRyIsIjIuNSAtIDUiLCJEcm9tYWl1cyBub3ZhZWhvbGxhbmRpYWUiLDEsTkEsTkEsTkEsIkRpc3RhbmNlfDIuNSAtIDUsIFNwZWNpZXN8RHJvbWFpdXMgbm92YWVob2xsYW5kaWFlIiwxLCJFbXUiCiI5OTQxIixOQSwiVnVscGVzIHZ1bHBlcyIsMjAyMS0xMS0wMyAxNDozMjoyMSwyMDIxLTExLTAzLCIxNDozMjoyMSIsMCwwLDAsMCwiL2hvbWUvcnVubmVyL3dvcmsvX3RlbXAvTGlicmFyeS93ZWRhL2R1bW15ZGF0YS9pbWFnZXMvOTk0MSIsIjk5NDFfXzIwMjEtMTEtMDNfXzE0LTMyLTIxKDExKS5KUEciLCI1IC0gNy41IiwiVnVscGVzIHZ1bHBlcyIsMSxOQSxOQSxOQSwiRGlzdGFuY2V8NSAtIDcuNSwgU3BlY2llc3xWdWxwZXMgdnVscGVzIiwxLCJSZWQgRm94Igo=" download="extract_0043.csv">
+<a href="data:text/csv;base64,IlNpdGVJRCIsIlN1YlN0YXRpb24iLCJzY2llbnRpZmljX25hbWUiLCJEYXRlVGltZU9yaWdpbmFsIiwiRGF0ZSIsIlRpbWUiLCJkZWx0YS50aW1lLnNlY3MiLCJkZWx0YS50aW1lLm1pbnMiLCJkZWx0YS50aW1lLmhvdXJzIiwiZGVsdGEudGltZS5kYXlzIiwiRGlyZWN0b3J5IiwiRmlsZU5hbWUiLCJtZXRhZGF0YV9EaXN0YW5jZSIsIm1ldGFkYXRhX1NwZWNpZXMiLCJuX2ltYWdlcyIsIm1ldGFkYXRhX0luZGl2aWR1YWxzIiwibWV0YWRhdGFfQmVoYXZpb3VyIiwibWV0YWRhdGFfTXVsdGlwbGVzIiwiSGllcmFyY2hpY2FsU3ViamVjdCIsIkl0ZXJhdGlvbiIsImNvbW1vbl9uYW1lIgoiMjYwMiIsTkEsIk1hY3JvcHVzIGdpZ2FudGV1cyIsMjAyMS0xMC0xNyAwMTozMjo0NywyMDIxLTEwLTE3LCIwMTozMjo0NyIsMCwwLDAsMCwiL2hvbWUvcnVubmVyL3dvcmsvX3RlbXAvTGlicmFyeS93ZWRhL2R1bW15ZGF0YS9pbWFnZXMvMjYwMiIsIjI2MDJfXzIwMjEtMTAtMTdfXzAxLTMyLTQ3KDUpLkpQRyIsIjIuNSAtIDUiLCJNYWNyb3B1cyBnaWdhbnRldXMiLDEsTkEsTkEsTkEsIkRpc3RhbmNlfDIuNSAtIDUsIFNwZWNpZXN8TWFjcm9wdXMgZ2lnYW50ZXVzIiwxLCJFYXN0ZXJuIEdyZXkgS2FuZ2Fyb28iCiI0MzEzNCIsTkEsIkRhbWEgZGFtYSIsMjAyMS0xMS0xNiAxODoxNToyNiwyMDIxLTExLTE2LCIxODoxNToyNiIsMCwwLDAsMCwiL2hvbWUvcnVubmVyL3dvcmsvX3RlbXAvTGlicmFyeS93ZWRhL2R1bW15ZGF0YS9pbWFnZXMvNDMxMzQiLCI0MzEzNF9fMjAyMS0xMS0xNl9fMTgtMTUtMjYoMjIpLkpQRyIsIjAgLSAyLjUiLCJEYW1hIGRhbWEiLDEsIkZlbWFsZTEiLE5BLE5BLCJEaXN0YW5jZXwwIC0gMi41LCBJbmRpdmlkdWFsc3xGZW1hbGUxLCBTcGVjaWVzfERhbWEgZGFtYSIsMSwiRmFsbG93IERlZXIiCiI1NjUwNSIsIkEiLCJDZXJ2dXMgdW5pY29sb3IiLDIwMjEtMTEtMzAgMDg6NTA6MTcsMjAyMS0xMS0zMCwiMDg6NTA6MTciLDAsMCwwLDAsIi9ob21lL3J1bm5lci93b3JrL190ZW1wL0xpYnJhcnkvd2VkYS9kdW1teWRhdGEvaW1hZ2VzLzU2NTA1L0EiLCI1NjUwNV9fMjAyMS0xMS0zMF9fMDgtNTAtMTcoMikuSlBHIiwiMi41IC0gNSIsIlJ1c2EgdW5pY29sb3IiLDEsIk1hbGUxIiwiTkEiLE5BLCJEaXN0YW5jZXwyLjUgLSA1LCBJbmRpdmlkdWFsc3xNYWxlMSwgU3BlY2llc3xSdXNhIHVuaWNvbG9yIiwxLCJTYW1iYXIgRGVlciIKIjU2NTA1IiwiQiIsIkNlcnZ1cyB1bmljb2xvciIsMjAyMS0xMS0zMCAwODo1MDo1NywyMDIxLTExLTMwLCIwODo1MDo1NyIsMCwwLDAsMCwiL2hvbWUvcnVubmVyL3dvcmsvX3RlbXAvTGlicmFyeS93ZWRhL2R1bW15ZGF0YS9pbWFnZXMvNTY1MDUvQiIsIjU2NTA1X18yMDIxLTExLTMwX18wOC01MC01Nyg1OSkuSlBHIiwiMCAtIDIuNSIsIlJ1c2EgdW5pY29sb3IiLDEsIk1hbGUxIiwiQ2FtZXJhSW50ZXJhY3Rpb24iLE5BLCJCZWhhdmlvdXJ8Q2FtZXJhSW50ZXJhY3Rpb24sIERpc3RhbmNlfDAgLSAyLjUsIEluZGl2aWR1YWxzfE1hbGUxLCBTcGVjaWVzfFJ1c2EgdW5pY29sb3IiLDEsIlNhbWJhciBEZWVyIgoiODMyIixOQSwiRHJvbWFpdXMgbm92YWVob2xsYW5kaWFlIiwyMDIxLTEwLTIxIDE0OjMwOjM4LDIwMjEtMTAtMjEsIjE0OjMwOjM4IiwwLDAsMCwwLCIvaG9tZS9ydW5uZXIvd29yay9fdGVtcC9MaWJyYXJ5L3dlZGEvZHVtbXlkYXRhL2ltYWdlcy84MzIiLCI4MzJfXzIwMjEtMTAtMjFfXzE0LTMwLTM4KDgpLkpQRyIsIjIuNSAtIDUiLCJEcm9tYWl1cyBub3ZhZWhvbGxhbmRpYWUiLDEsTkEsTkEsTkEsIkRpc3RhbmNlfDIuNSAtIDUsIFNwZWNpZXN8RHJvbWFpdXMgbm92YWVob2xsYW5kaWFlIiwxLCJFbXUiCiI5OTQxIixOQSwiVnVscGVzIHZ1bHBlcyIsMjAyMS0xMS0wMyAxNDozMjoyMSwyMDIxLTExLTAzLCIxNDozMjoyMSIsMCwwLDAsMCwiL2hvbWUvcnVubmVyL3dvcmsvX3RlbXAvTGlicmFyeS93ZWRhL2R1bW15ZGF0YS9pbWFnZXMvOTk0MSIsIjk5NDFfXzIwMjEtMTEtMDNfXzE0LTMyLTIxKDExKS5KUEciLCI1IC0gNy41IiwiVnVscGVzIHZ1bHBlcyIsMSxOQSxOQSxOQSwiRGlzdGFuY2V8NSAtIDcuNSwgU3BlY2llc3xWdWxwZXMgdnVscGVzIiwxLCJSZWQgRm94Igo=" download="extract_0045.csv">
   <button aria-label="There are 6 'fail' rows available as a CSV file." data-balloon-pos="left" style="background-color:#67C2DC;color:#FFFFFF;border:none;padding:5px;font-weight:bold;cursor:pointer;border-radius:4px;">CSV</button>
 </a>
 </div></td>
 </tr>
 <tr>
 <td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
-<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">44</td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">46</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Date` is of type: Date. " data-balloon-pos="right" style="width:fit-content;">
   <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
@@ -4000,7 +4111,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </tr>
 <tr>
 <td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
-<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">45</td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">47</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `DateTimeOriginal` is of type: POSIXct. " data-balloon-pos="right" style="width:fit-content;">
   <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
@@ -4046,7 +4157,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </tr>
 <tr>
 <td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
-<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">46</td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">48</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `Date` should be between `DateDeploy` and `DateRetrieve`. Precondition applied: `&lt;fn&gt;`." data-balloon-pos="right" style="width:fit-content;">
   <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
@@ -4094,7 +4205,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </tr>
 <tr>
 <td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
-<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">47</td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">49</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `metadata_Distance` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
   <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;">
@@ -4141,14 +4252,14 @@ errors in the data to fix before preparing the data for upload.</p>
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
 <td class="gt_sourcenote" colspan="14">
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-06-20 00:10:41 UTC</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">&lt; 1 s</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-06-20 00:10:41 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-08-29 06:11:33 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">1.2 s</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-08-29 06:11:34 UTC</span>
 </td>
     </tr></tfoot>
 </table>
 </div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dq</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <div id="pb_agent" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
@@ -4634,7 +4745,7 @@ errors in the data to fix before preparing the data for upload.</p>
     </tr>
 <tr class="gt_heading">
 <td colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;">
-<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-06-20|00:10:41]</span>
+<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-08-29|06:11:34]</span>
 <div style="height:25px;">
 <span style="background-color:#F1D35A;color:#222222;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">tibble</span>
 <span style="background-color:none;color:#222222;padding:0.5em 0.5em;position:inherit;margin:5px 10px 5px -4px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">camtrap_operation</span><span style="background-color:#E5AB00;color:white;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #E5AB00;padding:2px 15px 2px 15px;font-size:smaller;">WARN</span>
@@ -7479,14 +7590,14 @@ errors in the data to fix before preparing the data for upload.</p>
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
 <td class="gt_sourcenote" colspan="14">
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-06-20 00:10:41 UTC</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">1.8 s</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-06-20 00:10:43 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-08-29 06:11:34 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2.5 s</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-08-29 06:11:36 UTC</span>
 </td>
     </tr></tfoot>
 </table>
 </div>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dq</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <div id="pb_agent" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
@@ -7972,7 +8083,7 @@ errors in the data to fix before preparing the data for upload.</p>
     </tr>
 <tr class="gt_heading">
 <td colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;">
-<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-06-20|00:10:43]</span>
+<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-08-29|06:11:36]</span>
 <div style="height:25px;">
 <span style="background-color:#F1D35A;color:#222222;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">tibble</span>
 <span style="background-color:none;color:#222222;padding:0.5em 0.5em;position:inherit;margin:5px 10px 5px -4px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">project_information</span><span style="background-color:#E5AB00;color:white;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #E5AB00;padding:2px 15px 2px 15px;font-size:smaller;">WARN</span>
@@ -8555,9 +8666,9 @@ errors in the data to fix before preparing the data for upload.</p>
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
 <td class="gt_sourcenote" colspan="14">
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-06-20 00:10:43 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-08-29 06:11:36 UTC</span>
 <span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">&lt; 1 s</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-06-20 00:10:43 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-08-29 06:11:37 UTC</span>
 </td>
     </tr></tfoot>
 </table>
@@ -8571,7 +8682,7 @@ missing values.</li>
 <p>For the second point when there was only one individual in a photo it
 was not tagged with an integer. In these cases it should be 1. To fix
 these issues we could run:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">raw_camtrap_records_fixed</span> <span class="op">&lt;-</span> <span class="va">raw_camtrap_records_standardised</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>metadata_Multiples <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/coalesce.html" class="external-link">coalesce</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">metadata_Multiples</span><span class="op">)</span>, <span class="fl">1L</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: There was 1 warning in `mutate()`.</span></span>
@@ -8597,7 +8708,7 @@ quality issues are fixed you can prepare your data for upload to the
 database. This process (<code><a href="../reference/prepare_camtrap_upload.html">prepare_camtrap_upload()</a></code>) will
 generate IDs for your records (to avoid duplicate records on the
 database) and properly format the data:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_for_upload</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_camtrap_upload.html">prepare_camtrap_upload</a></span><span class="op">(</span><span class="va">dq2</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -8610,7 +8721,7 @@ on database connection for more details</a></em></p>
 <p>Using the data prepared for upload made above
 (<code>data_for_upload</code>) you can upload the the data in one
 line:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/weda_connect.html">weda_connect</a></span><span class="op">(</span>password <span class="op">=</span> <span class="fu">keyring</span><span class="fu">::</span><span class="fu">key_get</span><span class="op">(</span>service <span class="op">=</span> <span class="st">"ari-dev-weda-psql-01"</span>, </span>
 <span>                                                     username <span class="op">=</span> <span class="st">"psql_user"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -8618,6 +8729,9 @@ line:</p>
 <span><span class="fu"><a href="../reference/upload_camtrap_data.html">upload_camtrap_data</a></span><span class="op">(</span>con <span class="op">=</span> <span class="va">con</span>, </span>
 <span>                    data_list <span class="op">=</span> <span class="va">data_for_upload</span>, </span>
 <span>                    uploadername <span class="op">=</span> <span class="st">"Justin Cally"</span><span class="op">)</span></span></code></pre></div>
+<p>The upload may take several minutes as it creates
+<code>materialized views</code>, which require some processing. Be
+patient and leave your R session running.</p>
 </div>
 </div>
 <div class="section level2">
@@ -8665,7 +8779,7 @@ truncation of camera deployment from the
 <code>curated_camtrap_operation</code> dataset when there is a problem
 with the operation period.</p></li>
 </ul>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># This is how you write the views. It only needs to be done once: </span></span>
 <span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbExecute.html" class="external-link">dbExecute</a></span><span class="op">(</span>conn <span class="op">=</span> <span class="va">con</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/SQL.html" class="external-link">SQL</a></span><span class="op">(</span><span class="st">"CREATE VIEW camtrap.curated_camtrap_records AS"</span><span class="op">)</span>, <span class="fu"><a href="../reference/records_curated_view.html">records_curated_view</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbExecute.html" class="external-link">dbExecute</a></span><span class="op">(</span>conn <span class="op">=</span> <span class="va">con</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/SQL.html" class="external-link">SQL</a></span><span class="op">(</span><span class="st">"CREATE VIEW camtrap.curated_camtrap_operation AS"</span><span class="op">)</span>, <span class="fu"><a href="../reference/records_curated_view.html">operation_curated_view</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -8683,7 +8797,7 @@ with the operation period.</p></li>
 (<code>data(data_dictionary)</code>) and also available in the
 <code>data_dictionary</code> schema. Below is the data dictionary for
 the <code>camtrap</code> schema:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_dictionary</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">schema</span> <span class="op">==</span> <span class="st">"camtrap"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">table_name</span>, <span class="va">table_description</span>, <span class="va">column_name</span>, <span class="va">column_class</span>, <span class="va">column_description</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
