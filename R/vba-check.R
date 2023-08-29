@@ -41,7 +41,7 @@ standardise_species_names <- function(recordTable,
   if(length(which_not_in > 0)) {
     warning("No match found for ",
             paste(which_not_in, collapse = ", "),
-            ". Please provide names within the VBA taxa list")
+            ". Please provide names within the VBA taxa list\n")
   }
 
 
@@ -52,6 +52,7 @@ standardise_species_names <- function(recordTable,
     dplyr::ungroup() %>%
     dplyr::filter((rows > 1 & stringr::str_detect(!!rlang::sym(other_name), "fam.", negate = T)) | rows == 1) %>%
     dplyr::group_by(!!rlang::sym(var_name)) %>%
+    dplyr::slice(1) %>%
     dplyr::summarise(dplyr::across(!!rlang::sym(other_name), .fns = ~ paste(.x, collapse = "/")),
                      n = dplyr::n()) %>%
     dplyr::ungroup() %>%

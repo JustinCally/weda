@@ -109,6 +109,14 @@ raw_camtrap_records %>%
   scroll_box(width = "100%")
 ```
 
+Note that with some older models of cameras `exifTool` and subsequently `camtrapR` has difficulty in reading the date-time format. To fix this you can run the `camtrapR::fixDateTimeOriginal()` function on the directory if needed:  
+
+```{r fixDateTime, eval = FALSE}
+# Optional if using old and problematic cameras: 
+fixDateTimeOriginal(inDir = system.file("dummydata/images", package = "weda"), 
+                    recursive = TRUE)
+```
+
 ## Standardise species names  
 
 In our case, species names are Scientific names. In order to standardise the data we will run a function to append the common names to the data. The function uses VBA names and the full list of possibilities can be obtained in the exported dataset: `weda::vba_name_conversions` (e.g. run `View(weda::vba_name_conversions)`).   
@@ -133,6 +141,7 @@ raw_camtrap_records_standardised <- standardise_species_names(raw_camtrap_record
                                                               format = "scientific", 
                                                               speciesCol = "Species")
 ```
+Note that it may still occur that you have issues in converting names where a common name matches two scientific name. Unfortunately there is no easy way to fix this, automatically only one name will be chosen but it may not be the scientific name you wanted. To avoid this then tagging using scientific names may be worth considering. Otherwise you can manually edit the output based on the VBA names `weda::vba_name_conversions`.   
 
 All ticks and no warnings means we can move onto the next step.  
 
@@ -230,6 +239,8 @@ upload_camtrap_data(con = con,
                     data_list = data_for_upload, 
                     uploadername = "Justin Cally")
 ```
+
+The upload may take several minutes as it creates `materialized views`, which require some processing. Be patient and leave your R session running. 
 
 # Automatic Database Views  
 
