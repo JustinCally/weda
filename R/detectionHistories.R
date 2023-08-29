@@ -87,18 +87,18 @@ camtrap_operation <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_camtr
 
 camtrap_operation_fix <- camtrap_operation %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(DateTimeRetrieve = lubridate::ymd_hms(DateTimeRetrieve, tz = "Australia/Queensland"),
-                DateTimeDeploy = lubridate::ymd_hms(DateTimeDeploy, tz = "Australia/Queensland"),
+  dplyr::mutate(DateTimeRetrieve = lubridate::ymd_hms(DateTimeRetrieve, tz = "Australia/Queensland", truncated = 3),
+                DateTimeDeploy = lubridate::ymd_hms(DateTimeDeploy, tz = "Australia/Queensland", truncated = 3),
                 DateTimeDeploy = dplyr::case_when(format(DateTimeDeploy, "%H:%M:%S") == "00:00:00" ~ DateTimeDeploy + lubridate::seconds(1),
                                                   TRUE ~ DateTimeDeploy),
                 DateTimeRetrieve = dplyr::case_when(format(DateTimeRetrieve, "%H:%M:%S") == "00:00:00" ~ DateTimeRetrieve + lubridate::seconds(1),
                                                   TRUE ~ DateTimeRetrieve),
                 DateTimeRetrieve = dplyr::case_when(DateTimeRetrieve == DateTimeDeploy ~ DateTimeRetrieve + lubridate::seconds(1),
                                                     TRUE ~ DateTimeRetrieve),
-                Problem1_from = lubridate::ymd_hms(Problem1_from, tz = "Australia/Queensland"),
-                Problem1_to = lubridate::ymd_hms(Problem1_to, tz = "Australia/Queensland"),
-                Problem1_from = lubridate::ymd_hms(max(Problem1_from, DateTimeDeploy, na.rm = F), tz = "Australia/Queensland"),
-                Problem1_to = lubridate::ymd_hms(min(Problem1_to, DateTimeRetrieve, na.rm = F), tz = "Australia/Queensland"),
+                Problem1_from = lubridate::ymd_hms(Problem1_from, tz = "Australia/Queensland", truncated = 3),
+                Problem1_to = lubridate::ymd_hms(Problem1_to, tz = "Australia/Queensland", truncated = 3),
+                Problem1_from = lubridate::ymd_hms(max(Problem1_from, DateTimeDeploy, na.rm = F), tz = "Australia/Queensland", truncated = 3),
+                Problem1_to = lubridate::ymd_hms(min(Problem1_to, DateTimeRetrieve, na.rm = F), tz = "Australia/Queensland", truncated = 3),
                 DateDeploy =as.Date(DateTimeDeploy),
                 DateRetrieve =as.Date(DateTimeRetrieve)) %>%
   dplyr::ungroup()
