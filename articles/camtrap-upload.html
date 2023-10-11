@@ -76,7 +76,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Uploading camera trap records to database</h1>
             
-            <h4 data-toc-skip class="date">2023-08-29</h4>
+            <h4 data-toc-skip class="date">2023-10-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/JustinCally/weda/blob/HEAD/vignettes/camtrap-upload.Rmd" class="external-link"><code>vignettes/camtrap-upload.Rmd</code></a></small>
       <div class="d-none name"><code>camtrap-upload.Rmd</code></div>
@@ -123,8 +123,8 @@ database. Automatic database views will process this raw data into the
 <code>curated</code> layer and <code>processed</code> layer. Zoom in to
 the figure below to see details about the data model:</p>
 <div class="figure">
-<div class="visNetwork html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-ad135d4cc01863a2dabc" style="width:100%;height:432.632880098888px;"></div>
-<script type="application/json" data-for="htmlwidget-ad135d4cc01863a2dabc">{"x":{"nodes":{"tableName":["raw_camtrap_records","raw_camtrap_operation","raw_project_information","curated_camtrap_records","curated_camtrap_operation","curated_project_information","processed_site_substation_presence_absence","processed_site_substation_daily_presence_absence"],"label":["<b>raw_camtrap_records<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (scientific_name {character})\n    - (DateTimeOriginal {POSIXct})\n    - (Date {Date})\n    - (Time {character})\n    - (delta.time.secs {numeric})\n    - (delta.time.mins {numeric})\n    - (delta.time.hours {numeric})\n    - (delta.time.days {numeric})\n    - (Directory {character})\n    - (FileName {character})\n    - (metadata_Distance {character})\n    - (metadata_Species {character})\n    - (metadata_Multiples {integer})\n    - (n_images {integer})\n    - (metadata_Individuals {character})\n    - (HierarchicalSubject {character})\n    - (metadata_Behaviour {character})\n    - (common_name {character})\n    - (camtrap_record_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>raw_camtrap_operation<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (geohash {character})\n    - (Iteration {integer})\n    - (Latitude {numeric})\n    - (Longitude {numeric})\n    - (DateDeploy {Date})\n    - (TimeDeploy {character})\n    - (DateRetrieve {Date})\n    - (TimeRetrieve {character})\n    - (DateTimeDeploy {POSIXct})\n    - (DateTimeRetrieve {POSIXct})\n    - (Problem1_from {POSIXct})\n    - (Problem1_to {POSIXct})\n    - (CameraHeight {numeric})\n    - (CameraBearing {numeric})\n    - (CameraSlope {numeric})\n    - (CameraID {character})\n    - (CameraSensitivity {character})\n    - (CameraDelay {character})\n    - (CameraPhotosPerTrigger {integer})\n    - (CameraQuietPeriod {numeric})\n    - (BaitedUnbaited {character})\n    - (BaitType {character})\n    - (BaitDistance {numeric})\n    - (CameraModel {character})\n    - (camtrap_operation_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>raw_project_information<\/b>\n    - (ProjectName {character})\n    - (ProjectShortName {character})\n    - (DistanceSampling {character})\n    - (TerrestrialArboreal {character})\n    - (AllSpeciesTagged {character})\n    - (DistanceForAllSpecies {character})\n    - (ProjectDescription {character})\n    - (ProjectLeader {character})\n    - (camtrap_project_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_camtrap_records<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (scientific_name {character})\n    - (DateTimeOriginal {POSIXct})\n    - (Date {Date})\n    - (Time {character})\n    - (delta.time.secs {numeric})\n    - (delta.time.mins {numeric})\n    - (delta.time.hours {numeric})\n    - (delta.time.days {numeric})\n    - (Directory {character})\n    - (FileName {character})\n    - (metadata_Distance {character})\n    - (metadata_Species {character})\n    - (metadata_Multiples {integer})\n    - (n_images {integer})\n    - (metadata_Individuals {character})\n    - (HierarchicalSubject {character})\n    - (metadata_Behaviour {character})\n    - (common_name {character})\n    - (camtrap_record_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_camtrap_operation<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (geohash {character})\n    - (Iteration {integer})\n    - (Latitude {numeric})\n    - (Longitude {numeric})\n    - (DateDeploy {Date})\n    - (TimeDeploy {character})\n    - (DateRetrieve {Date})\n    - (TimeRetrieve {character})\n    - (DateTimeDeploy {POSIXct})\n    - (DateTimeRetrieve {POSIXct})\n    - (Problem1_from {POSIXct})\n    - (Problem1_to {POSIXct})\n    - (CameraHeight {numeric})\n    - (CameraBearing {numeric})\n    - (CameraSlope {numeric})\n    - (CameraID {character})\n    - (CameraSensitivity {character})\n    - (CameraDelay {character})\n    - (CameraPhotosPerTrigger {integer})\n    - (CameraQuietPeriod {numeric})\n    - (BaitedUnbaited {character})\n    - (BaitType {character})\n    - (BaitDistance {numeric})\n    - (CameraModel {character})\n    - (camtrap_operation_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_project_information<\/b>\n    - (ProjectName {character})\n    - (ProjectShortName {character})\n    - (DistanceSampling {character})\n    - (TerrestrialArboreal {character})\n    - (AllSpeciesTagged {character})\n    - (DistanceForAllSpecies {character})\n    - (ProjectDescription {character})\n    - (ProjectLeader {character})\n    - (camtrap_project_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>processed_site_substation_presence_absence<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (scientific_name {character})\n    - (common_name {character})\n    - (Presence {numeric})","<b>processed_site_substation_daily_presence_absence<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (Date {POSIXct})\n    - (scientific_name {character})\n    - (common_name {character})\n    - (Presence {numeric})"],"title":["<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_camtrap_records<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>DateTimeOriginal<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>Time<\/strong><\/li> <li><strong>delta.time.secs<\/strong><\/li> <li><strong>delta.time.mins<\/strong><\/li> <li><strong>delta.time.hours<\/strong><\/li> <li><strong>delta.time.days<\/strong><\/li> <li><strong>Directory<\/strong><\/li> <li><strong>FileName<\/strong><\/li> <li><strong>metadata_Distance<\/strong><\/li> <li><strong>metadata_Species<\/strong><\/li> <li><strong>metadata_Multiples<\/strong><\/li> <li><strong>n_images<\/strong><\/li> <li><strong>metadata_Individuals<\/strong><\/li> <li><strong>HierarchicalSubject<\/strong><\/li> <li><strong>metadata_Behaviour<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>camtrap_record_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_camtrap_operation<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>geohash<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>Latitude<\/strong><\/li> <li><strong>Longitude<\/strong><\/li> <li><strong>DateDeploy<\/strong><\/li> <li><strong>TimeDeploy<\/strong><\/li> <li><strong>DateRetrieve<\/strong><\/li> <li><strong>TimeRetrieve<\/strong><\/li> <li><strong>DateTimeDeploy<\/strong><\/li> <li><strong>DateTimeRetrieve<\/strong><\/li> <li><strong>Problem1_from<\/strong><\/li> <li><strong>Problem1_to<\/strong><\/li> <li><strong>CameraHeight<\/strong><\/li> <li><strong>CameraBearing<\/strong><\/li> <li><strong>CameraSlope<\/strong><\/li> <li><strong>CameraID<\/strong><\/li> <li><strong>CameraSensitivity<\/strong><\/li> <li><strong>CameraDelay<\/strong><\/li> <li><strong>CameraPhotosPerTrigger<\/strong><\/li> <li><strong>CameraQuietPeriod<\/strong><\/li> <li><strong>BaitedUnbaited<\/strong><\/li> <li><strong>BaitType<\/strong><\/li> <li><strong>BaitDistance<\/strong><\/li> <li><strong>CameraModel<\/strong><\/li> <li><strong>camtrap_operation_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_project_information<\/strong><\/p> <ul> <li><strong>ProjectName<\/strong><\/li> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>DistanceSampling<\/strong><\/li> <li><strong>TerrestrialArboreal<\/strong><\/li> <li><strong>AllSpeciesTagged<\/strong><\/li> <li><strong>DistanceForAllSpecies<\/strong><\/li> <li><strong>ProjectDescription<\/strong><\/li> <li><strong>ProjectLeader<\/strong><\/li> <li><strong>camtrap_project_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_camtrap_records<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>DateTimeOriginal<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>Time<\/strong><\/li> <li><strong>delta.time.secs<\/strong><\/li> <li><strong>delta.time.mins<\/strong><\/li> <li><strong>delta.time.hours<\/strong><\/li> <li><strong>delta.time.days<\/strong><\/li> <li><strong>Directory<\/strong><\/li> <li><strong>FileName<\/strong><\/li> <li><strong>metadata_Distance<\/strong><\/li> <li><strong>metadata_Species<\/strong><\/li> <li><strong>metadata_Multiples<\/strong><\/li> <li><strong>n_images<\/strong><\/li> <li><strong>metadata_Individuals<\/strong><\/li> <li><strong>HierarchicalSubject<\/strong><\/li> <li><strong>metadata_Behaviour<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>camtrap_record_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_camtrap_operation<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>geohash<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>Latitude<\/strong><\/li> <li><strong>Longitude<\/strong><\/li> <li><strong>DateDeploy<\/strong><\/li> <li><strong>TimeDeploy<\/strong><\/li> <li><strong>DateRetrieve<\/strong><\/li> <li><strong>TimeRetrieve<\/strong><\/li> <li><strong>DateTimeDeploy<\/strong><\/li> <li><strong>DateTimeRetrieve<\/strong><\/li> <li><strong>Problem1_from<\/strong><\/li> <li><strong>Problem1_to<\/strong><\/li> <li><strong>CameraHeight<\/strong><\/li> <li><strong>CameraBearing<\/strong><\/li> <li><strong>CameraSlope<\/strong><\/li> <li><strong>CameraID<\/strong><\/li> <li><strong>CameraSensitivity<\/strong><\/li> <li><strong>CameraDelay<\/strong><\/li> <li><strong>CameraPhotosPerTrigger<\/strong><\/li> <li><strong>CameraQuietPeriod<\/strong><\/li> <li><strong>BaitedUnbaited<\/strong><\/li> <li><strong>BaitType<\/strong><\/li> <li><strong>BaitDistance<\/strong><\/li> <li><strong>CameraModel<\/strong><\/li> <li><strong>camtrap_operation_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_project_information<\/strong><\/p> <ul> <li><strong>ProjectName<\/strong><\/li> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>DistanceSampling<\/strong><\/li> <li><strong>TerrestrialArboreal<\/strong><\/li> <li><strong>AllSpeciesTagged<\/strong><\/li> <li><strong>DistanceForAllSpecies<\/strong><\/li> <li><strong>ProjectDescription<\/strong><\/li> <li><strong>ProjectLeader<\/strong><\/li> <li><strong>camtrap_project_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">processed_site_substation_presence_absence<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>Presence<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">processed_site_substation_daily_presence_absence<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>Presence<\/strong><\/li> <\/ul><\/div>"],"shape":["box","box","box","box","box","box","box","box"],"font.multi":[true,true,true,true,true,true,true,true],"font.align":["left","left","left","left","left","left","left","left"],"x":[-675,-311,55,-673,-309,41,-524,-107],"y":[310,344,255,-127,-154,-255,-495,-489],"color.background":["#FEFE8F","#FEFE8F","#FEFE8F","#A9ECC9","#A9ECC9","#A9ECC9","#9BC8FE","#9BC8FE"],"color.border":["black","black","black","black","black","black","black","black"],"color.highlight.border":["orange","orange","orange","orange","orange","orange","orange","orange"],"color.highlight.background":["#FEFE8F","#FEFE8F","#FEFE8F","#A9ECC9","#A9ECC9","#A9ECC9","#9BC8FE","#9BC8FE"],"id":["raw_camtrap_records","raw_camtrap_operation","raw_project_information","curated_camtrap_records","curated_camtrap_operation","curated_project_information","processed_site_substation_presence_absence","processed_site_substation_daily_presence_absence"]},"edges":{"id":[],"from":[],"to":[]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","borderWidth":2,"labelHighlightBold":false},"manipulation":{"enabled":false},"edges":{"width":2,"selectionWidth":2},"interaction":{"multiselect":true,"zoomSpeed":1},"layout":{"randomSeed":2},"physics":{"enabled":false}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false},"byselection":{"enabled":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><p class="caption">
+<div class="visNetwork html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-fd5c24e8e3f2ee38fdb0" style="width:100%;height:432.632880098888px;"></div>
+<script type="application/json" data-for="htmlwidget-fd5c24e8e3f2ee38fdb0">{"x":{"nodes":{"tableName":["raw_camtrap_records","raw_camtrap_operation","raw_project_information","curated_camtrap_records","curated_camtrap_operation","curated_project_information","processed_site_substation_presence_absence","processed_site_substation_daily_presence_absence"],"label":["<b>raw_camtrap_records<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (scientific_name {character})\n    - (DateTimeOriginal {POSIXct})\n    - (Date {Date})\n    - (Time {character})\n    - (delta.time.secs {numeric})\n    - (delta.time.mins {numeric})\n    - (delta.time.hours {numeric})\n    - (delta.time.days {numeric})\n    - (Directory {character})\n    - (FileName {character})\n    - (metadata_Distance {character})\n    - (metadata_Species {character})\n    - (metadata_Multiples {integer})\n    - (n_images {integer})\n    - (metadata_Individuals {character})\n    - (HierarchicalSubject {character})\n    - (metadata_Behaviour {character})\n    - (common_name {character})\n    - (camtrap_record_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>raw_camtrap_operation<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (geohash {character})\n    - (Iteration {integer})\n    - (Latitude {numeric})\n    - (Longitude {numeric})\n    - (DateDeploy {Date})\n    - (TimeDeploy {character})\n    - (DateRetrieve {Date})\n    - (TimeRetrieve {character})\n    - (DateTimeDeploy {POSIXct})\n    - (DateTimeRetrieve {POSIXct})\n    - (Problem1_from {POSIXct})\n    - (Problem1_to {POSIXct})\n    - (CameraHeight {numeric})\n    - (CameraBearing {numeric})\n    - (CameraSlope {numeric})\n    - (CameraID {character})\n    - (CameraSensitivity {character})\n    - (CameraDelay {character})\n    - (CameraPhotosPerTrigger {integer})\n    - (CameraQuietPeriod {numeric})\n    - (BaitedUnbaited {character})\n    - (BaitType {character})\n    - (BaitDistance {numeric})\n    - (CameraModel {character})\n    - (camtrap_operation_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>raw_project_information<\/b>\n    - (ProjectName {character})\n    - (ProjectShortName {character})\n    - (DistanceSampling {character})\n    - (TerrestrialArboreal {character})\n    - (AllSpeciesTagged {character})\n    - (DistanceForAllSpecies {character})\n    - (ProjectDescription {character})\n    - (ProjectLeader {character})\n    - (camtrap_project_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_camtrap_records<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (scientific_name {character})\n    - (DateTimeOriginal {POSIXct})\n    - (Date {Date})\n    - (Time {character})\n    - (delta.time.secs {numeric})\n    - (delta.time.mins {numeric})\n    - (delta.time.hours {numeric})\n    - (delta.time.days {numeric})\n    - (Directory {character})\n    - (FileName {character})\n    - (metadata_Distance {character})\n    - (metadata_Species {character})\n    - (metadata_Multiples {integer})\n    - (n_images {integer})\n    - (metadata_Individuals {character})\n    - (HierarchicalSubject {character})\n    - (metadata_Behaviour {character})\n    - (common_name {character})\n    - (camtrap_record_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_camtrap_operation<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (geohash {character})\n    - (Iteration {integer})\n    - (Latitude {numeric})\n    - (Longitude {numeric})\n    - (DateDeploy {Date})\n    - (TimeDeploy {character})\n    - (DateRetrieve {Date})\n    - (TimeRetrieve {character})\n    - (DateTimeDeploy {POSIXct})\n    - (DateTimeRetrieve {POSIXct})\n    - (Problem1_from {POSIXct})\n    - (Problem1_to {POSIXct})\n    - (CameraHeight {numeric})\n    - (CameraBearing {numeric})\n    - (CameraSlope {numeric})\n    - (CameraID {character})\n    - (CameraSensitivity {character})\n    - (CameraDelay {character})\n    - (CameraPhotosPerTrigger {integer})\n    - (CameraQuietPeriod {numeric})\n    - (BaitedUnbaited {character})\n    - (BaitType {character})\n    - (BaitDistance {numeric})\n    - (CameraModel {character})\n    - (camtrap_operation_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>curated_project_information<\/b>\n    - (ProjectName {character})\n    - (ProjectShortName {character})\n    - (DistanceSampling {character})\n    - (TerrestrialArboreal {character})\n    - (AllSpeciesTagged {character})\n    - (DistanceForAllSpecies {character})\n    - (ProjectDescription {character})\n    - (ProjectLeader {character})\n    - (camtrap_project_database_ID {character})\n    - (Timestamp {POSIXct})\n    - (Uploader {character})","<b>processed_site_substation_presence_absence<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (scientific_name {character})\n    - (common_name {character})\n    - (Presence {numeric})","<b>processed_site_substation_daily_presence_absence<\/b>\n    - (ProjectShortName {character})\n    - (SiteID {character})\n    - (SubStation {character})\n    - (Iteration {integer})\n    - (Date {POSIXct})\n    - (scientific_name {character})\n    - (common_name {character})\n    - (Presence {numeric})"],"title":["<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_camtrap_records<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>DateTimeOriginal<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>Time<\/strong><\/li> <li><strong>delta.time.secs<\/strong><\/li> <li><strong>delta.time.mins<\/strong><\/li> <li><strong>delta.time.hours<\/strong><\/li> <li><strong>delta.time.days<\/strong><\/li> <li><strong>Directory<\/strong><\/li> <li><strong>FileName<\/strong><\/li> <li><strong>metadata_Distance<\/strong><\/li> <li><strong>metadata_Species<\/strong><\/li> <li><strong>metadata_Multiples<\/strong><\/li> <li><strong>n_images<\/strong><\/li> <li><strong>metadata_Individuals<\/strong><\/li> <li><strong>HierarchicalSubject<\/strong><\/li> <li><strong>metadata_Behaviour<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>camtrap_record_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_camtrap_operation<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>geohash<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>Latitude<\/strong><\/li> <li><strong>Longitude<\/strong><\/li> <li><strong>DateDeploy<\/strong><\/li> <li><strong>TimeDeploy<\/strong><\/li> <li><strong>DateRetrieve<\/strong><\/li> <li><strong>TimeRetrieve<\/strong><\/li> <li><strong>DateTimeDeploy<\/strong><\/li> <li><strong>DateTimeRetrieve<\/strong><\/li> <li><strong>Problem1_from<\/strong><\/li> <li><strong>Problem1_to<\/strong><\/li> <li><strong>CameraHeight<\/strong><\/li> <li><strong>CameraBearing<\/strong><\/li> <li><strong>CameraSlope<\/strong><\/li> <li><strong>CameraID<\/strong><\/li> <li><strong>CameraSensitivity<\/strong><\/li> <li><strong>CameraDelay<\/strong><\/li> <li><strong>CameraPhotosPerTrigger<\/strong><\/li> <li><strong>CameraQuietPeriod<\/strong><\/li> <li><strong>BaitedUnbaited<\/strong><\/li> <li><strong>BaitType<\/strong><\/li> <li><strong>BaitDistance<\/strong><\/li> <li><strong>CameraModel<\/strong><\/li> <li><strong>camtrap_operation_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">raw_project_information<\/strong><\/p> <ul> <li><strong>ProjectName<\/strong><\/li> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>DistanceSampling<\/strong><\/li> <li><strong>TerrestrialArboreal<\/strong><\/li> <li><strong>AllSpeciesTagged<\/strong><\/li> <li><strong>DistanceForAllSpecies<\/strong><\/li> <li><strong>ProjectDescription<\/strong><\/li> <li><strong>ProjectLeader<\/strong><\/li> <li><strong>camtrap_project_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_camtrap_records<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>DateTimeOriginal<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>Time<\/strong><\/li> <li><strong>delta.time.secs<\/strong><\/li> <li><strong>delta.time.mins<\/strong><\/li> <li><strong>delta.time.hours<\/strong><\/li> <li><strong>delta.time.days<\/strong><\/li> <li><strong>Directory<\/strong><\/li> <li><strong>FileName<\/strong><\/li> <li><strong>metadata_Distance<\/strong><\/li> <li><strong>metadata_Species<\/strong><\/li> <li><strong>metadata_Multiples<\/strong><\/li> <li><strong>n_images<\/strong><\/li> <li><strong>metadata_Individuals<\/strong><\/li> <li><strong>HierarchicalSubject<\/strong><\/li> <li><strong>metadata_Behaviour<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>camtrap_record_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_camtrap_operation<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>geohash<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>Latitude<\/strong><\/li> <li><strong>Longitude<\/strong><\/li> <li><strong>DateDeploy<\/strong><\/li> <li><strong>TimeDeploy<\/strong><\/li> <li><strong>DateRetrieve<\/strong><\/li> <li><strong>TimeRetrieve<\/strong><\/li> <li><strong>DateTimeDeploy<\/strong><\/li> <li><strong>DateTimeRetrieve<\/strong><\/li> <li><strong>Problem1_from<\/strong><\/li> <li><strong>Problem1_to<\/strong><\/li> <li><strong>CameraHeight<\/strong><\/li> <li><strong>CameraBearing<\/strong><\/li> <li><strong>CameraSlope<\/strong><\/li> <li><strong>CameraID<\/strong><\/li> <li><strong>CameraSensitivity<\/strong><\/li> <li><strong>CameraDelay<\/strong><\/li> <li><strong>CameraPhotosPerTrigger<\/strong><\/li> <li><strong>CameraQuietPeriod<\/strong><\/li> <li><strong>BaitedUnbaited<\/strong><\/li> <li><strong>BaitType<\/strong><\/li> <li><strong>BaitDistance<\/strong><\/li> <li><strong>CameraModel<\/strong><\/li> <li><strong>camtrap_operation_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">curated_project_information<\/strong><\/p> <ul> <li><strong>ProjectName<\/strong><\/li> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>DistanceSampling<\/strong><\/li> <li><strong>TerrestrialArboreal<\/strong><\/li> <li><strong>AllSpeciesTagged<\/strong><\/li> <li><strong>DistanceForAllSpecies<\/strong><\/li> <li><strong>ProjectDescription<\/strong><\/li> <li><strong>ProjectLeader<\/strong><\/li> <li><strong>camtrap_project_database_ID<\/strong><\/li> <li><strong>Timestamp<\/strong><\/li> <li><strong>Uploader<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">processed_site_substation_presence_absence<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>Presence<\/strong><\/li> <\/ul><\/div>","<div style=\"max-width:400px; max-height:300px;overflow:scroll;\"><p><strong style=\"text-decoration:underline;\">processed_site_substation_daily_presence_absence<\/strong><\/p> <ul> <li><strong>ProjectShortName<\/strong><\/li> <li><strong>SiteID<\/strong><\/li> <li><strong>SubStation<\/strong><\/li> <li><strong>Iteration<\/strong><\/li> <li><strong>Date<\/strong><\/li> <li><strong>scientific_name<\/strong><\/li> <li><strong>common_name<\/strong><\/li> <li><strong>Presence<\/strong><\/li> <\/ul><\/div>"],"shape":["box","box","box","box","box","box","box","box"],"font.multi":[true,true,true,true,true,true,true,true],"font.align":["left","left","left","left","left","left","left","left"],"x":[-675,-311,55,-673,-309,41,-524,-107],"y":[310,344,255,-127,-154,-255,-495,-489],"color.background":["#FEFE8F","#FEFE8F","#FEFE8F","#A9ECC9","#A9ECC9","#A9ECC9","#9BC8FE","#9BC8FE"],"color.border":["black","black","black","black","black","black","black","black"],"color.highlight.border":["orange","orange","orange","orange","orange","orange","orange","orange"],"color.highlight.background":["#FEFE8F","#FEFE8F","#FEFE8F","#A9ECC9","#A9ECC9","#A9ECC9","#9BC8FE","#9BC8FE"],"id":["raw_camtrap_records","raw_camtrap_operation","raw_project_information","curated_camtrap_records","curated_camtrap_operation","curated_project_information","processed_site_substation_presence_absence","processed_site_substation_daily_presence_absence"]},"edges":{"id":[],"from":[],"to":[]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","borderWidth":2,"labelHighlightBold":false},"manipulation":{"enabled":false},"edges":{"width":2,"selectionWidth":2},"interaction":{"multiselect":true,"zoomSpeed":1},"layout":{"randomSeed":2},"physics":{"enabled":false}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false},"byselection":{"enabled":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><p class="caption">
 Camera trap database model with the colour signifying the layer of
 processing. All data is appended to the raw layer and then flows up
 automatically through database views. Data tables in raw and curated
@@ -1950,7 +1950,7 @@ errors in the data to fix before preparing the data for upload.</p>
     </tr>
 <tr class="gt_heading">
 <td colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;">
-<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-08-29|06:11:32]</span>
+<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-10-11|04:42:13]</span>
 <div style="height:25px;">
 <span style="background-color:#9933CC;color:#FFFFFF;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #9933CC;padding:2px 15px 2px 15px;font-size:smaller;">data frame</span>
 <span style="background-color:none;color:#222222;padding:0.5em 0.5em;position:inherit;margin:5px 10px 5px -4px;font-weight:bold;border:solid 1px #9933CC;padding:2px 15px 2px 15px;font-size:smaller;">camtrap_records</span><span style="background-color:#E5AB00;color:white;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #E5AB00;padding:2px 15px 2px 15px;font-size:smaller;">WARN</span>
@@ -1981,7 +1981,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">1</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `SiteID` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2027,7 +2027,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">2</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `SubStation` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2073,7 +2073,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">3</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Iteration` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2119,7 +2119,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">4</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `scientific_name` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2165,7 +2165,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">5</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `common_name` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2211,7 +2211,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">6</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `DateTimeOriginal` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2257,7 +2257,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">7</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Date` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2303,7 +2303,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">8</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Time` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2349,7 +2349,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">9</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `delta.time.secs` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2395,7 +2395,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">10</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `delta.time.mins` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2441,7 +2441,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">11</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `delta.time.hours` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2487,7 +2487,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">12</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `delta.time.days` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2533,7 +2533,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">13</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Directory` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2579,7 +2579,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">14</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `FileName` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2625,7 +2625,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">15</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `n_images` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2671,7 +2671,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">16</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `HierarchicalSubject` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2717,7 +2717,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">17</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `metadata_Multiples` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2763,7 +2763,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">18</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `metadata_Distance` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2809,7 +2809,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">19</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `metadata_Individuals` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2855,7 +2855,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">20</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `metadata_Behaviour` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2901,7 +2901,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">21</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `metadata_Species` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -2947,7 +2947,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">22</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect entirely distinct rows across all columns. " data-balloon-pos="right" style="width:fit-content;">
@@ -2987,7 +2987,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">23</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `SiteID` is of type: character. " data-balloon-pos="right" style="width:fit-content;">
@@ -3033,7 +3033,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">24</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `SubStation` is of type: character. " data-balloon-pos="right" style="width:fit-content;">
@@ -3079,7 +3079,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">25</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `scientific_name` is of type: character. " data-balloon-pos="right" style="width:fit-content;">
@@ -3125,7 +3125,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">26</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `common_name` is of type: character. " data-balloon-pos="right" style="width:fit-content;">
@@ -3171,7 +3171,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">27</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Time` is of type: character. " data-balloon-pos="right" style="width:fit-content;">
@@ -3217,7 +3217,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">28</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Directory` is of type: character. " data-balloon-pos="right" style="width:fit-content;">
@@ -3263,7 +3263,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">29</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `FileName` is of type: character. " data-balloon-pos="right" style="width:fit-content;">
@@ -3309,7 +3309,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">30</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Iteration` is of type: integer. " data-balloon-pos="right" style="width:fit-content;">
@@ -3355,7 +3355,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">31</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `metadata_Multiples` is of type: integer. " data-balloon-pos="right" style="width:fit-content;">
@@ -3401,7 +3401,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">32</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `SiteID` should be in the set of `9941`, `2602`, `832` (and 3 more). " data-balloon-pos="right" style="width:fit-content;">
@@ -3449,7 +3449,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">33</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `SubStation` should be in the set of `NA`, `NA`, `NA` (and 3 more). " data-balloon-pos="right" style="width:fit-content;">
@@ -3497,7 +3497,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">34</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `Iteration` should be in the set of `1`, `1`, `1` (and 3 more). " data-balloon-pos="right" style="width:fit-content;">
@@ -3545,7 +3545,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">35</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `Iteration_SiteID_SubStation` (computed column) should be in the set of `1_9941_NA`, `1_2602_NA`, `1_832_NA` (and 3 more). Precondition applied: `. %&gt;% ...`." data-balloon-pos="right" style="width:fit-content;">
@@ -3598,7 +3598,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">36</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `scientific_name` should be in the set of `Macropus giganteus`, `Vulpes vulpes`, `Dromaius novaehollandiae` (and 2 more). " data-balloon-pos="right" style="width:fit-content;">
@@ -3646,7 +3646,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">37</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `common_name` should be in the set of `Eastern Grey Kangaroo`, `Red Fox`, `Emu` (and 2 more). " data-balloon-pos="right" style="width:fit-content;">
@@ -3694,7 +3694,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">38</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `SiteID` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -3740,7 +3740,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">39</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `scientific_name` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -3786,7 +3786,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">40</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `common_name` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -3832,7 +3832,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">41</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `Date` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -3878,7 +3878,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">42</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `Time` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -3924,7 +3924,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">43</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `DateTimeOriginal` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -3970,7 +3970,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">44</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `Iteration` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -4016,7 +4016,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #CF142B; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #CF142B; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">45</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `metadata_Multiples` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -4064,7 +4064,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">46</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Date` is of type: Date. " data-balloon-pos="right" style="width:fit-content;">
@@ -4110,7 +4110,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">47</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `DateTimeOriginal` is of type: POSIXct. " data-balloon-pos="right" style="width:fit-content;">
@@ -4156,7 +4156,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">48</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `Date` should be between `DateDeploy` and `DateRetrieve`. Precondition applied: `&lt;fn&gt;`." data-balloon-pos="right" style="width:fit-content;">
@@ -4204,7 +4204,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">49</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `metadata_Distance` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -4252,9 +4252,9 @@ errors in the data to fix before preparing the data for upload.</p>
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
 <td class="gt_sourcenote" colspan="14">
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-08-29 06:11:33 UTC</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">1.2 s</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-08-29 06:11:34 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-10-11 04:42:14 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">&lt; 1 s</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-10-11 04:42:14 UTC</span>
 </td>
     </tr></tfoot>
 </table>
@@ -4745,7 +4745,7 @@ errors in the data to fix before preparing the data for upload.</p>
     </tr>
 <tr class="gt_heading">
 <td colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;">
-<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-08-29|06:11:34]</span>
+<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-10-11|04:42:14]</span>
 <div style="height:25px;">
 <span style="background-color:#F1D35A;color:#222222;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">tibble</span>
 <span style="background-color:none;color:#222222;padding:0.5em 0.5em;position:inherit;margin:5px 10px 5px -4px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">camtrap_operation</span><span style="background-color:#E5AB00;color:white;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #E5AB00;padding:2px 15px 2px 15px;font-size:smaller;">WARN</span>
@@ -4776,7 +4776,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">1</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `SiteID` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -4822,7 +4822,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">2</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `SubStation` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -4868,7 +4868,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">3</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Iteration` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -4914,7 +4914,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">4</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Latitude` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -4960,7 +4960,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">5</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Longitude` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5006,7 +5006,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">6</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `DateDeploy` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5052,7 +5052,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">7</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `TimeDeploy` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5098,7 +5098,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">8</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `DateRetrieve` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5144,7 +5144,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">9</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `TimeRetrieve` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5190,7 +5190,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">10</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Problem1_from` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5236,7 +5236,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">11</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Problem1_to` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5282,7 +5282,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">12</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `DateTimeDeploy` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5328,7 +5328,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">13</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `DateTimeRetrieve` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5374,7 +5374,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">14</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `CameraHeight` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5420,7 +5420,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">15</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `CameraID` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5466,7 +5466,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">16</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `CameraModel` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5512,7 +5512,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">17</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `CameraSensitivity` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5558,7 +5558,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">18</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `CameraDelay` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5604,7 +5604,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">19</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `CameraPhotosPerTrigger` exists." data-balloon-pos="right" style="width:fit-content;">
@@ -5650,7 +5650,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">20</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect entirely distinct rows across all columns. " data-balloon-pos="right" style="width:fit-content;">
@@ -5690,7 +5690,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">21</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `SiteID` is of type: character. " data-balloon-pos="right" style="width:fit-content;">
@@ -5736,7 +5736,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">22</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `SubStation` is of type: character. " data-balloon-pos="right" style="width:fit-content;">
@@ -5782,7 +5782,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">23</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `CameraID` is of type: character. " data-balloon-pos="right" style="width:fit-content;">
@@ -5828,7 +5828,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">24</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `CameraModel` is of type: character. " data-balloon-pos="right" style="width:fit-content;">
@@ -5874,7 +5874,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">25</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `CameraSensitivity` is of type: character. " data-balloon-pos="right" style="width:fit-content;">
@@ -5920,7 +5920,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">26</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `CameraDelay` is of type: character. " data-balloon-pos="right" style="width:fit-content;">
@@ -5966,7 +5966,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">27</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Latitude` is of type: numeric. " data-balloon-pos="right" style="width:fit-content;">
@@ -6012,7 +6012,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">28</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Longitude` is of type: numeric. " data-balloon-pos="right" style="width:fit-content;">
@@ -6058,7 +6058,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">29</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `CameraHeight` is of type: numeric. " data-balloon-pos="right" style="width:fit-content;">
@@ -6104,7 +6104,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">30</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `DateDeploy` is of type: Date. " data-balloon-pos="right" style="width:fit-content;">
@@ -6150,7 +6150,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">31</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `DateRetrieve` is of type: Date. " data-balloon-pos="right" style="width:fit-content;">
@@ -6196,7 +6196,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">32</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Iteration` is of type: integer. " data-balloon-pos="right" style="width:fit-content;">
@@ -6242,7 +6242,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">33</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `CameraPhotosPerTrigger` is of type: integer. " data-balloon-pos="right" style="width:fit-content;">
@@ -6288,7 +6288,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">34</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `DateTimeDeploy` is of type: POSIXct. " data-balloon-pos="right" style="width:fit-content;">
@@ -6334,7 +6334,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">35</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `DateTimeRetrieve` is of type: POSIXct. " data-balloon-pos="right" style="width:fit-content;">
@@ -6380,7 +6380,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">36</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Problem1_from` is of type: POSIXct. " data-balloon-pos="right" style="width:fit-content;">
@@ -6426,7 +6426,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">37</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `Problem1_to` is of type: POSIXct. " data-balloon-pos="right" style="width:fit-content;">
@@ -6472,7 +6472,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">38</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `SiteID` should be in the set of `2602`, `43134`, `56505` (and 4 more). " data-balloon-pos="right" style="width:fit-content;">
@@ -6520,7 +6520,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">39</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `SubStation` should be in the set of `NA`, `NA`, `A` (and 4 more). " data-balloon-pos="right" style="width:fit-content;">
@@ -6568,7 +6568,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">40</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `Latitude` should be between `-60.55` and `-8.47`. " data-balloon-pos="right" style="width:fit-content;">
@@ -6616,7 +6616,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">41</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `Longitude` should be between `93.41` and `173.34`. " data-balloon-pos="right" style="width:fit-content;">
@@ -6664,7 +6664,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">42</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `SiteID` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -6710,7 +6710,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">43</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `Latitude` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -6756,7 +6756,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">44</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `Longitude` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -6802,7 +6802,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">45</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `DateDeploy` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -6848,7 +6848,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">46</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `TimeDeploy` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -6894,7 +6894,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">47</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `DateRetrieve` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -6940,7 +6940,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">48</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `TimeRetrieve` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -6986,7 +6986,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">49</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `DateTimeDeploy` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -7032,7 +7032,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">50</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `DateTimeRetrieve` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -7078,7 +7078,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">51</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `CameraHeight` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -7124,7 +7124,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">52</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `CameraID` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -7170,7 +7170,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">53</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `Iteration` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -7216,7 +7216,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">54</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `CameraModel` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -7262,7 +7262,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">55</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `CameraSensitivity` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -7308,7 +7308,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">56</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `CameraDelay` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -7354,7 +7354,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">57</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `CameraPhotosPerTrigger` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -7400,7 +7400,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">58</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `BaitedUnbaited` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -7446,7 +7446,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">59</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `BaitType` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -7492,7 +7492,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">60</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `BaitedUnbaited` should be in the set of `Baited`, `Unbaited`. " data-balloon-pos="right" style="width:fit-content;">
@@ -7540,7 +7540,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">61</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `BaitType` should be in the set of `None`, `Creamed Honey`, `Small Mammal Bait` (and 4 more). " data-balloon-pos="right" style="width:fit-content;">
@@ -7590,9 +7590,9 @@ errors in the data to fix before preparing the data for upload.</p>
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
 <td class="gt_sourcenote" colspan="14">
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-08-29 06:11:34 UTC</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2.5 s</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-08-29 06:11:36 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-10-11 04:42:14 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">1.8 s</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-10-11 04:42:16 UTC</span>
 </td>
     </tr></tfoot>
 </table>
@@ -8083,7 +8083,7 @@ errors in the data to fix before preparing the data for upload.</p>
     </tr>
 <tr class="gt_heading">
 <td colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;">
-<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-08-29|06:11:36]</span>
+<span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2023-10-11|04:42:16]</span>
 <div style="height:25px;">
 <span style="background-color:#F1D35A;color:#222222;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">tibble</span>
 <span style="background-color:none;color:#222222;padding:0.5em 0.5em;position:inherit;margin:5px 10px 5px -4px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">project_information</span><span style="background-color:#E5AB00;color:white;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #E5AB00;padding:2px 15px 2px 15px;font-size:smaller;">WARN</span>
@@ -8114,7 +8114,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">1</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that the row count is exactly `1`. " data-balloon-pos="right" style="width:fit-content;">
@@ -8156,7 +8156,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">2</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `ProjectName` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -8202,7 +8202,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">3</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `ProjectShortName` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -8248,7 +8248,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">4</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `DistanceSampling` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -8294,7 +8294,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">5</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `TerrestrialArboreal` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -8340,7 +8340,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">6</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `AllSpeciesTagged` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -8386,7 +8386,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">7</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `DistanceForAllSpecies` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -8432,7 +8432,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">8</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `ProjectDescription` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -8478,7 +8478,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">9</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that all values in `ProjectLeader` should not be NULL. " data-balloon-pos="right" style="width:fit-content;">
@@ -8524,7 +8524,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">10</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `DistanceSampling` is of type: logical. " data-balloon-pos="right" style="width:fit-content;">
@@ -8570,7 +8570,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">11</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that column `AllSpeciesTagged` is of type: logical. " data-balloon-pos="right" style="width:fit-content;">
@@ -8616,7 +8616,7 @@ errors in the data to fix before preparing the data for upload.</p>
 </div></td>
 </tr>
 <tr>
-<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"><br></td>
 <td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">12</td>
 <td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md">
 <div aria-label="Expect that values in `TerrestrialArboreal` should be in the set of `Terrestrial`, `Arboreal`. " data-balloon-pos="right" style="width:fit-content;">
@@ -8666,9 +8666,9 @@ errors in the data to fix before preparing the data for upload.</p>
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
 <td class="gt_sourcenote" colspan="14">
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-08-29 06:11:36 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-10-11 04:42:16 UTC</span>
 <span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">&lt; 1 s</span>
-<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-08-29 06:11:37 UTC</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-10-11 04:42:16 UTC</span>
 </td>
     </tr></tfoot>
 </table>
