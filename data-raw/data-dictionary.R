@@ -162,3 +162,5 @@ usethis::use_data(data_dictionary, overwrite = TRUE)
 
 DBI::dbWriteTable(con, DBI::Id(schema = "data_dictionary", table = "data_dictionary"),
                   data_dictionary, row.names = FALSE, append = FALSE, overwrite = TRUE)
+
+write.csv(data_dictionary, "data-raw/data_dictionary.csv")
