@@ -30,7 +30,9 @@ devtools::install_github("JustinCally/weda")
 
 `weda` currently supports the following functionality:
 
-1.  [Uploading and processing camera trap
+1.  [Connecting to the
+    database](https://JustinCally.github.io/weda/articles/database-connect.html)  
+2.  [Uploading and processing camera trap
     data](https://JustinCally.github.io/weda/articles/camtrap-upload.html)  
-2.  [Connecting to the
-    database](https://JustinCally.github.io/weda/articles/database-connect.html)
+3.  [Using and downloading
+    data](https://justincally.github.io/weda/articles/data-download.html)
