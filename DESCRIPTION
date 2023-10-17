@@ -1,6 +1,6 @@
 Package: weda
 Title: Wildlife Ecology Data Analytics (weda) supports database connections and use at ARI
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: 
     person("Justin", "Cally", , "justin.cally@delwp.vic.gov.au", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4584-2220"))
