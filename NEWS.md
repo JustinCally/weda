@@ -1,3 +1,6 @@
+# weda 0.0.5
+* VBA output format has been amended. 
+
 # weda 0.0.4
 * Have a `DBDetectionHistory()` to get camtrap data in observation periods (e.g. for use in unmarked)  
 * Additional vignette on how to download and use data  
