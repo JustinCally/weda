@@ -115,17 +115,29 @@ upload_camtrap_data <- function(con,
   DBI::dbWriteTable(con, DBI::Id(schema = schema, table = "raw_camtrap_records"),
                     data_list[["camtrap_records"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
     message("Uploaded camera trap records")
+    DBI::dbExecute(conn = con, statement = "REFRESH MATERIALIZED VIEW camtrap.curated_camtrap_records;")
+    message("Refreshed records materialized VIEW")
   }
 
   if("raw_camtrap_operation" %in% tables_to_upload) {
   DBI::dbWriteTable(con, DBI::Id(schema = schema, table = "raw_camtrap_operation"),
                     data_list[["camtrap_operation"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
     message("Uploaded camera trap operation details")
+    DBI::dbExecute(conn = con, statement = "REFRESH MATERIALIZED VIEW camtrap.curated_camtrap_operation;")
+    message("Refreshed operation materialized VIEW")
   }
 
   if("raw_project_information" %in% tables_to_upload) {
   DBI::dbWriteTable(con, DBI::Id(schema = schema, table = "raw_project_information"),
                     data_list[["project_information"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
     message("Uploaded camera trap project information")
+    DBI::dbExecute(conn = con, statement = "REFRESH MATERIALIZED VIEW camtrap.curated_project_information;")
+    message("Refreshed project info materialized VIEW")
   }
+
+  if(any(c("raw_camtrap_operation", "raw_camtrap_records") %in% tables_to_upload)) {
+    DBI::dbExecute(conn = con, statement = "REFRESH MATERIALIZED VIEW camtrap.processed_site_substation_presence_absence;")
+    message("Refreshed presence-absence materialized VIEW")
+  }
+
 }
