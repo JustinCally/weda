@@ -1,3 +1,6 @@
+# weda 0.0.6
+* Refresh materialized view with code (not triggers) as it was not working. Refreshes on upload now
+
 # weda 0.0.5
 * VBA output format has been amended. 
 
