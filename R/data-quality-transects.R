@@ -1,4 +1,15 @@
-data_quality_transects <- function(records, transects, project_information) {
+#' Transect Data Quality Checks
+#' @description Assesses the data quality of transect records, transects and project information.
+#' Automatically checks whether columns are present, converts them to the appropriate class and
+#' runs a pointblank check on the data
+#'
+#' @param records this is the dataframe that contains the records of animals on transects
+#' @param transects this is the dataframe that contains the information about the transect location and time it was surveyed
+#' @param project_information this is the dataframe that contains the information about the project
+#'
+#' @return list of pointblank objects
+#' @export
+transect_dq <- function(records, transects, project_information) {
 
   req_cols <- c('SiteID' ,
                 'Transect',
@@ -22,6 +33,7 @@ data_quality_transects <- function(records, transects, project_information) {
                 "AnimalAngle",
                 "AnimalBearing",
                 "DistanceFromTransectStart",
+                "AnimalPerpDistance",
                 "TreeSpecies",
                 "BothSeen",
                 "ObservationNotes",
@@ -31,11 +43,7 @@ data_quality_transects <- function(records, transects, project_information) {
                 "ColourForm",
                 "PhotoID",
                 "AnimalLongitude2",
-                "AnimalLatitude2",
-                "LoR2",
-                "SeenOnSameSide",
-                "DistanceBetweenAnimalProj",
-                "AnimalPerpDistance")
+                "AnimalLatitude2")
 
   req_cols_op <- c('SiteID',
                    'Transect',
@@ -99,6 +107,10 @@ data_quality_transects <- function(records, transects, project_information) {
     return(NULL)
   }
 
+  records <- records[,req_cols]
+  transects <- transects[,req_cols_op]
+  project_information <- project_information[,req_cols_proj]
+
   # vba names
   vba_sci <- weda::vba_name_conversions %>%
     dplyr::filter(.data$scientific_name %in% !!records$scientific_name)
@@ -117,9 +129,9 @@ data_quality_transects <- function(records, transects, project_information) {
     actions = pointblank::action_levels(stop_at = 1)) %>%
     pointblank::col_exists(columns = req_cols) %>%
     pointblank::rows_distinct() %>%
-    pointblank::col_is_character(c("SiteID", "scientific_name", "common_name", "SeenHeard", "LoR", "WaypointNo", "TreeSpecies", "ObservationNotes", "LoR2", "SurveyMethod", "ColourForm", "PhotoID", "AnimalID")) %>%
+    pointblank::col_is_character(c("SiteID", "scientific_name", "common_name", "SeenHeard", "LoR", "WaypointNo", "TreeSpecies", "ObservationNotes", "SurveyMethod", "ColourForm", "PhotoID", "AnimalID")) %>%
     pointblank::col_is_integer(c("Iteration", "Transect", "Adults", "Joeys", "Individuals", "ObserverPosition"))  %>%
-    pointblank::col_is_numeric(c("ObserverLatitude", "ObserverLongitude", "AnimalDistance", "AnimalHeight", "AnimalHorizontalDistance", "AnimalAngle", "AnimalBearing","DistanceFromTransectStart", "AnimalLongitude", "AnimalLatitude", "AnimalLongitude2", "AnimalLatitude2", "DistanceBetweenAnimalProj", "AnimalPerpDistance"))  %>%
+    pointblank::col_is_numeric(c("ObserverLatitude", "ObserverLongitude", "AnimalDistance", "AnimalHeight", "AnimalHorizontalDistance", "AnimalAngle", "AnimalBearing","DistanceFromTransectStart", "AnimalLongitude", "AnimalLatitude", "AnimalLongitude2", "AnimalLatitude2", "AnimalPerpDistance"))  %>%
     pointblank::col_vals_in_set("SiteID", set = transects$SiteID) %>%
     pointblank::col_vals_in_set("Transect", set = transects$Transect) %>%
     pointblank::col_vals_in_set("Iteration", set = transects$Iteration) %>%
@@ -205,7 +217,7 @@ data_quality_transects <- function(records, transects, project_information) {
                                        'MaxTruncationDistance',
                                        'geometry')) %>%
     pointblank::rows_distinct() %>%
-    pointblank::col_is_character(columns = c('SiteID', 'ObserverID', 'ObserverName',	'Weather',	"TransectNotes", "MoonPhase", "Wind", "Precipitation", "FlowerIndex", "Access", "Visibility",'TransectType')) %>%
+    pointblank::col_is_character(columns = c('SiteID', 'ObserverID', 'ObserverName','Weather',	"TransectNotes", "Wind", "Precipitation", "FlowerIndex", "Access", "Visibility",'TransectType')) %>%
     pointblank::col_is_numeric(columns = c('TransectLength', 'MaxTruncationDistance')) %>%
     pointblank::col_is_date(columns = c('Date')) %>%
     pointblank::col_is_integer(columns = c('Iteration', 'ObserverPosition', 'Transect')) %>%
@@ -242,8 +254,40 @@ data_quality_transects <- function(records, transects, project_information) {
     pointblank::interrogate()
 
 
-  return(list(camtrap_records = pb_rec,
-              camtrap_operation = pb_op,
+  return(list(records = pb_rec,
+              transects = pb_op,
               project_information = pb_pi))
 
+}
+
+
+#' Filter records outside transect area
+#' @description Filter the records so that no animals fall outside of the searchable transect area
+#'
+#' @param records data.frame of the records with AnimalLongitude and AnimalLatitude columns
+#' @param transects sf data.frame of the transects
+#' @param endcap style of the endcap buffering, see \link[sf]{st_buffer}, default is 'FLAT' meaning the searchable area does not extend past the end of the transect
+#'
+#' @return data.frame
+#' @export
+filter_records_outside_transect_area <- function(records, transects, endcap = "FLAT") {
+
+  transects <- transects %>%
+    sf::st_transform(3111) %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(geometry = sf::st_buffer(x = geometry,
+                                           dist = MaxTruncationDistance,
+                                           endCapStyle = endcap)) %>%
+    sf::st_transform(4283)
+
+  transect_ordered_recs <- dplyr::left_join(records,
+                                            transects) %>%
+    sf::st_as_sf(crs = 4283)
+
+  intersects <- diag(st_within(records %>%
+                                 sf::st_as_sf(coords = c("AnimalLongitude", "AnimalLatitude"),
+                                              crs = 4283),
+                               transect_ordered_recs, sparse = F))
+
+  return(records[intersects,])
 }

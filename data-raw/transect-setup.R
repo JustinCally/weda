@@ -1,5 +1,6 @@
 library(tidyverse)
 library(sf)
+library(weda)
 
 # Samples of transect data
 koala <- readRDS("~/Documents/Work/R Repositories/koala-vic/data/koala_recs_form.rds")
@@ -24,7 +25,7 @@ records_base <- koala[[1]] %>%
          DateTimeOriginal = case_when(SiteID == "OT10" ~ DateTimeOriginal + lubridate::hours(1),
                                       SiteID == "SWP5" & Transect == 2 & AnimalID == 10 ~ DateTimeOriginal - lubridate::hours(1),
                                       TRUE ~ DateTimeOriginal)) %>%
-  select(-Date, -Time, -ObserverName, -ObserverID) %>%
+  select(-Date, -Time, -ObserverName, -ObserverID, -LoR2, -SeenOnSameSide, -DistanceBetweenAnimalProj) %>%
   rename(DateTime = DateTimeOriginal,
          ObserverLongitude = Longitude,
          ObserverLatitude = Latitude) %>%
@@ -33,8 +34,8 @@ records_base <- koala[[1]] %>%
 transects_base <- koala[[2]] %>%
   mutate(Iteration = 1L,
          TransectLength = st_length(geometry) %>% as.numeric(),
-         MoonPhase = NA_character_,
-         Cloud = NA,
+         MoonPhase = NA_integer_,
+         Cloud = NA_integer_,
          RelativeHumidity = NA,
          Wind = NA_character_,
          Precipitation = NA_character_,
@@ -60,54 +61,62 @@ project_name_base <- data.frame('ProjectName' = "Statewide Koala Monitoring",
                                 'ProjectDescription' = "Statewide monitoring of koalas using double-observer distance-sampling and acoustic monitoring",
                                 'ProjectLeader' = "Justin Cally and Dave Ramsey")
 
-visualise_records <- function(transects, records) {
 
-  transects <- transects %>%
-    sf::st_transform(4283)
-
-  bounds <- sf::st_bbox(transects) %>%
-    as.character()
-
-  animal_records <- records %>%
-    sf::st_as_sf(coords = c("AnimalLongitude", "AnimalLatitude"), crs = 4283)
-
-  observer_records <- records %>%
-    sf::st_as_sf(coords = c("ObserverLongitude", "ObserverLatitude"), crs = 4283)
-
-  animal_records2 <- records %>%
-    dplyr::filter(!is.na(AnimalLongitude2)) %>%
-    sf::st_as_sf(coords = c("AnimalLongitude2", "AnimalLatitude2"), crs = 4283)
-
-  animal_lines2 <- records %>%
-    dplyr::filter(!is.na(AnimalLongitude2)) %>%
-    sf::st_as_sf(coords = c("AnimalLongitude", "AnimalLatitude"), crs = 4283) %>%
-    dplyr::bind_rows(animal_records2) %>%
-    dplyr::group_by(Iteration, SiteID, Transect, scientific_name, common_name, AnimalID) %>%
-    dplyr::summarize(do_union=FALSE) %>%
-    sf::st_cast("LINESTRING") %>%
-    dplyr::ungroup()
-
-  vis_lines <- bind_rows(observer_records, animal_records) %>%
-    dplyr::group_by(Iteration, SiteID, Transect, scientific_name, common_name, AnimalID) %>%
-    dplyr::summarize(do_union=FALSE) %>%
-    sf::st_cast("LINESTRING") %>%
-    dplyr::ungroup()
-
-  base_map <- mapview::mapview()
-
-  transect_plot <- base_map@map %>%
-    leaflet::addPolylines(data = transects, color = "#377eb8") %>%
-    leaflet::addPolylines(data = animal_lines2, color = "orange") %>%
-    leaflet::addCircles(data = animal_records2, color = "orange", radius = 2.5, fillOpacity = 0.8) %>%
-    leaflet::addPolylines(data = vis_lines, color = "black") %>%
-    leaflet::addCircles(data = animal_records, color = "#e41a1c", radius = 5) %>%
-    leaflet::fitBounds(lng1 = bounds[1], lat1 = bounds[2], lng2 = bounds[3], lat2 = bounds[4])
-
-  transect_plot
-}
 visualise_records(transects = transects_base, records = records_base)
 
+
+
+# Check position of animals relative to transects
+records_filterd <- filter_records_outside_transect_area(transects = transects_base,
+                                                        records = records_base)
+
+visualise_records(transects = transects_base, records = records_filterd)
+
 # data quality
-dq <- data_quality_transects(records = records_base,
+dq <- data_quality_transects(records = records_filterd,
                              transects = transects_base,
                              project_information = project_name_base)
+
+
+dd1 <- data.frame(schema = "transects",
+                 table_name = "raw_transect_records",
+                 table_description = "Records of animals detected along transects",
+                 table_type = "raw",
+                 column_name = names(dq[["records"]][["tbl"]]),
+                 column_class = c(sapply(dq[["records"]][["tbl"]],
+                                         function(y) paste(class(y), collapse = ", "),
+                                         simplify = TRUE)),
+                 column_description = NA_character_,
+                 accepted_values = NA_character_,
+                 row.names = NULL,
+                 mandatory = NA_character_)
+
+dd2 <- data.frame(schema = "transects",
+                  table_name = "raw_transect_details",
+                  table_description = "Records of when and where transects were undertaken",
+                  table_type = "raw",
+                  column_name = names(dq[["transects"]][["tbl"]]),
+                  column_class = c(sapply(dq[["transects"]][["tbl"]],
+                                          function(y) paste(class(y), collapse = ", "),
+                                          simplify = TRUE)),
+                  column_description = NA_character_,
+                  accepted_values = NA_character_,
+                  row.names = NULL,
+                  mandatory = NA_character_)
+
+dd3 <- data.frame(schema = "transects",
+                  table_name = "raw_project_information",
+                  table_description = "Details of the project under which transects were searched",
+                  table_type = "raw",
+                  column_name = names(dq[["project_information"]][["tbl"]]),
+                  column_class = c(sapply(dq[["project_information"]][["tbl"]],
+                                          function(y) paste(class(y), collapse = ", "),
+                                          simplify = TRUE)),
+                  column_description = NA_character_,
+                  accepted_values = NA_character_,
+                  row.names = NULL,
+                  mandatory = NA_character_)
+
+dd <- bind_rows(list(dd1,dd2,dd3))
+
+write.csv(dd, "data-raw/transect_data_dictionary_base.csv")
