@@ -1,12 +1,11 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   camtrap-upload: camtrap-upload.html
   data-download: data-download.html
   database-connect: database-connect.html
-last_built: 2024-05-29T00:27Z
+last_built: 2024-10-31T05:43Z
 urls:
   reference: https://justincally.github.io/weda/reference
   article: https://justincally.github.io/weda/articles
-

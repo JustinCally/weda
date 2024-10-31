@@ -1,96 +1,34 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://justincally.github.io/weda/404.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/articles/camtrap-upload.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/articles/data-download.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/articles/database-connect.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/index.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/DBdetectionHistory.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/camera_trap_dq.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/camtrap_app.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/camtrap_operation_from_records.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/camtrap_operation_mapview.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/check_unique_project.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/convert_to_latlong.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/dataUploadpUI.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/data_dictionary.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/mcrecordTable.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/prepare_camtrap_upload.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/processed_SubStation_presence_absence.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/projectMapUI.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/records_curated_view.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/standardise_species_names.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/upload_camtrap_data.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/vba_format.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/vba_name_conversions.html</loc>
-  </url>
-  <url>
-    <loc>https://justincally.github.io/weda/reference/weda_connect.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://justincally.github.io/weda/404.html</loc></url>
+<url><loc>https://justincally.github.io/weda/LICENSE-text.html</loc></url>
+<url><loc>https://justincally.github.io/weda/LICENSE.html</loc></url>
+<url><loc>https://justincally.github.io/weda/articles/camtrap-upload.html</loc></url>
+<url><loc>https://justincally.github.io/weda/articles/data-download.html</loc></url>
+<url><loc>https://justincally.github.io/weda/articles/database-connect.html</loc></url>
+<url><loc>https://justincally.github.io/weda/articles/index.html</loc></url>
+<url><loc>https://justincally.github.io/weda/authors.html</loc></url>
+<url><loc>https://justincally.github.io/weda/index.html</loc></url>
+<url><loc>https://justincally.github.io/weda/news/index.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/DBdetectionHistory.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/camera_trap_dq.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/camtrap_app.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/camtrap_operation_from_records.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/camtrap_operation_mapview.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/check_unique_project.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/convert_to_latlong.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/dataUploadpUI.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/data_dictionary.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/index.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/mcrecordTable.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/pipe.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/prepare_camtrap_upload.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/processed_SubStation_presence_absence.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/projectMapUI.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/records_curated_view.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/standardise_species_names.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/upload_camtrap_data.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/vba_format.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/vba_name_conversions.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/weda_connect.html</loc></url>
 </urlset>
+
