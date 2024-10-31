@@ -58,7 +58,7 @@ Suggests:
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Remotes: 
-    rich-iannone/pointblank,
+    rstudio/pointblank,
     daattali/shinycssloaders,
     gfkse/bettermc,
     jniedballa/camtrapR
