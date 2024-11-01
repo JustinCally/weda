@@ -77,6 +77,8 @@ dq <- data_quality_transects(records = records_filterd,
                              transects = transects_base,
                              project_information = project_name_base)
 
+transects_prepped <- prepare_transect_upload(dq)
+
 
 dd1 <- data.frame(schema = "transects",
                  table_name = "raw_transect_records",
