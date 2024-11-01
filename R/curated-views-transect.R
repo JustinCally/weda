@@ -1,4 +1,5 @@
 #' @rdname records_curated_view
+#' @export
 transect_records_curated_view <- function(con, return_data = FALSE) {
 
   # load the raw_camtrap_records table from the camtrap schema
@@ -19,7 +20,7 @@ transect_records_curated_view <- function(con, return_data = FALSE) {
 
 #' @rdname records_curated_view
 #' @export
-operation_curated_view <- function(con, return_data = FALSE) {
+transect_curated_view <- function(con, return_data = FALSE) {
 
   raw_transects <- dplyr::tbl(con, dbplyr::in_schema("transect", "raw_transects"))
 
@@ -36,7 +37,7 @@ operation_curated_view <- function(con, return_data = FALSE) {
 
 #' @rdname records_curated_view
 #' @export
-project_curated_view <- function(con, return_data = FALSE) {
+transect_project_curated_view <- function(con, return_data = FALSE) {
 
   raw_project_information <- dplyr::tbl(con, dbplyr::in_schema("transect", "raw_project_information"))
 

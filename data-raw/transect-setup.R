@@ -73,13 +73,30 @@ records_filterd <- filter_records_outside_transect_area(transects = transects_ba
 visualise_records(transects = transects_base, records = records_filterd)
 
 # data quality
-dq <- data_quality_transects(records = records_filterd,
+dq <- transect_dq(records = records_filterd,
                              transects = transects_base,
                              project_information = project_name_base)
 
 transects_prepped <- prepare_transect_upload(dq)
 
+# upload_transect_data(con, data_list = transects_prepped, uploadername = "Justin Cally")
 
+# test download
+recs <- tbl(con, dbplyr::in_schema("transect", "raw_transect_records")) %>%
+  collect()
+
+transects <- tbl(con, dbplyr::in_schema("transect", "curated_transects")) %>%
+  collect() %>%
+  mutate(geometry = sf::st_as_sfc(structure(as.list(geometry), class = "WKB"), EWKB=TRUE)) %>%
+  st_as_sf(crs = 4283)
+
+
+
+# DBI::dbExecute(conn = con,paste(DBI::SQL("CREATE VIEW transect.curated_transect_records AS"), transect_records_curated_view(con)))
+# DBI::dbExecute(conn = con,paste(DBI::SQL("CREATE VIEW transect.curated_transects AS"), transect_curated_view(con)))
+# DBI::dbExecute(conn = con,paste(DBI::SQL("CREATE VIEW transect.curated_project_information AS"), transect_project_curated_view(con)))
+# DBI::dbExecute(conn = con, paste(SQL("CREATE VIEW transect.processed_transect_presence_absence AS"),
+#                                  processed_transect_presence_absence(con = con, return_data = FALSE)))
 dd1 <- data.frame(schema = "transects",
                  table_name = "raw_transect_records",
                  table_description = "Records of animals detected along transects",

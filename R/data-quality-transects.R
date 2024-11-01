@@ -100,8 +100,8 @@ transect_dq <- function(records, transects, project_information) {
 
   if(sum(unlist(diffs)) > 0) {
     cli::cli_alert_danger(c("Problem with column schema. ",
-                            "Please correct (add/remove/rename) the following columns:\n ◉ ",
-                            paste(unlist(difflist), collapse = "\n ◉ "),
+                            "Please correct (add/remove/rename) the following columns:\n + ",
+                            paste(unlist(difflist), collapse = "\n + "),
                             "\n",
                             "See weda::data_dictionary for more information on user inputs"))
     return(NULL)

@@ -20,13 +20,13 @@ prepare_transect_upload <- function(agent_list) {
   # Get three tables
   project_information <- agent_list[["project_information"]][["tbl"]] %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(transect_project_database_ID = digest::digest(paste0(.data$ProjectName), algo = "md5")) %>%
+    dplyr::mutate(transect_project_database_ID = digest::digest(paste0(ProjectName), algo = "md5")) %>%
     dplyr::ungroup()
 
   records <- agent_list[["records"]][["tbl"]] %>%
     dplyr::mutate(ProjectShortName = project_information$ProjectShortName) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(transect_record_database_ID = digest::digest(paste0(.data$ProjectShortName, .data$SiteID, .data$Transect, .data$Iteration, .data$ObserverPosition, .data$common_name, .data$AnimalID), algo = "md5")) %>%
+    dplyr::mutate(transect_record_database_ID = digest::digest(paste0(ProjectShortName, SiteID, Transect, Iteration, ObserverPosition, common_name, AnimalID), algo = "md5")) %>%
     dplyr::ungroup() %>%
     dplyr::select(ProjectShortName, everything())
 
@@ -37,9 +37,10 @@ prepare_transect_upload <- function(agent_list) {
 
   transects <- transects %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(transect_database_ID = digest::digest(paste0(.data$ProjectShortName, .data$SiteID, .data$Transect, .data$Iteration, .data$ObserverPosition), algo = "md5")) %>%
+    dplyr::mutate(transect_database_ID = digest::digest(paste0(ProjectShortName, SiteID, Transect, Iteration, ObserverPosition), algo = "md5"),
+                  Duration = as.numeric(Duration)) %>%
     dplyr::ungroup() %>%
-    dplyr::select(.data$ProjectShortName, .data$SiteID, .data$Transect, .data$ObserverPosition, dplyr::everything())
+    dplyr::select(ProjectShortName, SiteID, Transect, ObserverPosition, dplyr::everything())
 
   return(list(records = records,
               transects = transects,
@@ -90,7 +91,7 @@ upload_transect_data <- function(con,
   }
 
   if("raw_transects" %in% tables_to_upload) {
-    DBI::dbWriteTable(con, DBI::Id(schema = schema, table = "raw_transects"),
+    sf::dbWriteTable(con, DBI::Id(schema = schema, table = "raw_transects"),
                       data_list[["transects"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
     message("Uploaded transect details")
     # DBI::dbExecute(conn = con, statement = "REFRESH MATERIALIZED VIEW camtrap.curated_camtrap_operation;")
