@@ -5,9 +5,28 @@
 \alias{gg_proofsafe_format}
 \title{Format proofsafe data for database}
 \usage{
-koala_proofsafe_format(proofsafe, gps_transects, sp_filter = "Koala")
+koala_proofsafe_format(
+  proofsafe,
+  gps_transects,
+  sp_filter = "Koala",
+  Iteration,
+  SurveyMethod = c("Diurnal double-observer distance-sampling",
+    "Nocturnal double-observer distance-sampling",
+    "Diurnal single-observer distance-sampling",
+    "Nocturnal single-observer distance-sampling"),
+  MaxTruncationDistance
+)
 
-gg_proofsafe_format(proofsafe, gps_transects)
+gg_proofsafe_format(
+  proofsafe,
+  gps_transects,
+  Iteration,
+  SurveyMethod = c("Diurnal double-observer distance-sampling",
+    "Nocturnal double-observer distance-sampling",
+    "Diurnal single-observer distance-sampling",
+    "Nocturnal single-observer distance-sampling"),
+  MaxTruncationDistance
+)
 }
 \arguments{
 \item{proofsafe}{data.frame of data directly from proofsafe}
@@ -15,6 +34,12 @@ gg_proofsafe_format(proofsafe, gps_transects)
 \item{gps_transects}{line transects, formatted as an sf object with columns for SiteID and Transect}
 
 \item{sp_filter}{species filter}
+
+\item{Iteration}{integer of the season or repeat visit number of the survey (e.g. 1 for the first time a sites been surveyed or 2 if it has been surveyed once before)}
+
+\item{SurveyMethod}{character type of method used to detect animals}
+
+\item{MaxTruncationDistance}{The maximum distance in metres that observations were made out to (e.g. 100)}
 }
 \value{
 list of data.frame for records and sf for transects

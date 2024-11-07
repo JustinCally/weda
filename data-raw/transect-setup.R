@@ -48,7 +48,7 @@ transects_base <- koala[[2]] %>%
                                 AverageVisibility >= 2 & AverageVisibility < 4 ~ "Moderate",
                                 AverageVisibility >= 4 ~ "Excellent"),
          MaxTruncationDistance = 100,
-         ObserverID = as.character(AuthorID), ) %>%
+         ObserverID = as.character(AuthorID)) %>%
   select(-Project, -FileID, -Heard, -Seen, -AverageVisibility, -AuthorID)
 
 project_name_base <- data.frame('ProjectName' = "Statewide Koala Monitoring",

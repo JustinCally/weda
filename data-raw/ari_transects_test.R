@@ -34,6 +34,30 @@ project_name_base <- data.frame('ProjectName' = "BBRR Monitoring",
                                 'ProjectDescription' = "BBRR",
                                 'ProjectLeader' = "Jemma Cripps")
 
-proofsafe_data <- gg_proofsafe_format(proofsafe_records_bbrr, gps_transects = bbrr_sites_lines)
+proofsafe_data <- gg_proofsafe_format(proofsafe = proofsafe_records_bbrr,
+                                      gps_transects = bbrr_sites_lines,
+                                      Iteration = 1L,
+                                      SurveyMethod = "Spotlight double-observer distance-sampling",
+                                      MaxTruncationDistance = 500)
 
-visualise_records(transects = proofsafe_data$transects, records = proofsafe_data$records)
+proofsafe_data_sp <- standardise_species_names(recordTable = proofsafe_data$records %>%
+                                                 mutate(Species = case_when(Species == "Deer - sambar?" ~ "Sambar Deer",
+                                                                            Species %in% c("G vic",
+                                                                                           "Geocrinia victoriana") ~ "Victorian Smooth Froglet",
+                                                                            Species == "White striped freetail" ~ "White-striped Free-tailed Bat",
+                                                                            Species == "Feather-tailed Glider" ~ "Feather-tailed glider species",
+                                                                            Species == "Swamp wallaby" ~ "Black-tailed Wallaby",
+                                                                            Species == "Tyto sp." ~ "Unidentified Tyto",
+                                                                            TRUE ~ Species)) %>%
+                                                 filter(!is.na(Species)),
+                                               format = "common",
+                                               speciesCol = "Species")
+
+visualise_records(transects = proofsafe_data$transects, records = proofsafe_data_sp)
+
+# data quality
+dq <- transect_dq(records = proofsafe_data_sp,
+                  transects = proofsafe_data$transects,
+                  project_information = project_name_base)
+
+dq[[1]]

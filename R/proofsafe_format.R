@@ -28,10 +28,18 @@ reverse_words <- function(string) {
 #' @param proofsafe data.frame of data directly from proofsafe
 #' @param gps_transects line transects, formatted as an sf object with columns for SiteID and Transect
 #' @param sp_filter species filter
+#' @param Iteration integer of the season or repeat visit number of the survey (e.g. 1 for the first time a sites been surveyed or 2 if it has been surveyed once before)
+#' @param SurveyMethod character type of method used to detect animals
+#' @param MaxTruncationDistance The maximum distance in metres that observations were made out to (e.g. 100)
 #'
 #' @return list of data.frame for records and sf for transects
 #' @export
-koala_proofsafe_format <- function(proofsafe, gps_transects, sp_filter = "Koala") {
+koala_proofsafe_format <- function(proofsafe,
+                                   gps_transects,
+                                   sp_filter = "Koala",
+                                   Iteration,
+                                   SurveyMethod = "Diurnal double-observer distance-sampling",
+                                   MaxTruncationDistance) {
 
   records <- proofsafe %>%
     dplyr::rowwise() %>%
@@ -185,13 +193,54 @@ koala_proofsafe_format <- function(proofsafe, gps_transects, sp_filter = "Koala"
                                             transects_rec_order,
                                             by_element = TRUE))
 
+  records_combined <- records_combined %>%
+    dplyr::mutate(Iteration = Iteration,
+                  SurveyMethod = SurveyMethod,
+                  ColourForm = NA_character_,
+                  PhotoID = NA_character_,
+                  AnimalID = as.character(AnimalID),
+                  ObserverID = as.character(ObserverID),
+                  Transect = as.integer(Transect),
+                  Adults = as.integer(Adults),
+                  Joeys = as.integer(Joeys),
+                  Individuals = as.integer(Individuals),
+                  ObserverPosition = as.integer(ObserverPosition)) %>%
+    dplyr::select(-Date, -Time, -ObserverName, -ObserverID, -LoR2, -SeenOnSameSide, -DistanceBetweenAnimalProj) %>%
+    dplyr::rename(DateTime = DateTimeOriginal,
+                  ObserverLongitude = Longitude,
+                  ObserverLatitude = Latitude)
+
+  transects <- transects %>%
+    dplyr::mutate(Iteration = Iteration,
+                  TransectLength = sf::st_length(geometry) %>% as.numeric(),
+                  MoonPhase = NA_integer_,
+                  Cloud = NA_integer_,
+                  RelativeHumidity = NA,
+                  Wind = NA_character_,
+                  Precipitation = NA_character_,
+                  FlowerIndex = NA_character_,
+                  Access = NA_character_,
+                  TransectType = "Line",
+                  Transect = as.integer(Transect),
+                  ObserverPosition = as.integer(ObserverPosition),
+                  Visibility = dplyr::case_when(AverageVisibility < 2 ~ "Poor",
+                                                AverageVisibility >= 2 & AverageVisibility < 4 ~ "Moderate",
+                                                AverageVisibility >= 4 ~ "Excellent"),
+                  MaxTruncationDistance = MaxTruncationDistance,
+                  ObserverID = as.character(AuthorID)) %>%
+    select(-Project, -FileID, -Heard, -Seen, -AverageVisibility, -AuthorID)
+
         return(list(records = records_combined,
                     transects = transects))
 }
 
 #' @rdname koala_proofsafe_format
 #' @export
-gg_proofsafe_format <- function(proofsafe, gps_transects) {
+gg_proofsafe_format <- function(proofsafe,
+                                gps_transects,
+                                Iteration,
+                                SurveyMethod = "Spotlight double-observer distance-sampling",
+                                MaxTruncationDistance) {
 
   records <- proofsafe %>%
     dplyr::rowwise() %>%
@@ -207,16 +256,17 @@ gg_proofsafe_format <- function(proofsafe, gps_transects) {
                      Date = as.Date(parse_date_time(Date_H1, c("ymd", "%d/%m/%Y", "%m/%d/%Y"))),
                      Time = AnimObsTime_I3,
                      DateTimeOriginal = as.POSIXct(paste(Date, Time), format = "%Y-%m-%d %H:%M:%OS"),
-                     SeenHeard = SeenHeard_I3,
+                     SeenHeard = case_when(SeenHeard_I3 == "Heard@-@Seen" ~ "Seen",
+                                           TRUE ~ SeenHeard_I3),
                      Adults = 1,
                      Joeys = 0,
                      Individuals = 1,
                      LoR = `L or R of trans_I3`,
                      WaypointNo = `Waypoint no._I3`,
-                     AnimalDistance = NA,
-                     AnimalHeight = NA,
+                     AnimalDistance = as.numeric(NA),
+                     AnimalHeight = as.numeric(NA),
                      AnimalHorizontalDistance = dplyr::coalesce(`Distance to animal_I3`,0),
-                     AnimalAngle = NA,
+                     AnimalAngle = as.numeric(NA),
                      AnimalBearing = dplyr::coalesce(as.numeric(`Bearing to A._I3`), 0),
                      DistanceFromTransectStart = dplyr::coalesce(`Dist_F_Transect_I3`, 0),
                      TreeSpecies = coalesce(`Tree species_I3`, Tree_sp_other_I3),
@@ -364,6 +414,45 @@ gg_proofsafe_format <- function(proofsafe, gps_transects) {
   records_combined$AnimalPerpDistance <- as.numeric(sf::st_distance(records_combined_sf,
                                                                     transects_rec_order,
                                                                     by_element = TRUE))
+
+  records_combined <- records_combined %>%
+    dplyr::mutate(Iteration = as.integer(Iteration),
+           SurveyMethod = SurveyMethod,
+           ColourForm = NA_character_,
+           PhotoID = NA_character_,
+           AnimalID = as.character(AnimalID),
+           ObserverID = as.character(ObserverID),
+           Transect = as.integer(Transect),
+           Adults = as.integer(Adults),
+           Joeys = as.integer(Joeys),
+           Individuals = as.integer(Individuals),
+           ObserverPosition = as.integer(ObserverPosition)) %>%
+    dplyr::select(-Date, -Time, -ObserverName, -ObserverID,
+                  -LoR2, -SeenOnSameSide, -DistanceBetweenAnimalProj,
+                  -line_distance) %>%
+    dplyr::rename(DateTime = DateTimeOriginal,
+           ObserverLongitude = Longitude,
+           ObserverLatitude = Latitude)
+
+  transects <- transects %>%
+    dplyr::mutate(Iteration = as.integer(Iteration),
+           TransectLength = sf::st_length(geometry) %>% as.numeric(),
+           MoonPhase = NA_integer_,
+           Cloud = NA_integer_,
+           RelativeHumidity = NA,
+           Wind = NA_character_,
+           Precipitation = NA_character_,
+           FlowerIndex = NA_character_,
+           Access = NA_character_,
+           TransectType = "Line",
+           Transect = as.integer(Transect),
+           ObserverPosition = as.integer(ObserverPosition),
+           Visibility = dplyr::case_when(AverageVisibility < 2 ~ "Poor",
+                                  AverageVisibility >= 2 & AverageVisibility < 4 ~ "Moderate",
+                                  AverageVisibility >= 4 ~ "Excellent"),
+           MaxTruncationDistance = MaxTruncationDistance,
+           ObserverID = as.character(AuthorID)) %>%
+    select(-Project, -FileID, -Heard, -Seen, -AverageVisibility, -AuthorID)
 
   return(list(records = records_combined,
               transects = transects))
