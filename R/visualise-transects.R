@@ -42,7 +42,7 @@ visualise_records <- function(records, transects, endcap = "FLAT") {
     sf::st_cast("LINESTRING") %>%
     dplyr::ungroup()
 
-  vis_lines <- bind_rows(observer_records, animal_records) %>%
+  vis_lines <- dplyr::bind_rows(observer_records, animal_records) %>%
     dplyr::group_by(Iteration, SiteID, Transect, scientific_name, common_name, AnimalID) %>%
     dplyr::summarize(do_union=FALSE) %>%
     sf::st_cast("LINESTRING") %>%

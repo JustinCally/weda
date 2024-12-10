@@ -5,3 +5,12 @@
 docs
 inst/doc
 data-raw/VBA_TAXA_LIST/
+data-raw/region-test/20241206013455_RezFile.csv
+data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.cpg
+data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.dbf
+data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.prj
+data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.sbn
+data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.sbx
+data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.shp
+data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.shp.xml
+data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.shx

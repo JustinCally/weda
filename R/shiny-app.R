@@ -120,7 +120,8 @@ transect_app <- function(con) {
 
   # Define UI for data upload app ----
   ui <- shiny::navbarPage("weda", id="nav",
-                          transectMapUI(id = "map", colour_vars = col.vars)
+                          transectMapUI(id = "map", colour_vars = col.vars),
+                          transectdataUploadpUI(id = "upload")
   )
 
   # Define server logic to read selected file ----
@@ -128,6 +129,7 @@ transect_app <- function(con) {
     transectMapServer(id = "map",
                            project_locations = transect_locations,
                            con = con)
+    transectdataUploadServer(id = "upload")
   }
   # Run the app ----
   shiny::shinyApp(ui, server)

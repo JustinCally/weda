@@ -3,6 +3,7 @@
 \name{koala_proofsafe_format}
 \alias{koala_proofsafe_format}
 \alias{gg_proofsafe_format}
+\alias{region_gg_proofsafe_format}
 \title{Format proofsafe data for database}
 \usage{
 koala_proofsafe_format(
@@ -10,10 +11,7 @@ koala_proofsafe_format(
   gps_transects,
   sp_filter = "Koala",
   Iteration,
-  SurveyMethod = c("Diurnal double-observer distance-sampling",
-    "Nocturnal double-observer distance-sampling",
-    "Diurnal single-observer distance-sampling",
-    "Nocturnal single-observer distance-sampling"),
+  SurveyMethod = "Diurnal double-observer distance-sampling",
   MaxTruncationDistance
 )
 
@@ -21,11 +19,16 @@ gg_proofsafe_format(
   proofsafe,
   gps_transects,
   Iteration,
-  SurveyMethod = c("Diurnal double-observer distance-sampling",
-    "Nocturnal double-observer distance-sampling",
-    "Diurnal single-observer distance-sampling",
-    "Nocturnal single-observer distance-sampling"),
+  SurveyMethod = "Spotlight double-observer distance-sampling",
   MaxTruncationDistance
+)
+
+region_gg_proofsafe_format(
+  proofsafe,
+  gps_transects,
+  Iteration,
+  SurveyMethod = "Spotlight double-observer distance-sampling",
+  MaxTruncationDistance = 100
 )
 }
 \arguments{

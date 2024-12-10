@@ -235,12 +235,12 @@ transect_dq <- function(records, transects, project_information) {
                                 preconditions = ~ . %>% dplyr::filter(!is.na(FlowerIndex))) %>%
     pointblank::col_vals_in_set("GeometryType", set = c("LINESTRING", "MULTILINESTRING"),
                                 preconditions = ~ . %>%
-                                  mutate(GeometryType = sf::st_geometry_type(geometry)) %>%
-                                  filter(TransectType == "Line")) %>%
+                                  dplyr::mutate(GeometryType = sf::st_geometry_type(geometry)) %>%
+                                  dplyr::filter(TransectType == "Line")) %>%
     pointblank::col_vals_in_set("GeometryType", set = c("POINT", "MULTIPOINT"),
                                 preconditions = ~ . %>%
-                                  mutate(GeometryType = sf::st_geometry_type(geometry)) %>%
-                                  filter(TransectType == "Point")) %>%
+                                  dplyr::mutate(GeometryType = sf::st_geometry_type(geometry)) %>%
+                                  dplyr::filter(TransectType == "Point")) %>%
     pointblank::interrogate()
 
   pb_pi <- pointblank::create_agent(
@@ -284,7 +284,7 @@ filter_records_outside_transect_area <- function(records, transects, endcap = "F
                                             transects) %>%
     sf::st_as_sf(crs = 4283)
 
-  intersects <- diag(st_within(records %>%
+  intersects <- diag(sf::st_within(records %>%
                                  sf::st_as_sf(coords = c("AnimalLongitude", "AnimalLatitude"),
                                               crs = 4283),
                                transect_ordered_recs, sparse = F))

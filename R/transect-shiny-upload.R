@@ -1,3 +1,5 @@
+transect_dq2 <- capture_cli_messages(weda::transect_dq)
+
 #' Data Upload Shiny Module
 #'
 #' @param id shiny samespace id
@@ -19,7 +21,7 @@ transectdataUploadpUI <- function(id,
                       shiny::div(shiny::tags$h4("Step 1", style="display:inline-block"),
                                  helpPopup(title = "Step 1 Guide", content = "Upload the transect records (generated from proofsafe).
                                            Make sure the data has all the columns in the example data template (download above)")),
-                      shiny::htmlOutput(outputId = ns("step2")),
+                      shiny::htmlOutput(outputId = ns("step1")),
                       shiny::actionButton(inputId = ns("RecordButton"),
                                           label = "Import Transect Records",
                                           icon = shiny::icon("upload"), width = "100%"),
@@ -27,9 +29,7 @@ transectdataUploadpUI <- function(id,
                                  helpPopup(title = "Step 2 Guide", content = "Upload the transect gps data lines.
                                            Make sure the data has all the columns in the example data template (download above)")),
                       shiny::htmlOutput(outputId = ns("step2")),
-                      shiny::actionButton(inputId = ns("OperationButton"),
-                                          label = "Import Transects",
-                                          icon = shiny::icon("upload"), width = "100%"),
+                      shiny::fileInput(ns("shapefile"), "Import GeoJSON Transects", accept = c(".geojson")),
                       shiny::div(shiny::tags$h4("Step 3", style="display:inline-block"),
                                  helpPopup(title = "Step 3 Guide", content = "Upload the transect project information.
                                            Make sure the data has all the columns in the example data template (download above)")),
@@ -39,7 +39,9 @@ transectdataUploadpUI <- function(id,
                                           icon = shiny::icon("upload"), width = "100%"),
                       shiny::div(shiny::tags$h4("Step 4", style="display:inline-block"),
                                  helpPopup(title = "Step 4 Guide", content = "This step formats the proofsafe data and gps transects into a format that is consistent with the database")),
-                      shiny::htmlOutput(outputId = ns("step6")),
+                      shiny::htmlOutput(outputId = ns("step4")),
+                      shiny::numericInput(inputId = ns("iteration"), label = "Survey Iteration", value = 1, min = 1),
+                      shiny::numericInput(inputId = ns("truncation"), label = "Max truncation distance", value = 100),
                       shiny::actionButton(inputId = ns("proofsafeformat"),
                                           label = "Format data from proofsafe to database format",
                                           icon = shiny::icon("hammer"), width = "100%"),
@@ -65,7 +67,7 @@ transectdataUploadpUI <- function(id,
                                  helpPopup(title = "Step 6 Guide", content = "Map showing the sites records and transects.")),
                       shiny::htmlOutput(outputId = ns("step6")),
                       shiny::actionButton(inputId = ns("viewsites"),
-                                          label = "Show Map of Camera Sites",
+                                          label = "Show Map of Transect Sites",
                                           icon = shiny::icon("map"), width = "100%"),
                       shiny::div(shiny::tags$h4("Step 7", style="display:inline-block"),
                                  helpPopup(title = "Step 7 Guide", content = shiny::div(shiny::tags$h5("This step may take some time to run.
@@ -131,62 +133,45 @@ transectdataUploadServer <- function(id, con) {
 
       output$downloadSample <- shiny::downloadHandler(
         filename <- function() {
-          "camera_trap_templates.xlsx"
+          "gg_example.zip"
         },
 
         content <- function(file) {
-          file.copy(system.file("app/www/camera_trap_templates.xlsx", package = "weda"), file)
+          file.copy(system.file("app/www/gg_example.zip", package = "weda"), file)
         },
-        contentType = "xlsx"
+        contentType = "application/zip"
       )
 
+
       #### Step 1 ####
-      stp1_code <- shiny::eventReactive(input$generateCode, {
-        shinyBS::updateCollapse(session = session, id = "collapsepanel", open = "Step 1 Output")
+      step1mod <- function() {
+        ns <- session$ns
+        shiny::modalDialog(datamods::import_ui(ns("UploadRecords"), from = "file"))
+      }
 
-        ' # For you to upload camera trap data to the database tagged images need to have metadata extracted from them.
- # To extract metadata from the images use the camtrapR package to generate a table of all records. Below is an
- # example you can try running. If there are many images this process might take a long time so it is
- # best to save the resulting table (e.g. raw_camtrap_records) as an rds, excel or csv which you can then upload in step 2.
-
-        raw_camtrap_records <- camtrapR::recordTable(inDir  = YOUR_IMAGE_PATH,
-                               IDfrom = "metadata",
-                               cameraID = "directory",
-                               stationCol = "SiteID",
-                               camerasIndependent = TRUE,
-                               timeZone = Sys.timezone(location = TRUE),
-                               metadataSpeciesTag = "Species",
-                               removeDuplicateRecords = FALSE,
-                               returnFileNamesMissingTags = TRUE)
-  # Save as an rds object (good for R usage)
-                    saveRDS(raw_camtrap_records, "raw_camtrap_records.rds")
-  # Save as csv (good for viewing in excel)
-                    write.csv(raw_camtrap_records, "raw_camtrap_records.csv")'
+      shiny::observeEvent(input$RecordButton, {
+        shiny::showModal(step1mod())
       })
+
+      recs <- datamods::import_server("UploadRecords", return_class = "tbl_df")
 
       output$step1 <- shiny::renderText({
-        stp1_code()
-      })
-
-      output$step1tick <- shiny::renderText({
-        req(stp1_code())
+        shiny::req(recs$data())
         "&#10003; Step 1 Complete"
       })
 
       #### Step 2 ####
       step2mod <- function() {
         ns <- session$ns
-        shiny::modalDialog(datamods::import_ui(ns("UploadRecords"), from = "file"))
+        sf::st_read(input$shapefile$datapath)
       }
 
-      shiny::observeEvent(input$RecordButton, {
-        shiny::showModal(step2mod())
+      trans <- shiny::eventReactive(input$shapefile, {
+        sf::st_read(input$shapefile$datapath)
       })
 
-      recs <- datamods::import_server("UploadRecords", return_class = "tbl_df")
-
       output$step2 <- shiny::renderText({
-        shiny::req(recs$data())
+        shiny::req(trans())
         "&#10003; Step 2 Complete"
       })
 
@@ -194,35 +179,35 @@ transectdataUploadServer <- function(id, con) {
 
       step3mod <- function() {
         ns <- session$ns
-        shiny::modalDialog(datamods::import_ui(ns("UploadOperation"), from = "file"))
+        shiny::modalDialog(datamods::import_ui(ns("UploadProject"), from = "file"))
       }
 
-      shiny::observeEvent(input$OperationButton, {
+      shiny::observeEvent(input$ProjectButton, {
         shiny::showModal(step3mod())
       })
 
-      opers <- datamods::import_server("UploadOperation", return_class = "tbl_df")
+      proj <- datamods::import_server("UploadProject", return_class = "tbl_df")
 
       output$step3 <- shiny::renderText({
-        shiny::req(opers$data())
+        shiny::req(proj$data())
         "&#10003; Step 3 Complete"
       })
 
       #### Step 4 ####
 
-      step4mod <- function() {
-        ns <- session$ns
-        shiny::modalDialog(datamods::import_ui(ns("UploadProject"), from = "file"))
-      }
+      pr_data <- shiny::eventReactive(input$proofsafeformat, {
+        shinyBS::updateCollapse(session = session, id = "collapsepanel",
+                                open = "Step 4 Output", close = "Step 1 Output")
 
-      shiny::observeEvent(input$ProjectButton, {
-        shiny::showModal(step4mod())
+        region_gg_proofsafe_format(proofsafe = recs$data(),
+                                   gps_transects = trans(),
+                                   Iteration = input$iteration,
+                                   MaxTruncationDistance = input$truncation)
+
       })
 
-      projs <- datamods::import_server("UploadProject", return_class = "tbl_df")
-
       output$step4 <- shiny::renderText({
-        shiny::req(projs$data())
+        shiny::req(pr_data())
         "&#10003; Step 4 Complete"
       })
 
@@ -233,7 +218,7 @@ transectdataUploadServer <- function(id, con) {
                                 open = "Step 5 Output", close = "Step 1 Output")
 
         standardise_species_names2(
-          recordTable = recs$data(),
+          recordTable = pr_data()$records,
           format = input$nameformat,
           speciesCol = input$speciescol,
           return_data = TRUE)
@@ -257,58 +242,35 @@ transectdataUploadServer <- function(id, con) {
 
       #### Step 6 ####
 
-      opers2 <- shiny::eventReactive(input$convertlatlong, {
+      observeEvent(input$viewsites, {
         shinyBS::updateCollapse(session = session, id = "collapsepanel", open = "Step 6 Output", close = "Step 5 Output")
 
-        fixed_coords <- convert_to_latlong2(data = opers$data())
-        return(fixed_coords)
-      })
+        output$sitemap <- leaflet::renderLeaflet({
+          visualise_records(records = st_data()$result, transects = pr_data()$transects)
+        })
 
-      output$step6 <- shiny::renderText({
-        shiny::req(opers2())
-        "&#10003; Step 6 Complete"
-      })
-
-      output$convertmessage <-  shiny::renderText({
-        shiny::req(opers2())
-
-        op2 <- opers2()
-
-        return(cli::ansi_html(op2[["messages"]]))
-
+        output$step6 <- shiny::renderText({
+          "&#10003; Step 6 Complete"
+        })
       })
 
       #### Step 7 ####
 
-      observeEvent(input$viewsites, {
-        shinyBS::updateCollapse(session = session, id = "collapsepanel", open = "Step 7 Output", close = "Step 6 Output")
-
-        output$sitemap <- leaflet::renderLeaflet({
-          weda::camtrap_operation_mapview(opers2()$result)
-        })
-
-        output$step7 <- shiny::renderText({
-          "&#10003; Step 7 Complete"
-        })
-      })
-
-      #### Step 8 ####
-
       shiny::observeEvent(input$dataquality, {
         shinyBS::updateCollapse(session = session, id = "collapsepanel",
-                                open = "Step 8 Output", close = "Step 7 Output")
+                                open = "Step 7 Output", close = "Step 6 Output")
       })
 
       dqlist <- shiny::eventReactive(input$dataquality, {
 
-        output$step8 <- shiny::renderText({
-          "&#10003; Step 8 Complete"
+        output$step7 <- shiny::renderText({
+          "&#10003; Step 7 Complete"
         })
 
         shiny::withProgress(message = 'Running Data Quality', value = 0.5, {
-          camera_trap_dq2(camtrap_records = st_data()$result,
-                          camtrap_operation = opers2()$result,
-                          project_information = projs$data())
+          transect_dq2(records = st_data()$result,
+                       transects = pr_data()$transects,
+                       project_information = proj$data())
         })
       })
 
@@ -323,13 +285,13 @@ transectdataUploadServer <- function(id, con) {
       output$dq1 <- gt::render_gt({
         shiny::req(dqlist()$result)
         dqlist()$result[[1]] %>%
-          pointblank::get_agent_report(title = "Data Quality Assessment on Camera Trap Records")
+          pointblank::get_agent_report(title = "Data Quality Assessment on Transect Records")
       })
 
       output$dq2 <- gt::render_gt({
         shiny::req(dqlist()$result)
         dqlist()$result[[2]] %>%
-          pointblank::get_agent_report(title = "Data Quality Assessment on Camera Operation Records")
+          pointblank::get_agent_report(title = "Data Quality Assessment on Transects")
       })
 
       output$dq3 <- gt::render_gt({
@@ -338,7 +300,7 @@ transectdataUploadServer <- function(id, con) {
           pointblank::get_agent_report(title = "Data Quality Assessment on Project Information")
       })
 
-      #### Step 9 ####
+      #### Step 8 ####
 
       observeEvent(input$uploaddata, {
         shiny::req(dqlist()$result)
@@ -372,34 +334,21 @@ transectdataUploadServer <- function(id, con) {
         shiny::req(input$name)
 
         shiny::withProgress(message = 'Preparing Upload', value = 0.5, {
-          data_for_upload <- weda::prepare_camtrap_upload(agent_list = dqlist()$result)
+          data_for_upload <- weda::prepare_transect_upload(agent_list = dqlist()$result)
 
           shiny::incProgress(amount = 0.25, message = "Uploading Data")
 
-          weda::upload_camtrap_data(con = con,
+          weda::upload_transect_data(con = con,
                                     data_list = data_for_upload,
                                     uploadername = input$name,
-                                    schema = "camtrap")
+                                    schema = "transect")
 
           output$uploadcompletion <- shiny::renderText({
             "Upload Complete. Restart app to see project data on map pane"
           })
 
-          output$downloadVBA <- shiny::downloadHandler(
-            filename = function() {
-              paste('camtrap_vba_data_', Sys.Date(), '.csv', sep='')
-            },
-            content = function(dl_con) {
-              vba_data <- vba_format(con = con,
-                                     return_data = T,
-                                     schema = "camtrap",
-                                     ProjectShortName = data_for_upload[["project_information"]]$ProjectShortName)
-              readr::write_csv(vba_data, dl_con)
-            }
-          )
-
-          output$step9 <- shiny::renderText({
-            "&#10003; Step 9 Complete"
+          output$step8 <- shiny::renderText({
+            "&#10003; Step 8 Complete"
           })
 
         })
