@@ -1,0 +1,12 @@
+name: camtrapDB
+title: camtrapDB
+username: justincally
+account: justincally
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13772975
+bundleId: 9680177
+url: https://justincally.shinyapps.io/camtrapDB/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

@@ -9,7 +9,7 @@
 
 library(shiny)
 library(weda)
-# readRenviron(".Renviron")
+readRenviron(".Renviron")
 con <- odbc::dbConnect(odbc::odbc(), Driver = "PostgreSQL",
                               Server = "10.110.7.201",
                               Database = "ari-dev-weda-psql-01",
