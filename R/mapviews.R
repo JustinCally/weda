@@ -10,6 +10,6 @@ camtrap_operation_mapview <- function(camtrap_operation_table) {
 
   leaflet::leaflet() %>%
     leaflet::addTiles() %>%
-    leaflet::addCircleMarkers(data = sf_obj, popup = ~SiteID, opacity = 1, color = "black",
+    leaflet::addCircleMarkers(data = sf_obj %>% dplyr::mutate(SiteSubstation = paste(SiteID, SubStation, sep = " | ")), popup = ~SiteSubstation, opacity = 1, color = "black",
                               fillColor = "DarkRed", fillOpacity = 0.9, radius = 5, weight = 1)
 }
