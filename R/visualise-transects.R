@@ -52,11 +52,26 @@ visualise_records <- function(records, transects, endcap = "FLAT") {
 
   transect_plot <- base_map@map %>%
     leaflet::addPolygons(data = transects_line, color = "#377eb8") %>%
-    leaflet::addPolygons(data = transects, fillColor = "#377eb8", weight = 0) %>%
+    leaflet::addPolygons(data = transects, fillColor = "#377eb8", weight = 0, popup = ~paste("Site:",
+                                                                                             SiteID,
+                                                                                             "Transect:",
+                                                                                             Transect)) %>%
     leaflet::addPolylines(data = animal_lines2, color = "orange") %>%
-    leaflet::addCircles(data = animal_records2, color = "orange", radius = 2.5, fillOpacity = 0.8) %>%
+    leaflet::addCircles(data = animal_records2, color = "orange", radius = 2.5, fillOpacity = 0.8,
+                        popup = ~paste("Site:",
+                                       SiteID,
+                                       "Transect:",
+                                       Transect,
+                                       "AnimalID:",
+                                       AnimalID)) %>%
     leaflet::addPolylines(data = vis_lines, color = "black") %>%
-    leaflet::addCircles(data = animal_records, color = "#e41a1c", radius = 5) %>%
+    leaflet::addCircles(data = animal_records, color = "#e41a1c", radius = 5,
+                        popup = ~paste("Site:",
+                                       SiteID,
+                                       "Transect:",
+                                       Transect,
+                                       "AnimalID:",
+                                       AnimalID)) %>%
     leaflet::fitBounds(lng1 = bounds[1], lat1 = bounds[2], lng2 = bounds[3], lat2 = bounds[4])
 
   return(transect_plot)
