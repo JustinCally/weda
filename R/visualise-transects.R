@@ -51,7 +51,7 @@ visualise_records <- function(records, transects, endcap = "FLAT") {
   base_map <- mapview::mapview()
 
   transect_plot <- base_map@map %>%
-    leaflet::addPolygons(data = transects_line, color = "#377eb8") %>%
+    leaflet::addPolylines(data = transects_line, color = "#377eb8") %>%
     leaflet::addPolygons(data = transects, fillColor = "#377eb8", weight = 0, popup = ~paste("Site:",
                                                                                              SiteID,
                                                                                              "Transect:",
