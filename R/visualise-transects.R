@@ -63,7 +63,9 @@ visualise_records <- function(records, transects, endcap = "FLAT") {
                                        "Transect:",
                                        Transect,
                                        "AnimalID:",
-                                       AnimalID)) %>%
+                                       AnimalID,
+                                       "Observer Position:",
+                                       ObserverPosition)) %>%
     leaflet::addPolylines(data = vis_lines, color = "black") %>%
     leaflet::addCircles(data = animal_records, color = "#e41a1c", radius = 5,
                         popup = ~paste("Site:",
@@ -71,7 +73,9 @@ visualise_records <- function(records, transects, endcap = "FLAT") {
                                        "Transect:",
                                        Transect,
                                        "AnimalID:",
-                                       AnimalID)) %>%
+                                       AnimalID,
+                                       "Observer Position:",
+                                       ObserverPosition)) %>%
     leaflet::fitBounds(lng1 = bounds[1], lat1 = bounds[2], lng2 = bounds[3], lat2 = bounds[4])
 
   return(transect_plot)

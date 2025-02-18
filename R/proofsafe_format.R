@@ -346,14 +346,14 @@ gg_proofsafe_format <- function(proofsafe,
   # first and second obs
   records_grouped <- records_locs %>%
     dplyr::distinct() %>%
-    dplyr::group_by(SiteID, Transect, Date, Species, AnimalID) %>%
+    dplyr::group_by(SiteID, Transect, Species, AnimalID) %>%
     dplyr::arrange(ObserverPosition) %>%
     dplyr::slice(1) %>%
     dplyr::ungroup()
 
   records_second <- records_locs %>%
     dplyr::distinct() %>%
-    dplyr::group_by(SiteID, Transect, Date, Species, AnimalID) %>%
+    dplyr::group_by(SiteID, Transect, Species, AnimalID) %>%
     dplyr::arrange(ObserverPosition) %>%
     dplyr::slice(2) %>%
     dplyr::ungroup()
@@ -374,7 +374,7 @@ gg_proofsafe_format <- function(proofsafe,
     `colnames<-`(c("AnimalLongitude2", "AnimalLatitude2"))
 
   records_grouped_2 <- dplyr::bind_cols(records_second, proj_bearings2) %>%
-    dplyr::select(SiteID, Transect, Date, Species, AnimalID, AnimalLongitude2, AnimalLatitude2, LoR2 = LoR)
+    dplyr::select(SiteID, Transect, Species, AnimalID, AnimalLongitude2, AnimalLatitude2, LoR2 = LoR)
 
   records_combined <- dplyr::left_join(records_grouped, records_grouped_2) %>%
     dplyr::mutate(SeenOnSameSide = LoR == LoR2,
