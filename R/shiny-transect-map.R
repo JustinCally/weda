@@ -79,7 +79,7 @@ transectMapServer <- function(id, project_locations, con) {
       res_filter <- datamods::filter_data_server(
         "project",
         data = shiny::reactive(project_locations),
-        vars = shiny::reactive(c("ProjectName", "DistanceSampling",
+        vars = shiny::reactive(c("ProjectName", "Iteration", "DistanceSampling",
                           "AllSpeciesTagged", "TerrestrialArboreal", "DiurnalNocturnal",
                           "ProjectStart", "ProjectEnd")),
         name = shiny::reactive("data"),
