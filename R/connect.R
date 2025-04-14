@@ -20,7 +20,7 @@ weda_connect <- function(username = "psql_user",
                          ...) {
 
   RPostgreSQL::dbConnect(RPostgres::Postgres(),
-                                host = '10.110.7.201',
+                                host = '10.110.7.8',
                                 dbname = 'ari-dev-weda-psql-01',
                                 user = username,
                                 password = password,
