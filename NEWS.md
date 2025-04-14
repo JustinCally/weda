@@ -1,4 +1,5 @@
 # weda 0.0.8
+* Changed connection string for database
 
 # weda 0.0.7 
 * Bait type now allows for: None, Creamed Honey, Small Mammal Bait, Predator Bait (i.e, meat bait), Non-toxic curiosity bait, Toxic curiosity bait, Predator Lure (i.e., urine, faeces, etc.) or Other.
