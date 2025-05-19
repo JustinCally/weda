@@ -19,3 +19,9 @@ data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.shx
 inst/shinyapps/.Renviron
 inst/shinyapps/rsconnect/shinyapps.io/arisci/cameratrapDB.dcf
 inst/shinyapps/rsconnect/shinyapps.io/arisci/camtrapdb.dcf
+inst/shinyapps/app.R
+inst/shinyapps/app.R
+inst/shinyapps/app.R
+inst/shinyapps/rsconnect/shinyapps.io/arisci/camtrap_database.dcf
+inst/shinyapps/rsconnect/shinyapps.io/justincally/camtrapDB.dcf
+R/connect.R
