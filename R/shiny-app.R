@@ -71,3 +71,66 @@ camtrap_app <- function(con) {
   # Run the app ----
   shiny::shinyApp(ui, server)
 }
+
+#' @rdname camtrap_app
+#' @export
+transect_app <- function(con) {
+  # Setup load packages
+  options(shiny.maxRequestSize = 30*1024^2)
+  shiny::addResourcePath("sbs", system.file("www", package="shinyBS"))
+  # Database Connection: supply to app
+  # con <- weda::weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", username = "psql_user"))
+
+  # Load data
+  ## Project data
+  project_data <- dplyr::tbl(con,
+                             dbplyr::in_schema("transect", "curated_project_information")) %>%
+    dplyr::collect()
+  ## Lazy SPecies Presence
+  species_presence <- dplyr::tbl(con,
+                                 dbplyr::in_schema("transect", "processed_transect_presence_absence"))
+
+  species_names <- species_presence %>%
+    dplyr::select(common_name) %>%
+    dplyr::distinct() %>%
+    dplyr::collect() %>%
+    dplyr::pull()
+
+  ## Camera Locations
+  transect_locations <- dplyr::tbl(con,
+                              dbplyr::in_schema("transect", "curated_transects")) %>%
+    dplyr::collect() %>%
+    dplyr::mutate(geometry = sf::st_as_sfc(structure(as.list(geometry), class = "WKB"), EWKB=TRUE)) %>%
+    sf::st_as_sf(crs = 4283) %>%
+    sf::st_transform(3111) %>%
+    sf::st_buffer(dist = 100) %>%
+    sf::st_transform(4283) %>%
+    dplyr::left_join(project_data %>%
+                       dplyr::select(-Timestamp, -Uploader),
+                     by = dplyr::join_by(ProjectShortName)) %>%
+    dplyr::select(ProjectName, dplyr::everything()) %>%
+    dplyr::group_by(ProjectShortName) %>%
+    dplyr::mutate(ProjectStart = min(Date),
+                  ProjectEnd = max(Date)) %>%
+    dplyr::ungroup() %>%
+    dplyr::arrange(Date) %>%
+    dplyr::mutate(ProjectName = forcats::fct_reorder(ProjectName, Date, .desc = T))
+
+  col.vars <- c("ProjectName", species_names)
+
+  # Define UI for data upload app ----
+  ui <- shiny::navbarPage("weda", id="nav",
+                          transectMapUI(id = "map", colour_vars = col.vars),
+                          transectdataUploadpUI(id = "upload")
+  )
+
+  # Define server logic to read selected file ----
+  server <- function(input, output) {
+    transectMapServer(id = "map",
+                           project_locations = transect_locations,
+                           con = con)
+    transectdataUploadServer(id = "upload")
+  }
+  # Run the app ----
+  shiny::shinyApp(ui, server)
+}

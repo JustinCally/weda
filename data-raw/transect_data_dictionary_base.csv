@@ -1,0 +1,71 @@
+"","schema","table_name","table_description","table_type","column_name","column_class","column_description","accepted_values","mandatory"
+"1","transects","raw_transect_records","Records of animals detected along transects","raw","SiteID","character",NA,NA,NA
+"2","transects","raw_transect_records","Records of animals detected along transects","raw","Transect","integer",NA,NA,NA
+"3","transects","raw_transect_records","Records of animals detected along transects","raw","Iteration","integer",NA,NA,NA
+"4","transects","raw_transect_records","Records of animals detected along transects","raw","scientific_name","character",NA,NA,NA
+"5","transects","raw_transect_records","Records of animals detected along transects","raw","common_name","character",NA,NA,NA
+"6","transects","raw_transect_records","Records of animals detected along transects","raw","SurveyMethod","character",NA,NA,NA
+"7","transects","raw_transect_records","Records of animals detected along transects","raw","DateTime","POSIXct, POSIXt",NA,NA,NA
+"8","transects","raw_transect_records","Records of animals detected along transects","raw","AnimalID","character",NA,NA,NA
+"9","transects","raw_transect_records","Records of animals detected along transects","raw","SeenHeard","character",NA,NA,NA
+"10","transects","raw_transect_records","Records of animals detected along transects","raw","Adults","integer",NA,NA,NA
+"11","transects","raw_transect_records","Records of animals detected along transects","raw","Joeys","integer",NA,NA,NA
+"12","transects","raw_transect_records","Records of animals detected along transects","raw","Individuals","integer",NA,NA,NA
+"13","transects","raw_transect_records","Records of animals detected along transects","raw","LoR","character",NA,NA,NA
+"14","transects","raw_transect_records","Records of animals detected along transects","raw","WaypointNo","character",NA,NA,NA
+"15","transects","raw_transect_records","Records of animals detected along transects","raw","ObserverLatitude","numeric",NA,NA,NA
+"16","transects","raw_transect_records","Records of animals detected along transects","raw","ObserverLongitude","numeric",NA,NA,NA
+"17","transects","raw_transect_records","Records of animals detected along transects","raw","AnimalDistance","numeric",NA,NA,NA
+"18","transects","raw_transect_records","Records of animals detected along transects","raw","AnimalHeight","numeric",NA,NA,NA
+"19","transects","raw_transect_records","Records of animals detected along transects","raw","AnimalHorizontalDistance","numeric",NA,NA,NA
+"20","transects","raw_transect_records","Records of animals detected along transects","raw","AnimalAngle","numeric",NA,NA,NA
+"21","transects","raw_transect_records","Records of animals detected along transects","raw","AnimalBearing","numeric",NA,NA,NA
+"22","transects","raw_transect_records","Records of animals detected along transects","raw","DistanceFromTransectStart","numeric",NA,NA,NA
+"23","transects","raw_transect_records","Records of animals detected along transects","raw","AnimalPerpDistance","numeric",NA,NA,NA
+"24","transects","raw_transect_records","Records of animals detected along transects","raw","TreeSpecies","character",NA,NA,NA
+"25","transects","raw_transect_records","Records of animals detected along transects","raw","BothSeen","logical",NA,NA,NA
+"26","transects","raw_transect_records","Records of animals detected along transects","raw","ObservationNotes","character",NA,NA,NA
+"27","transects","raw_transect_records","Records of animals detected along transects","raw","ObserverPosition","integer",NA,NA,NA
+"28","transects","raw_transect_records","Records of animals detected along transects","raw","AnimalLongitude","numeric",NA,NA,NA
+"29","transects","raw_transect_records","Records of animals detected along transects","raw","AnimalLatitude","numeric",NA,NA,NA
+"30","transects","raw_transect_records","Records of animals detected along transects","raw","ColourForm","character",NA,NA,NA
+"31","transects","raw_transect_records","Records of animals detected along transects","raw","PhotoID","character",NA,NA,NA
+"32","transects","raw_transect_records","Records of animals detected along transects","raw","AnimalLongitude2","numeric",NA,NA,NA
+"33","transects","raw_transect_records","Records of animals detected along transects","raw","AnimalLatitude2","numeric",NA,NA,NA
+"34","transects","raw_transect_records","Records of animals detected along transects","raw","LoR2","character",NA,NA,NA
+"35","transects","raw_transect_records","Records of animals detected along transects","raw","SeenOnSameSide","logical",NA,NA,NA
+"36","transects","raw_transect_records","Records of animals detected along transects","raw","DistanceBetweenAnimalProj","numeric",NA,NA,NA
+"37","transects","raw_transect_details","Records of when and where transects were undertaken","raw","SiteID","character",NA,NA,NA
+"38","transects","raw_transect_details","Records of when and where transects were undertaken","raw","Transect","integer",NA,NA,NA
+"39","transects","raw_transect_details","Records of when and where transects were undertaken","raw","Iteration","integer",NA,NA,NA
+"40","transects","raw_transect_details","Records of when and where transects were undertaken","raw","ObserverPosition","integer",NA,NA,NA
+"41","transects","raw_transect_details","Records of when and where transects were undertaken","raw","ObserverName","character",NA,NA,NA
+"42","transects","raw_transect_details","Records of when and where transects were undertaken","raw","ObserverID","character",NA,NA,NA
+"43","transects","raw_transect_details","Records of when and where transects were undertaken","raw","Date","Date",NA,NA,NA
+"44","transects","raw_transect_details","Records of when and where transects were undertaken","raw","StartTime","POSIXct, POSIXt",NA,NA,NA
+"45","transects","raw_transect_details","Records of when and where transects were undertaken","raw","EndTime","POSIXct, POSIXt",NA,NA,NA
+"46","transects","raw_transect_details","Records of when and where transects were undertaken","raw","Duration","difftime",NA,NA,NA
+"47","transects","raw_transect_details","Records of when and where transects were undertaken","raw","Weather","character",NA,NA,NA
+"48","transects","raw_transect_details","Records of when and where transects were undertaken","raw","Temperature","numeric",NA,NA,NA
+"49","transects","raw_transect_details","Records of when and where transects were undertaken","raw","TransectNotes","character",NA,NA,NA
+"50","transects","raw_transect_details","Records of when and where transects were undertaken","raw","MoonPhase","character",NA,NA,NA
+"51","transects","raw_transect_details","Records of when and where transects were undertaken","raw","Cloud","logical",NA,NA,NA
+"52","transects","raw_transect_details","Records of when and where transects were undertaken","raw","RelativeHumidity","logical",NA,NA,NA
+"53","transects","raw_transect_details","Records of when and where transects were undertaken","raw","Wind","character",NA,NA,NA
+"54","transects","raw_transect_details","Records of when and where transects were undertaken","raw","Precipitation","character",NA,NA,NA
+"55","transects","raw_transect_details","Records of when and where transects were undertaken","raw","FlowerIndex","character",NA,NA,NA
+"56","transects","raw_transect_details","Records of when and where transects were undertaken","raw","Access","character",NA,NA,NA
+"57","transects","raw_transect_details","Records of when and where transects were undertaken","raw","Visibility","character",NA,NA,NA
+"58","transects","raw_transect_details","Records of when and where transects were undertaken","raw","TransectLength","numeric",NA,NA,NA
+"59","transects","raw_transect_details","Records of when and where transects were undertaken","raw","MaxTruncationDistance","numeric",NA,NA,NA
+"60","transects","raw_transect_details","Records of when and where transects were undertaken","raw","TransectType","character",NA,NA,NA
+"61","transects","raw_transect_details","Records of when and where transects were undertaken","raw","geometry","sfc_MULTILINESTRING, sfc",NA,NA,NA
+"62","transects","raw_project_information","Details of the project under which transects were searched","raw","ProjectName","character",NA,NA,NA
+"63","transects","raw_project_information","Details of the project under which transects were searched","raw","ProjectShortName","character",NA,NA,NA
+"64","transects","raw_project_information","Details of the project under which transects were searched","raw","DistanceSampling","logical",NA,NA,NA
+"65","transects","raw_project_information","Details of the project under which transects were searched","raw","TerrestrialArboreal","character",NA,NA,NA
+"66","transects","raw_project_information","Details of the project under which transects were searched","raw","AllSpeciesTagged","logical",NA,NA,NA
+"67","transects","raw_project_information","Details of the project under which transects were searched","raw","DistanceForAllSpecies","logical",NA,NA,NA
+"68","transects","raw_project_information","Details of the project under which transects were searched","raw","DiurnalNocturnal","character",NA,NA,NA
+"69","transects","raw_project_information","Details of the project under which transects were searched","raw","ProjectDescription","character",NA,NA,NA
+"70","transects","raw_project_information","Details of the project under which transects were searched","raw","ProjectLeader","character",NA,NA,NA

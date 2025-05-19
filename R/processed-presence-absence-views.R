@@ -92,3 +92,66 @@ processed_SubStation_presence_absence <- function(con,
   }
 
 }
+
+
+
+#' @rdname processed_SubStation_presence_absence
+#' @export
+processed_transect_presence_absence <- function(con,
+                                                  return_data = FALSE,
+                                                  species = "all") {
+
+  curated_transect_records <- dplyr::tbl(con, dbplyr::in_schema("transect", "curated_transect_records"))
+
+  if(species != "all") {
+    curated_transect_records <- curated_transect_records %>%
+      dplyr::filter(common_name %in% species)
+  }
+
+  curated_transects <- dplyr::tbl(con, dbplyr::in_schema("transect", "curated_transects"))
+
+  species_real <- curated_transect_records %>%
+    dplyr::mutate(SiteTransect = paste(SiteID, Transect, sep = "_")) %>%
+    dplyr::select(dplyr::all_of(c("ProjectShortName",
+                                  "SiteTransect",
+                                  "Iteration",
+                                  "scientific_name",
+                                  "common_name"))) %>%
+    dplyr::distinct()
+
+
+  join_cols <- c("ProjectShortName", "SiteTransect", "Iteration", "scientific_name", "common_name")
+
+  species_project_possible <- curated_transect_records %>%
+    dplyr::mutate(SiteTransect = paste(SiteID, Transect, sep = "_")) %>%
+    dplyr::select(-Transect) %>%
+    dplyr::full_join(curated_transects %>%
+                       dplyr::mutate(SiteTransect = paste(SiteID, Transect, sep = "_")) %>%
+                       dplyr::select(ProjectShortName, SiteID, SiteTransect, Transect, Iteration, geometry),
+                     by = c("ProjectShortName", "SiteID", "SiteTransect", "Iteration")) %>%
+    dplyr::group_by(ProjectShortName) %>%
+    tidyr::expand(tidyr::nesting(SiteTransect, SiteID, Transect, Iteration, geometry),
+                  tidyr::nesting(scientific_name, common_name)) %>%
+    dplyr::ungroup()
+
+  species_occ <- species_real %>%
+    dplyr::mutate(Presence = 1) %>%
+    dplyr::right_join(species_project_possible, by = join_cols) %>%
+    dplyr::mutate(Presence = dplyr::coalesce(Presence, 0)) %>%
+    dplyr::select(dplyr::all_of(c("ProjectShortName",
+                                  "SiteID",
+                                  "Transect",
+                                  "Iteration",
+                                  "scientific_name",
+                                  "common_name",
+                                  "Presence",
+                                  "geometry"))) %>%
+    dplyr::filter(!is.na(common_name) | !is.na(scientific_name))
+
+  if(return_data) {
+    return(dplyr::collect(species_occ))
+  } else {
+    return(dbplyr::remote_query(species_occ))
+  }
+
+}

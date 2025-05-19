@@ -1,0 +1,7 @@
+{
+"type": "FeatureCollection",
+"name": "region_gg_transects",
+"features": [
+{ "type": "Feature", "properties": { "SiteID": "C5", "Transect": 1.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 145.558435855797768, -37.617941876580261 ], [ 145.557990855502055, -37.61351287917951 ] ] } }
+]
+}
