@@ -26,3 +26,5 @@ inst/shinyapps/rsconnect/shinyapps.io/arisci/camtrap_database.dcf
 inst/shinyapps/rsconnect/shinyapps.io/justincally/camtrapDB.dcf
 R/connect.R
 .Renviron
+inst/shinyapps/camtrap-app.R
+inst/shinyapps/transect-app.R
