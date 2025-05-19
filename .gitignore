@@ -25,3 +25,4 @@ inst/shinyapps/app.R
 inst/shinyapps/rsconnect/shinyapps.io/arisci/camtrap_database.dcf
 inst/shinyapps/rsconnect/shinyapps.io/justincally/camtrapDB.dcf
 R/connect.R
+.Renviron

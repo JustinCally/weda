@@ -2,9 +2,12 @@
 % Please edit documentation in R/shiny-app.R
 \name{camtrap_app}
 \alias{camtrap_app}
+\alias{transect_app}
 \title{Run the camera trap app}
 \usage{
 camtrap_app(con)
+
+transect_app(con)
 }
 \arguments{
 \item{con}{database connection}

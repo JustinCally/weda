@@ -48,7 +48,9 @@ Imports:
     bettermc (>= 1.2.2),
     data.table,
     lubridate,
-    stringr
+    stringr,
+    geosphere,
+    lwgeom
 Suggests: 
     rmarkdown,
     knitr,

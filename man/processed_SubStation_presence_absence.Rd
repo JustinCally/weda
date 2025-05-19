@@ -2,6 +2,7 @@
 % Please edit documentation in R/processed-presence-absence-views.R
 \name{processed_SubStation_presence_absence}
 \alias{processed_SubStation_presence_absence}
+\alias{processed_transect_presence_absence}
 \title{Presence/Absence Views}
 \usage{
 processed_SubStation_presence_absence(
@@ -10,6 +11,8 @@ processed_SubStation_presence_absence(
   daily = FALSE,
   species = "all"
 )
+
+processed_transect_presence_absence(con, return_data = FALSE, species = "all")
 }
 \arguments{
 \item{con}{database connection}
