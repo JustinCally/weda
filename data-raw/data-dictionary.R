@@ -96,7 +96,7 @@ data_dictionary <- data_dict %>%
                                         column_name == 'TerrestrialArboreal' ~ "Whether camera was Terrestrial or Arboreal",
                                         column_name == 'AllSpeciesTagged' ~ "Logical flag (TRUE/FALSE), whether all species seen were tagged",
                                         column_name == 'BaitedUnbaited' ~ "Whether camera was Baited or Unbaited",
-                                        column_name == 'BaitType' ~ "Type of bait used: None, Creamed Honey, Small Mammal Bait or Predator Bait",
+                                        column_name == 'BaitType' ~ "Type of bait used: None, Creamed Honey, Small Mammal Bait, Predator Bait (i.e, meat bait), Non-toxic curiosity bait, Toxic curiosity bait, Predator Lure (i.e., urine, faeces, etc.) or Other",
                                         column_name == 'DistanceForAllSpecies' ~ "Whether or not distance has been tagged for all species recorded",
                                         column_name == "ProjectDescription" ~ "Short description of the project",
                                         column_name == "ProjectLeader" ~ "Name of the person/persons responsible for the project",
