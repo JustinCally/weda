@@ -1,3 +1,13 @@
+# weda 0.0.9
+* Now connects to migrated database: ari-weda-flexi-psql-01
+
+# weda 0.0.8
+* Changed connection string for database
+
+# weda 0.0.7 
+* Bait type now allows for: None, Creamed Honey, Small Mammal Bait, Predator Bait (i.e, meat bait), Non-toxic curiosity bait, Toxic curiosity bait, Predator Lure (i.e., urine, faeces, etc.) or Other.
+* When plotting data in upload SiteID and SubStation are both shown in popup
+
 # weda 0.0.6
 * Refresh materialized view with code (not triggers) as it was not working. Refreshes on upload now
 

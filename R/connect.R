@@ -20,8 +20,8 @@ weda_connect <- function(username = "psql_user",
                          ...) {
 
   RPostgreSQL::dbConnect(RPostgres::Postgres(),
-                                host = '10.110.7.201',
-                                dbname = 'ari-dev-weda-psql-01',
+                                host = 'ari-weda-flexi-psql-01.postgres.database.azure.com',
+                                dbname = 'ari-weda-flexi-psql-01',
                                 user = username,
                                 password = password,
                                 port = 5432,

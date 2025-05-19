@@ -138,6 +138,9 @@ upload_camtrap_data <- function(con,
   if(any(c("raw_camtrap_operation", "raw_camtrap_records") %in% tables_to_upload)) {
     DBI::dbExecute(conn = con, statement = "REFRESH MATERIALIZED VIEW camtrap.processed_site_substation_presence_absence;")
     message("Refreshed presence-absence materialized VIEW")
+
+    DBI::dbExecute(conn = con, statement = "REFRESH MATERIALIZED VIEW camtrap.processed_site_substation_daily_presence_absence;")
+    message("Refreshed presence-absence daily materialized VIEW")
   }
 
 }

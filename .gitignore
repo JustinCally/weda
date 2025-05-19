@@ -5,6 +5,8 @@
 docs
 inst/doc
 data-raw/VBA_TAXA_LIST/
+.Renviron
+data-raw/.DS_Store
 data-raw/region-test/20241206013455_RezFile.csv
 data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.cpg
 data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.dbf
@@ -14,4 +16,13 @@ data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.sbx
 data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.shp
 data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.shp.xml
 data-raw/region-test/GG_Sites_Merged/PPR_GG_Sites_Merged.shx
+inst/shinyapps/.Renviron
+inst/shinyapps/rsconnect/shinyapps.io/arisci/cameratrapDB.dcf
+inst/shinyapps/rsconnect/shinyapps.io/arisci/camtrapdb.dcf
+inst/shinyapps/app.R
+inst/shinyapps/app.R
+inst/shinyapps/app.R
+inst/shinyapps/rsconnect/shinyapps.io/arisci/camtrap_database.dcf
+inst/shinyapps/rsconnect/shinyapps.io/justincally/camtrapDB.dcf
+R/connect.R
 .Renviron
