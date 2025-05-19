@@ -1,12 +1,12 @@
-name: camtrap_database
-title: camtrap_database
+name: transect-app
+title: transect-app
 username: arisci
 account: arisci
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
-appId: 14513100
-bundleId: 10303737
-url: https://arisci.shinyapps.io/camtrap_database/
+appId: 14779092
+bundleId: 10304484
+url: https://arisci.shinyapps.io/transect-app/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE
