@@ -1,3 +1,6 @@
+# weda 0.0.9
+* Now connects to migrated database: ari-weda-flexi-psql-01
+
 # weda 0.0.8
 * Changed connection string for database
 
