@@ -28,3 +28,4 @@ R/connect.R
 inst/shinyapps/camtrap-app.R
 inst/shinyapps/transect-app.R
 .Renviron
+inst/shinyapps/transect-app/app.R
