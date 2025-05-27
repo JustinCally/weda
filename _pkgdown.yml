@@ -52,3 +52,13 @@ reference:
       Functions used get data from the database
     contents:
       - '`DBdetectionHistory`'
+  - title: "Transect Upload Tools"
+    contents:
+      - filter_records_outside_transect_area
+      - koala_proofsafe_format
+      - prepare_transect_upload
+      - transectMapUI
+      - transect_dq
+      - transectdataUploadpUI
+      - upload_transect_data
+      - visualise_records
