@@ -18,17 +18,25 @@
 <url><loc>https://justincally.github.io/weda/reference/convert_to_latlong.html</loc></url>
 <url><loc>https://justincally.github.io/weda/reference/dataUploadpUI.html</loc></url>
 <url><loc>https://justincally.github.io/weda/reference/data_dictionary.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/filter_records_outside_transect_area.html</loc></url>
 <url><loc>https://justincally.github.io/weda/reference/index.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/koala_proofsafe_format.html</loc></url>
 <url><loc>https://justincally.github.io/weda/reference/mcrecordTable.html</loc></url>
 <url><loc>https://justincally.github.io/weda/reference/pipe.html</loc></url>
 <url><loc>https://justincally.github.io/weda/reference/prepare_camtrap_upload.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/prepare_transect_upload.html</loc></url>
 <url><loc>https://justincally.github.io/weda/reference/processed_SubStation_presence_absence.html</loc></url>
 <url><loc>https://justincally.github.io/weda/reference/projectMapUI.html</loc></url>
 <url><loc>https://justincally.github.io/weda/reference/records_curated_view.html</loc></url>
 <url><loc>https://justincally.github.io/weda/reference/standardise_species_names.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/transectMapUI.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/transect_dq.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/transectdataUploadpUI.html</loc></url>
 <url><loc>https://justincally.github.io/weda/reference/upload_camtrap_data.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/upload_transect_data.html</loc></url>
 <url><loc>https://justincally.github.io/weda/reference/vba_format.html</loc></url>
 <url><loc>https://justincally.github.io/weda/reference/vba_name_conversions.html</loc></url>
+<url><loc>https://justincally.github.io/weda/reference/visualise_records.html</loc></url>
 <url><loc>https://justincally.github.io/weda/reference/weda_connect.html</loc></url>
 </urlset>
 
