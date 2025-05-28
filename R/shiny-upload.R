@@ -180,6 +180,7 @@ dataUploadpUI <- function(id,
                                             shinyBS::bsCollapsePanel(title = "Step 6 Output",
                                                                      shiny::htmlOutput(outputId = ns("convertmessage"))),
                                             shinyBS::bsCollapsePanel(title = "Step 7 Output",
+                                                                       shiny::uiOutput(ns("species_selector")),  # dynamic UI
                                                                    leaflet::leafletOutput(outputId = ns("sitemap"))),
                                             shinyBS::bsCollapsePanel(title = "Step 8 Output",
                                                                      shiny::htmlOutput(outputId = ns("dqmessages")),
@@ -362,12 +363,29 @@ dataUploadServer <- function(id, con) {
 
       #### Step 7 ####
 
+      # Generate UI for species selector
+      output$species_selector <- shiny::renderUI({
+        shiny::req(st_data()$result)
+        species_choices <- unique(st_data()$result$common_name)
+        species_choices <- sort(species_choices[!is.na(species_choices)])
+
+        shiny::selectInput(ns("species"), "Select species to view on map:",
+                           choices = species_choices,
+                           selected = species_choices[1])
+      })
+
       observeEvent(input$viewsites, {
         shinyBS::updateCollapse(session = session, id = "collapsepanel", open = "Step 7 Output", close = "Step 6 Output")
 
-      output$sitemap <- leaflet::renderLeaflet({
-        weda::camtrap_operation_mapview(opers2()$result)
-      })
+        output$sitemap <- leaflet::renderLeaflet({
+          shiny::req(opers2()$result, st_data()$result, input$species)
+
+          weda::camtrap_operation_mapview(
+            camtrap_operation_table = opers2()$result,
+            records = st_data()$result,
+            species_name = input$species
+          )
+        })
 
       output$step7 <- shiny::renderText({
         "&#10003; Step 7 Complete"

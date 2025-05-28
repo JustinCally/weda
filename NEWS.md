@@ -1,3 +1,6 @@
+# weda 0.0.10
+* Add ability to view presence absence across sites in upload
+
 # weda 0.0.9
 * Now connects to migrated database: ari-weda-flexi-psql-01
 
