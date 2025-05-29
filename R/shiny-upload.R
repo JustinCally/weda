@@ -49,7 +49,7 @@ read_camtrap_csv_operation <- function(df) {
 warn_suspicious_dates <- function(dates, context = "dates", min_year = 2022) {
   if (!is.null(dates) && any(!is.na(dates) & lubridate::year(dates) < min_year)) {
     shiny::showNotification(
-      paste("⚠️ Some", context, "appear to be before", min_year, ". This may indicate Excel date conversion issues."),
+      paste("Some", context, "appear to be before", min_year, ". This may indicate Excel date conversion issues."),
       type = "warning", duration = 8
     )
   }
