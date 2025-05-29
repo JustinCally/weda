@@ -1,3 +1,60 @@
+read_camtrap_csv_records <- function(df) {
+  if ("Date" %in% names(df)) {
+    if (is.numeric(df$Date)) {
+      df$Date <- as.Date(df$Date, origin = "1899-12-30")
+    } else if (is.character(df$Date)) {
+      df$Date <- suppressWarnings(lubridate::dmy(df$Date))
+    }
+  }
+
+  if ("DateTimeOriginal" %in% names(df)) {
+    if (is.numeric(df$DateTimeOriginal)) {
+      df$DateTimeOriginal <- as.POSIXct(df$DateTimeOriginal * 86400, origin = "1899-12-30", tz = "UTC")
+    } else if (is.character(df$DateTimeOriginal)) {
+      df$DateTimeOriginal <- suppressWarnings(lubridate::dmy_hm(df$DateTimeOriginal))
+    }
+  }
+
+  return(df)
+}
+
+read_camtrap_csv_operation <- function(df) {
+  date_fields <- c("DateDeploy", "DateRetrieve")
+  datetime_fields <- c("DateTimeDeploy", "DateTimeRetrieve")
+
+  for (col in date_fields) {
+    if (col %in% names(df)) {
+      if (is.numeric(df[[col]])) {
+        df[[col]] <- as.Date(df[[col]], origin = "1899-12-30")
+      } else if (is.character(df[[col]])) {
+        df[[col]] <- suppressWarnings(lubridate::dmy(df[[col]]))
+      }
+    }
+  }
+
+  for (col in datetime_fields) {
+    if (col %in% names(df)) {
+      if (is.numeric(df[[col]])) {
+        df[[col]] <- as.POSIXct(df[[col]] * 86400, origin = "1899-12-30", tz = "UTC")
+      } else if (is.character(df[[col]])) {
+        df[[col]] <- suppressWarnings(lubridate::dmy_hm(df[[col]]))
+      }
+    }
+  }
+
+  return(df)
+}
+
+
+warn_suspicious_dates <- function(dates, context = "dates", min_year = 2022) {
+  if (!is.null(dates) && any(!is.na(dates) & lubridate::year(dates) < min_year)) {
+    shiny::showNotification(
+      paste("⚠️ Some", context, "appear to be before", min_year, ". This may indicate Excel date conversion issues."),
+      type = "warning", duration = 8
+    )
+  }
+}
+
 #' capture messages
 #'
 #' @param fun function to wrap
@@ -268,8 +325,21 @@ dataUploadServer <- function(id, con) {
 
       recs <- datamods::import_server("UploadRecords", return_class = "tbl_df")
 
+      # Cleaned camera records
+      recs_clean <- reactive({
+        req(recs$data())
+        read_camtrap_csv_records(recs$data())
+      })
+
+      observe({
+        req(recs_clean())
+        if ("Date" %in% names(recs_clean())) {
+          warn_suspicious_dates(recs_clean()$Date, "camera record dates")
+        }
+      })
+
       output$step2 <- shiny::renderText({
-        shiny::req(recs$data())
+        shiny::req(recs_clean())
         "&#10003; Step 2 Complete"
       })
 
@@ -286,8 +356,24 @@ dataUploadServer <- function(id, con) {
 
       opers <- datamods::import_server("UploadOperation", return_class = "tbl_df")
 
+      # Cleaned operation data
+      opers_clean <- reactive({
+        req(opers$data())
+        read_camtrap_csv_operation(opers$data())
+      })
+
+      observe({
+        req(opers_clean())
+        if ("DateDeploy" %in% names(opers_clean())) {
+          warn_suspicious_dates(opers_clean()$DateDeploy, "deployment dates")
+        }
+        if ("DateRetrieve" %in% names(opers_clean())) {
+          warn_suspicious_dates(opers_clean()$DateRetrieve, "retrieval dates")
+        }
+      })
+
       output$step3 <- shiny::renderText({
-        shiny::req(opers$data())
+        shiny::req(opers_clean())
         "&#10003; Step 3 Complete"
       })
 
@@ -316,7 +402,7 @@ dataUploadServer <- function(id, con) {
                                 open = "Step 5 Output", close = "Step 1 Output")
 
         standardise_species_names2(
-            recordTable = recs$data(),
+            recordTable = recs_clean(),
             format = input$nameformat,
             speciesCol = input$speciescol,
             return_data = TRUE)
@@ -343,7 +429,7 @@ dataUploadServer <- function(id, con) {
       opers2 <- shiny::eventReactive(input$convertlatlong, {
         shinyBS::updateCollapse(session = session, id = "collapsepanel", open = "Step 6 Output", close = "Step 5 Output")
 
-        fixed_coords <- convert_to_latlong2(data = opers$data())
+        fixed_coords <- convert_to_latlong2(data = opers_clean())
         return(fixed_coords)
       })
 
