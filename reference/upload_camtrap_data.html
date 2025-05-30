@@ -51,7 +51,8 @@
 <span>  <span class="va">uploadername</span>,</span>
 <span>  tables_to_upload <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"raw_camtrap_records"</span>, <span class="st">"raw_camtrap_operation"</span>,</span>
 <span>    <span class="st">"raw_project_information"</span><span class="op">)</span>,</span>
-<span>  schema <span class="op">=</span> <span class="st">"camtrap"</span></span>
+<span>  schema <span class="op">=</span> <span class="st">"camtrap"</span>,</span>
+<span>  pa_refresh <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -77,6 +78,10 @@
 
 <dt id="arg-schema">schema<a class="anchor" aria-label="anchor" href="#arg-schema"></a></dt>
 <dd><p>schema to upload data to (options are camtrap or camtrap_dev)</p></dd>
+
+
+<dt id="arg-pa-refresh">pa_refresh<a class="anchor" aria-label="anchor" href="#arg-pa-refresh"></a></dt>
+<dd><p>whether to update presence absence tables, default is true</p></dd>
 
 </dl></div>
 
