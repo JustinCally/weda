@@ -18,10 +18,13 @@ read_camtrap_csv_records <- function(df) {
   return(df)
 }
 
+# Fix date-only fields that need to be datetime
+
 read_camtrap_csv_operation <- function(df) {
   date_fields <- c("DateDeploy", "DateRetrieve")
   datetime_fields <- c("DateTimeDeploy", "DateTimeRetrieve")
 
+  # Handle date fields
   for (col in date_fields) {
     if (col %in% names(df)) {
       if (is.numeric(df[[col]])) {
@@ -32,12 +35,27 @@ read_camtrap_csv_operation <- function(df) {
     }
   }
 
+  # Handle datetime fields
   for (col in datetime_fields) {
     if (col %in% names(df)) {
       if (is.numeric(df[[col]])) {
         df[[col]] <- as.POSIXct(df[[col]] * 86400, origin = "1899-12-30", tz = "UTC")
       } else if (is.character(df[[col]])) {
-        df[[col]] <- suppressWarnings(lubridate::dmy_hm(df[[col]]))
+        df[[col]] <- suppressWarnings(lubridate::parse_date_time(df[[col]],
+                                                                 orders = c("dmy HMS", "dmy HM", "dmy", "ymd HMS", "ymd HM", "ymd")))
+      }
+    }
+  }
+
+  # Handle Problem1_from and Problem1_to as datetime (even if only date present)
+  problem_fields <- c("Problem1_from", "Problem1_to")
+  for (col in problem_fields) {
+    if (col %in% names(df)) {
+      if (is.numeric(df[[col]])) {
+        df[[col]] <- as.POSIXct(df[[col]] * 86400, origin = "1899-12-30", tz = "UTC")
+      } else if (is.character(df[[col]])) {
+        parsed <- suppressWarnings(lubridate::dmy(df[[col]]))
+        df[[col]] <- as.POSIXct(parsed)
       }
     }
   }
@@ -220,6 +238,9 @@ dataUploadpUI <- function(id,
                       shiny::actionButton(inputId = ns("dataquality"),
                                    label = "Run Data Quality",
                                    icon = shiny::icon("user-secret"), width = "100%"),
+                      shiny::downloadButton(ns("downloadDQ1"), "Download Records CSV"),
+                      shiny::downloadButton(ns("downloadDQ2"), "Download Operation CSV"),
+                      shiny::downloadButton(ns("downloadDQ3"), "Download Project Info CSV"),
                       shiny::div(shiny::tags$h4("Step 9", style="display:inline-block"),
                                  helpPopup(title = "Step 9 Guide", content = "Upload the data. Data must pass all previous steps (including no 'Stops' in the data quality).
                                            You must enter your name and confirm the upload. If data is successfully uploaded you will receive a message in the main panel.
@@ -524,6 +545,30 @@ dataUploadServer <- function(id, con) {
             pointblank::get_agent_report(title = "Data Quality Assessment on Project Information")
         })
 
+        output$downloadDQ1 <- downloadHandler(
+          filename = function() paste0("records_dq_", Sys.Date(), ".csv"),
+          content = function(file) {
+            req(dqlist())
+            readr::write_csv(dqlist()$result[[1]]$tbl, file)
+          }
+        )
+
+        output$downloadDQ2 <- downloadHandler(
+          filename = function() paste0("operation_dq_", Sys.Date(), ".csv"),
+          content = function(file) {
+            req(dqlist())
+            readr::write_csv(dqlist()$result[[2]]$tbl, file)
+          }
+        )
+
+        output$downloadDQ3 <- downloadHandler(
+          filename = function() paste0("project_dq_", Sys.Date(), ".csv"),
+          content = function(file) {
+            req(dqlist())
+            readr::write_csv(dqlist()$result[[3]]$tbl, file)
+          }
+        )
+
         #### Step 9 ####
 
         observeEvent(input$uploaddata, {
@@ -557,15 +602,36 @@ dataUploadServer <- function(id, con) {
           # Only continue if filled out
           shiny::req(input$name)
 
-          shiny::withProgress(message = 'Preparing Upload', value = 0.5, {
+          shiny::withProgress(message = 'Preparing Upload', value = 0.1, {
           data_for_upload <- weda::prepare_camtrap_upload(agent_list = dqlist()$result)
 
-          shiny::incProgress(amount = 0.25, message = "Uploading Data")
+          shiny::incProgress(amount = 0.2, message = "Uploading Records...")
 
           weda::upload_camtrap_data(con = con,
                               data_list = data_for_upload,
+                              tables_to_upload = c("raw_camtrap_records"),
                               uploadername = input$name,
-                              schema = "camtrap")
+                              schema = "camtrap",
+                              pa_refresh = FALSE)
+
+          shiny::incProgress(amount = 0.2, message = "Uploading Operation...")
+
+          weda::upload_camtrap_data(con = con,
+                                    data_list = data_for_upload,
+                                    tables_to_upload = c("raw_camtrap_operation"),
+                                    uploadername = input$name,
+                                    schema = "camtrap",
+                                    pa_refresh = TRUE)
+
+          shiny::incProgress(amount = 0.3, message = "Uploading Project Info...")
+
+          weda::upload_camtrap_data(con = con,
+                                    data_list = data_for_upload,
+                                    tables_to_upload = c("raw_project_information"),
+                                    uploadername = input$name,
+                                    schema = "camtrap")
+
+          shiny::incProgress(amount = 0.3, message = "Finalising Upload")
 
           output$uploadcompletion <- shiny::renderText({
             "Upload Complete. Restart app to see project data on map pane"

@@ -84,6 +84,7 @@ prepare_camtrap_upload <- function(agent_list) {
 #' @param uploadername name of person uploading data
 #' @param tables_to_upload vector (characters) of tables to upload. Default is all of them
 #' @param schema schema to upload data to (options are camtrap or camtrap_dev)
+#' @param pa_refresh whether to update presence absence tables, default is true
 #'
 #' @return NULL
 #' @export
@@ -100,7 +101,8 @@ upload_camtrap_data <- function(con,
                                 tables_to_upload = c("raw_camtrap_records",
                                                      "raw_camtrap_operation",
                                                      "raw_project_information"),
-                                schema = "camtrap") {
+                                schema = "camtrap",
+                                pa_refresh = TRUE) {
 
   timestamp <- Sys.time()
 
@@ -136,7 +138,7 @@ upload_camtrap_data <- function(con,
     message("Refreshed project info materialized VIEW")
   }
 
-  if (any(c("raw_camtrap_operation", "raw_camtrap_records") %in% tables_to_upload)) {
+  if (any(c("raw_camtrap_operation", "raw_camtrap_records") %in% tables_to_upload) & pa_refresh) {
     DBI::dbExecute(con, "SELECT camtrap.refresh_processed_site_substation_presence_absence();")
     message("Refreshed presence-absence materialized VIEW")
 
@@ -145,3 +147,4 @@ upload_camtrap_data <- function(con,
   }
 
 }
+
