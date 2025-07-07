@@ -4,10 +4,14 @@
 \alias{camtrap_operation_mapview}
 \title{View the camera trap}
 \usage{
-camtrap_operation_mapview(camtrap_operation_table)
+camtrap_operation_mapview(camtrap_operation_table, records, species_name)
 }
 \arguments{
 \item{camtrap_operation_table}{camera trap operation table as found in the camtrap schema}
+
+\item{records}{camera trap records table}
+
+\item{species_name}{dynamic species name}
 }
 \value{
 mapview

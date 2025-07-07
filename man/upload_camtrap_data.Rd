@@ -10,7 +10,8 @@ upload_camtrap_data(
   uploadername,
   tables_to_upload = c("raw_camtrap_records", "raw_camtrap_operation",
     "raw_project_information"),
-  schema = "camtrap"
+  schema = "camtrap",
+  pa_refresh = TRUE
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ upload_camtrap_data(
 \item{tables_to_upload}{vector (characters) of tables to upload. Default is all of them}
 
 \item{schema}{schema to upload data to (options are camtrap or camtrap_dev)}
+
+\item{pa_refresh}{whether to update presence absence tables, default is true}
 }
 \description{
 Upload camera trap data to database
