@@ -26,6 +26,7 @@ reference:
       - '`check_unique_project`'
       - '`convert_to_latlong`'
       - '`mcrecordTable`'
+      - '`proofsafe_to_operation`'
   - title: "Database views"
     desc: >
       Functions used to create views on the database
@@ -47,6 +48,7 @@ reference:
       - '`dataUploadpUI`'
       - '`dataUploadServer`'
       - '`camtrap_app`'
+      - '`proofsafeDownloadUI`'
   - title: "Obtaining Data"
     desc: >
       Functions used get data from the database
