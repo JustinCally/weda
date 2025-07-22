@@ -170,6 +170,17 @@ dataUploadpUI <- function(id,
                       shiny::actionButton(inputId = ns("RecordButton"),
                                    label = "Import Camera Records",
                                    icon = shiny::icon("upload"), width = "100%"),
+                      shiny::div(
+                        shiny::tags$h4(
+                          shiny::HTML('Step 2 <sup style="font-size:smaller">3&#8260;4</sup> (Optional)'),
+                          style = "display: inline-block;"
+                        ),
+                        helpPopup(
+                          title = "Step 2 3/4 Guide",
+                          content = "If you collected camera setup information using ARI's Proofsafe form, this modal will allow you to upload, convert and then download the data in the correct operations format. Note: This assumes data such as site names are filled in correctly and that all cameras were functioning during the entire deployment. If cameras failed, edit the downloaded operations CSV in the Problem1_From and Problem1_To columns."
+                        )
+                      ),
+                      proofsafeDownloadUI(ns("proofsafe")),
                       shiny::div(shiny::tags$h4("Step 3", style="display:inline-block"),
                                  helpPopup(title = "Step 3 Guide", content = "Upload the camera trap operation data (generated from proofsafe or manually from field data).
                                            Make sure the data has all the columns in the example data template (download above)")),
@@ -358,6 +369,8 @@ dataUploadServer <- function(id, con) {
           warn_suspicious_dates(recs_clean()$Date, "camera record dates")
         }
       })
+
+      proofsafeDownloadServer("proofsafe")
 
       output$step2 <- shiny::renderText({
         shiny::req(recs_clean())

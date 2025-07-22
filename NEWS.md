@@ -1,3 +1,6 @@
+# weda 0.0.11
+* Add in ability to convert proofsafe output to operations table 
+
 # weda 0.0.10
 * Add ability to view presence absence across sites in upload
 
