@@ -118,8 +118,8 @@ upload_camtrap_data <- function(con,
     DBI::dbWriteTable(con, DBI::Id(schema = schema, table = "raw_camtrap_records"),
                       data_list[["camtrap_records"]], row.names = FALSE, append = TRUE, overwrite = FALSE)
     message("Uploaded camera trap records")
-    DBI::dbExecute(con, "SELECT camtrap.refresh_curated_camtrap_records();")
-    message("Refreshed records materialized VIEW")
+    DBI::dbExecute(con, "SELECT camtrap.refresh_curated_camtrap_records_recent();")
+    message("Refreshed records materialized VIEW (updatable table)")
   }
 
   if ("raw_camtrap_operation" %in% tables_to_upload) {
@@ -139,10 +139,10 @@ upload_camtrap_data <- function(con,
   }
 
   if (any(c("raw_camtrap_operation", "raw_camtrap_records") %in% tables_to_upload) & pa_refresh) {
-    DBI::dbExecute(con, "SELECT camtrap.refresh_processed_site_substation_presence_absence();")
+    DBI::dbExecute(con, "SELECT camtrap.refresh_presence_absence_recent();")
     message("Refreshed presence-absence materialized VIEW")
 
-    DBI::dbExecute(con, "SELECT camtrap.refresh_processed_site_substation_daily_presence_absence();")
+    DBI::dbExecute(con, "SELECT camtrap.refresh_presence_absence_daily_recent();")
     message("Refreshed presence-absence daily materialized VIEW")
   }
 

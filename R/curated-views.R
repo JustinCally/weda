@@ -29,6 +29,8 @@ records_curated_view <- function(con, return_data = FALSE) {
   # group the raw_camtrap_records table by camtrap_record_database_ID
   # and filter the table to only include the most recent record for each camtrap_record_database_ID
   curated_camtrap_records <- raw_camtrap_records %>%
+    dplyr::select(-n_images) %>%
+    dplyr::distinct() %>%
     dplyr::group_by(camtrap_record_database_ID) %>%
     dplyr::filter(Timestamp == max(Timestamp, na.rm = TRUE))
 

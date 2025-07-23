@@ -1,3 +1,6 @@
+# weda 0.0.12
+* Change the way the upload process works so that only recent data is refreshed
+
 # weda 0.0.11
 * Add in ability to convert proofsafe output to operations table 
 
