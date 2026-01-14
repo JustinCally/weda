@@ -5,7 +5,7 @@ account: arisci
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 14513100
-bundleId: 10652804
+bundleId: 10660218
 url: https://arisci.shinyapps.io/camtrap_database/
 version: 1
 asMultiple: FALSE

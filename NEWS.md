@@ -1,3 +1,6 @@
+# weda 0.0.13
+* Allow for sites/projects to be hidden by writing a shiny_hide_table to the database
+
 # weda 0.0.12
 * Change the way the upload process works so that only recent data is refreshed
 

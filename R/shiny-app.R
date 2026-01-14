@@ -36,10 +36,16 @@ camtrap_app <- function(con) {
     dplyr::collect() %>%
     dplyr::pull()
 
+  ## filter hidden locations
+  hidden_locs <- dplyr::tbl(con,
+                            dbplyr::in_schema("camtrap", "shiny_hide_table")) %>%
+    dplyr::collect()
+
   ## Camera Locations
   cam_locations <- dplyr::tbl(con,
                               dbplyr::in_schema("camtrap", "curated_camtrap_operation")) %>%
     dplyr::collect() %>%
+    dplyr::anti_join(hidden_locs, by = c("ProjectShortName", "Iteration")) %>%
     sf::st_as_sf(., coords = c("Longitude", "Latitude"), crs = 4283) %>%
     dplyr::left_join(project_data %>%
                        dplyr::select(-Timestamp, -Uploader),
