@@ -190,7 +190,7 @@ transect_dq <- function(records, transects, project_information) {
   }
 
   pb_op <- pointblank::create_agent(
-    tbl = transects %>% tibble::as_tibble(),
+    tbl = transects %>% tidyr::as_tibble(),
     actions = pointblank::action_levels(stop_at = 1)) %>%
     pointblank::col_exists(columns = c('SiteID',
                                        'Transect',
