@@ -1,5 +1,9 @@
 # Changelog
 
+## weda 0.0.14
+
+- In transects data quality ensure that pointblank works on sf table
+
 ## weda 0.0.13
 
 - Allow for sites/projects to be hidden by writing a shiny_hide_table to

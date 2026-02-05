@@ -11,13 +11,13 @@ Source:
 [`DESCRIPTION`](https://github.com/JustinCally/weda/blob/main/DESCRIPTION)
 
 Cally J (2026). *weda: Wildlife Ecology Data Analytics (weda) supports
-database connections and use at ARI*. R package version 0.0.13,
+database connections and use at ARI*. R package version 0.0.14,
 <https://justincally.github.io/weda/>.
 
     @Manual{,
       title = {weda: Wildlife Ecology Data Analytics (weda) supports database connections and use at ARI},
       author = {Justin Cally},
       year = {2026},
-      note = {R package version 0.0.13},
+      note = {R package version 0.0.14},
       url = {https://justincally.github.io/weda/},
     }
