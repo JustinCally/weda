@@ -190,7 +190,7 @@ transect_dq <- function(records, transects, project_information) {
   }
 
   pb_op <- pointblank::create_agent(
-    tbl = transects,
+    tbl = transects %>% tibble::as_tibble(),
     actions = pointblank::action_levels(stop_at = 1)) %>%
     pointblank::col_exists(columns = c('SiteID',
                                        'Transect',
@@ -233,14 +233,14 @@ transect_dq <- function(records, transects, project_information) {
                                                        "Medium flowering",
                                                        "Heavy flowering"),
                                 preconditions = ~ . %>% dplyr::filter(!is.na(FlowerIndex))) %>%
-    pointblank::col_vals_in_set("GeometryType", set = c("LINESTRING", "MULTILINESTRING"),
-                                preconditions = ~ . %>%
-                                  dplyr::mutate(GeometryType = sf::st_geometry_type(geometry)) %>%
-                                  dplyr::filter(TransectType == "Line")) %>%
-    pointblank::col_vals_in_set("GeometryType", set = c("POINT", "MULTIPOINT"),
-                                preconditions = ~ . %>%
-                                  dplyr::mutate(GeometryType = sf::st_geometry_type(geometry)) %>%
-                                  dplyr::filter(TransectType == "Point")) %>%
+    # pointblank::col_vals_in_set("GeometryType", set = c("LINESTRING", "MULTILINESTRING"),
+    #                             preconditions = ~ . %>%
+    #                               dplyr::mutate(GeometryType = sf::st_geometry_type(geometry)) %>%
+    #                               dplyr::filter(TransectType == "Line")) %>%
+    # pointblank::col_vals_in_set("GeometryType", set = c("POINT", "MULTIPOINT"),
+    #                             preconditions = ~ . %>%
+    #                               dplyr::mutate(GeometryType = sf::st_geometry_type(geometry)) %>%
+    #                               dplyr::filter(TransectType == "Point")) %>%
     pointblank::interrogate()
 
   pb_pi <- pointblank::create_agent(

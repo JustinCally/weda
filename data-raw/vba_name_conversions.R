@@ -3,7 +3,7 @@ library(dplyr)
 ## Read in the DAT file
 ## Sourced from data.vic
 con <- weda::weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", username = "psql_user"))
-vba_name_conversions <- sf::st_read("data-raw/VBA_TAXA_LIST") %>%
+vba_name_conversions <- sf::st_read("data-raw/VBA_TAXA_LIST.gdb") %>%
   dplyr::select(taxon_id = TAXON_ID,
                 scientific_name = SCI_NAME,
                 common_name = COMM_NAME) %>%

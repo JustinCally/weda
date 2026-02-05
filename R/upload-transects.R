@@ -30,7 +30,8 @@ prepare_transect_upload <- function(agent_list) {
     dplyr::ungroup() %>%
     dplyr::select(ProjectShortName, everything())
 
-  transects <- agent_list[["transects"]][["tbl"]]
+  transects <- agent_list[["transects"]][["tbl"]] %>%
+    sf::st_as_sf()
 
   # Add project info to camtrap lists
   transects$ProjectShortName <- project_information$ProjectShortName
