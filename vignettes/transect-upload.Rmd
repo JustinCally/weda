@@ -275,7 +275,7 @@ Upload will only proceed when there are no red dots. Use the **EXT** download bu
 
 To confirm all checks have passed programmatically:
 
-```{r checkpassed}
+```{r checkpassed, eval = FALSE}
 all(sapply(dq, function(x) all(x[["validation_set"]][["all_passed"]])))
 ```
 
@@ -283,7 +283,9 @@ all(sapply(dq, function(x) all(x[["validation_set"]][["all_passed"]])))
 
 Once all quality checks pass, prepare the data for upload. This step generates MD5 hash IDs for each record to prevent duplicates on the database.
 
-```{r prepareupload}
+*Note: the bundled example data is intentionally minimal (2 records, single observer) and will not pass all quality checks. The chunks below use `eval = FALSE` and are intended to be run with your own complete survey data.*
+
+```{r prepareupload, eval = FALSE}
 data_for_upload <- prepare_transect_upload(agent_list = dq)
 ```
 
