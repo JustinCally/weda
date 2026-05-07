@@ -13,6 +13,7 @@ You can install the development version of weda from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("JustinCally/weda")
 ```

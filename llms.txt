@@ -13,6 +13,7 @@ You can install the development version of weda from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("JustinCally/weda")
 ```
@@ -145,3 +146,5 @@ Functions used get data from the database
   data](https://justincally.github.io/weda/articles/data-download.md):
 - [Connecting to the
   database](https://justincally.github.io/weda/articles/database-connect.md):
+- [Uploading transect records to
+  database](https://justincally.github.io/weda/articles/transect-upload.md):

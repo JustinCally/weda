@@ -1,6 +1,7 @@
 # Uploading camera trap records to database
 
 ``` r
+
 library(weda)
 library(dplyr)
 library(camtrapR)
@@ -69,6 +70,7 @@ and then run the app using
 vignette(‘database-connect’)*
 
 ``` r
+
 # Make sure VPN is running
 con <- weda::weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01",
                                                       username = "psql_user"))
@@ -120,6 +122,7 @@ metadata tags are denoted with a `metadata_` prefix. See
 `recordTableSample` for more details.
 
 ``` r
+
 raw_camtrap_records <- recordTable(inDir  = system.file("dummydata/images", package = "weda"),
                                IDfrom = "metadata", 
                                cameraID = "directory", 
@@ -140,15 +143,15 @@ raw_camtrap_records %>%
   scroll_box(width = "100%")
 ```
 
-| SiteID | SubStation | Species                  | DateTimeOriginal    | Date       | Time     | delta.time.secs | delta.time.mins | delta.time.hours | delta.time.days | Directory                                                      | FileName                                | metadata_Distance | metadata_Species         | n_images | metadata_Individuals | metadata_Behaviour | metadata_Multiples | HierarchicalSubject                                                                         | Iteration |
-|:-------|:-----------|:-------------------------|:--------------------|:-----------|:---------|----------------:|----------------:|-----------------:|----------------:|:---------------------------------------------------------------|:----------------------------------------|:------------------|:-------------------------|---------:|:---------------------|:-------------------|:-------------------|:--------------------------------------------------------------------------------------------|----------:|
-| 2602   | NA         | Macropus giganteus       | 2021-10-17 01:32:47 | 2021-10-17 | 01:32:47 |               0 |               0 |                0 |               0 | /home/runner/work/\_temp/Library/weda/dummydata/images/2602    | 2602\_\_2021-10-17\_\_01-32-47(5).JPG   | 2.5 - 5           | Macropus giganteus       |        1 | NA                   | NA                 | NA                 | Distance\|2.5 - 5, Species\|Macropus giganteus                                              |         1 |
-| 43134  | NA         | Dama dama                | 2021-11-16 18:15:26 | 2021-11-16 | 18:15:26 |               0 |               0 |                0 |               0 | /home/runner/work/\_temp/Library/weda/dummydata/images/43134   | 43134\_\_2021-11-16\_\_18-15-26(22).JPG | 0 - 2.5           | Dama dama                |        1 | Female1              | NA                 | NA                 | Distance\|0 - 2.5, Individuals\|Female1, Species\|Dama dama                                 |         1 |
-| 56505  | A          | Rusa unicolor            | 2021-11-30 08:50:17 | 2021-11-30 | 08:50:17 |               0 |               0 |                0 |               0 | /home/runner/work/\_temp/Library/weda/dummydata/images/56505/A | 56505\_\_2021-11-30\_\_08-50-17(2).JPG  | 2.5 - 5           | Rusa unicolor            |        1 | Male1                | NA                 | NA                 | Distance\|2.5 - 5, Individuals\|Male1, Species\|Rusa unicolor                               |         1 |
-| 56505  | B          | Rusa unicolor            | 2021-11-30 08:50:57 | 2021-11-30 | 08:50:57 |               0 |               0 |                0 |               0 | /home/runner/work/\_temp/Library/weda/dummydata/images/56505/B | 56505\_\_2021-11-30\_\_08-50-57(59).JPG | 0 - 2.5           | Rusa unicolor            |        1 | Male1                | CameraInteraction  | NA                 | Behaviour\|CameraInteraction, Distance\|0 - 2.5, Individuals\|Male1, Species\|Rusa unicolor |         1 |
-| 832    | NA         | Dromaius novaehollandiae | 2021-10-21 14:30:38 | 2021-10-21 | 14:30:38 |               0 |               0 |                0 |               0 | /home/runner/work/\_temp/Library/weda/dummydata/images/832     | 832\_\_2021-10-21\_\_14-30-38(8).JPG    | 2.5 - 5           | Dromaius novaehollandiae |        1 | NA                   | NA                 | NA                 | Distance\|2.5 - 5, Species\|Dromaius novaehollandiae                                        |         1 |
-| 9941   | NA         | Macropus giganteus       | 2021-10-14 18:09:19 | 2021-10-14 | 18:09:19 |               0 |               0 |                0 |               0 | /home/runner/work/\_temp/Library/weda/dummydata/images/9941    | 9941\_\_2021-10-14\_\_18-09-19(13).JPG  | 2.5 - 5           | Macropus giganteus       |        1 | NA                   | NA                 | 3                  | Distance\|2.5 - 5, Multiples\|3, Species\|Macropus giganteus                                |         1 |
-| 9941   | NA         | Vulpes vulpes            | 2021-11-03 14:32:21 | 2021-11-03 | 14:32:21 |               0 |               0 |                0 |               0 | /home/runner/work/\_temp/Library/weda/dummydata/images/9941    | 9941\_\_2021-11-03\_\_14-32-21(11).JPG  | 5 - 7.5           | Vulpes vulpes            |        1 | NA                   | NA                 | NA                 | Distance\|5 - 7.5, Species\|Vulpes vulpes                                                   |         1 |
+| SiteID | SubStation | Species | DateTimeOriginal | Date | Time | delta.time.secs | delta.time.mins | delta.time.hours | delta.time.days | Directory | FileName | metadata_Distance | metadata_Species | n_images | metadata_Individuals | metadata_Behaviour | metadata_Multiples | HierarchicalSubject | Iteration |
+|:---|:---|:---|:---|:---|:---|---:|---:|---:|---:|:---|:---|:---|:---|---:|:---|:---|:---|:---|---:|
+| 2602 | NA | Macropus giganteus | 2021-10-17 01:32:47 | 2021-10-17 | 01:32:47 | 0 | 0 | 0 | 0 | /home/runner/work/\_temp/Library/weda/dummydata/images/2602 | 2602\_\_2021-10-17\_\_01-32-47(5).JPG | 2.5 - 5 | Macropus giganteus | 1 | NA | NA | NA | Distance\|2.5 - 5, Species\|Macropus giganteus | 1 |
+| 43134 | NA | Dama dama | 2021-11-16 18:15:26 | 2021-11-16 | 18:15:26 | 0 | 0 | 0 | 0 | /home/runner/work/\_temp/Library/weda/dummydata/images/43134 | 43134\_\_2021-11-16\_\_18-15-26(22).JPG | 0 - 2.5 | Dama dama | 1 | Female1 | NA | NA | Distance\|0 - 2.5, Individuals\|Female1, Species\|Dama dama | 1 |
+| 56505 | A | Rusa unicolor | 2021-11-30 08:50:17 | 2021-11-30 | 08:50:17 | 0 | 0 | 0 | 0 | /home/runner/work/\_temp/Library/weda/dummydata/images/56505/A | 56505\_\_2021-11-30\_\_08-50-17(2).JPG | 2.5 - 5 | Rusa unicolor | 1 | Male1 | NA | NA | Distance\|2.5 - 5, Individuals\|Male1, Species\|Rusa unicolor | 1 |
+| 56505 | B | Rusa unicolor | 2021-11-30 08:50:57 | 2021-11-30 | 08:50:57 | 0 | 0 | 0 | 0 | /home/runner/work/\_temp/Library/weda/dummydata/images/56505/B | 56505\_\_2021-11-30\_\_08-50-57(59).JPG | 0 - 2.5 | Rusa unicolor | 1 | Male1 | CameraInteraction | NA | Behaviour\|CameraInteraction, Distance\|0 - 2.5, Individuals\|Male1, Species\|Rusa unicolor | 1 |
+| 832 | NA | Dromaius novaehollandiae | 2021-10-21 14:30:38 | 2021-10-21 | 14:30:38 | 0 | 0 | 0 | 0 | /home/runner/work/\_temp/Library/weda/dummydata/images/832 | 832\_\_2021-10-21\_\_14-30-38(8).JPG | 2.5 - 5 | Dromaius novaehollandiae | 1 | NA | NA | NA | Distance\|2.5 - 5, Species\|Dromaius novaehollandiae | 1 |
+| 9941 | NA | Macropus giganteus | 2021-10-14 18:09:19 | 2021-10-14 | 18:09:19 | 0 | 0 | 0 | 0 | /home/runner/work/\_temp/Library/weda/dummydata/images/9941 | 9941\_\_2021-10-14\_\_18-09-19(13).JPG | 2.5 - 5 | Macropus giganteus | 1 | NA | NA | 3 | Distance\|2.5 - 5, Multiples\|3, Species\|Macropus giganteus | 1 |
+| 9941 | NA | Vulpes vulpes | 2021-11-03 14:32:21 | 2021-11-03 | 14:32:21 | 0 | 0 | 0 | 0 | /home/runner/work/\_temp/Library/weda/dummydata/images/9941 | 9941\_\_2021-11-03\_\_14-32-21(11).JPG | 5 - 7.5 | Vulpes vulpes | 1 | NA | NA | NA | Distance\|5 - 7.5, Species\|Vulpes vulpes | 1 |
 
 Note that with some older models of cameras `exifTool` and subsequently
 `camtrapR` has difficulty in reading the date-time format. To fix this
@@ -157,6 +160,7 @@ you can run the
 function on the directory if needed:
 
 ``` r
+
 # Optional if using old and problematic cameras: 
 fixDateTimeOriginal(inDir = system.file("dummydata/images", package = "weda"), 
                     recursive = TRUE)
@@ -174,6 +178,7 @@ obtained in the exported dataset:
 Firstly, we can run the function just to check the names for conversion:
 
 ``` r
+
 standardise_species_names(raw_camtrap_records, 
                           format = "scientific", 
                           speciesCol = "Species",
@@ -191,6 +196,7 @@ the VBA sambar deer are listed as *Cervus unicolor*. We can change this
 with code:
 
 ``` r
+
 raw_camtrap_records_mod <- raw_camtrap_records %>% 
   mutate(Species = case_when(Species == "Rusa unicolor" ~ "Cervus unicolor", 
                              TRUE ~ Species))
@@ -235,6 +241,7 @@ or 55) in your data. It will return your operation table with *Latitude*
 and *Longitude*.
 
 ``` r
+
 operationdata <- readr::read_csv(system.file("dummydata/operationdata.csv", package = "weda"), 
                                  show_col_types = FALSE) %>%
   mutate(SiteID = as.character(SiteID), 
@@ -247,14 +254,14 @@ operationdata %>%
   scroll_box(width = "100%")
 ```
 
-| SiteID | SubStation | Iteration |  Latitude | Longitude | DateDeploy | TimeDeploy | DateRetrieve | TimeRetrieve | Problem1_from       | Problem1_to         | DateTimeDeploy      | DateTimeRetrieve    | CameraHeight | CameraBearing | CameraSlope | CameraID   | CameraModel | CameraSensitivity | CameraDelay | CameraPhotosPerTrigger | CameraQuietPeriod | BaitedUnbaited | BaitType | BaitDistance |
-|:-------|:-----------|----------:|----------:|----------:|:-----------|:-----------|:-------------|:-------------|:--------------------|:--------------------|:--------------------|:--------------------|-------------:|--------------:|------------:|:-----------|:------------|:------------------|:------------|-----------------------:|------------------:|:---------------|:---------|:-------------|
-| 9941   | NA         |         1 | -37.24001 |  141.8618 | 2021-10-14 | 14:18:00   | 2021-12-07   | 11:00:00     | NA                  | NA                  | 2021-10-14 14:18:00 | 2021-12-07 11:00:00 |            1 |           180 |           2 | HO04101051 | HF2x        | Very High         | Rapidfire   |                      5 |                 0 | Unbaited       | None     | NA           |
-| 2602   | NA         |         1 | -36.56451 |  141.1924 | 2021-10-15 | 10:56:00   | 2021-12-07   | 14:51:00     | 2021-11-18 15:56:21 | 2021-12-07 14:51:00 | 2021-10-15 10:56:00 | 2021-12-07 14:51:00 |            1 |           168 |           4 | HO04102687 | HF2x        | Very High         | Rapidfire   |                      5 |                 0 | Unbaited       | None     | NA           |
-| 832    | NA         |         1 | -35.85188 |  141.0451 | 2021-10-15 | 15:00:00   | 2021-12-08   | 11:00:00     | NA                  | NA                  | 2021-10-15 15:00:00 | 2021-12-08 11:00:00 |            1 |           175 |           2 | HO04102395 | HF2x        | Very High         | Rapidfire   |                      5 |                 0 | Unbaited       | None     | NA           |
-| 43134  | NA         |         1 | -36.87991 |  146.0942 | 2021-10-26 | 17:00:00   | 2021-12-21   | 16:21:33     | NA                  | NA                  | 2021-10-26 17:00:00 | 2021-12-21 16:21:33 |            1 |           200 |           1 | HO04104906 | HF2x        | Very High         | Rapidfire   |                      5 |                 0 | Unbaited       | None     | NA           |
-| 56505  | A          |         1 | -37.27506 |  148.7425 | 2021-10-26 | 10:56:10   | 2021-12-16   | 10:34:51     | NA                  | NA                  | 2021-10-26 10:56:10 | 2021-12-16 10:34:51 |            1 |           185 |           8 | HO04104895 | HF2x        | Very High         | Rapidfire   |                      5 |                 0 | Unbaited       | None     | NA           |
-| 56505  | B          |         1 | -37.27506 |  148.7425 | 2021-10-26 | 10:56:10   | 2021-12-16   | 10:34:51     | NA                  | NA                  | 2021-10-26 10:56:10 | 2021-12-16 10:34:51 |            1 |           180 |           6 | HO04104899 | HF2x        | Very High         | Rapidfire   |                      5 |                 0 | Unbaited       | None     | NA           |
+| SiteID | SubStation | Iteration | Latitude | Longitude | DateDeploy | TimeDeploy | DateRetrieve | TimeRetrieve | Problem1_from | Problem1_to | DateTimeDeploy | DateTimeRetrieve | CameraHeight | CameraBearing | CameraSlope | CameraID | CameraModel | CameraSensitivity | CameraDelay | CameraPhotosPerTrigger | CameraQuietPeriod | BaitedUnbaited | BaitType | BaitDistance |
+|:---|:---|---:|---:|---:|:---|:---|:---|:---|:---|:---|:---|:---|---:|---:|---:|:---|:---|:---|:---|---:|---:|:---|:---|:---|
+| 9941 | NA | 1 | -37.24001 | 141.8618 | 2021-10-14 | 14:18:00 | 2021-12-07 | 11:00:00 | NA | NA | 2021-10-14 14:18:00 | 2021-12-07 11:00:00 | 1 | 180 | 2 | HO04101051 | HF2x | Very High | Rapidfire | 5 | 0 | Unbaited | None | NA |
+| 2602 | NA | 1 | -36.56451 | 141.1924 | 2021-10-15 | 10:56:00 | 2021-12-07 | 14:51:00 | 2021-11-18 15:56:21 | 2021-12-07 14:51:00 | 2021-10-15 10:56:00 | 2021-12-07 14:51:00 | 1 | 168 | 4 | HO04102687 | HF2x | Very High | Rapidfire | 5 | 0 | Unbaited | None | NA |
+| 832 | NA | 1 | -35.85188 | 141.0451 | 2021-10-15 | 15:00:00 | 2021-12-08 | 11:00:00 | NA | NA | 2021-10-15 15:00:00 | 2021-12-08 11:00:00 | 1 | 175 | 2 | HO04102395 | HF2x | Very High | Rapidfire | 5 | 0 | Unbaited | None | NA |
+| 43134 | NA | 1 | -36.87991 | 146.0942 | 2021-10-26 | 17:00:00 | 2021-12-21 | 16:21:33 | NA | NA | 2021-10-26 17:00:00 | 2021-12-21 16:21:33 | 1 | 200 | 1 | HO04104906 | HF2x | Very High | Rapidfire | 5 | 0 | Unbaited | None | NA |
+| 56505 | A | 1 | -37.27506 | 148.7425 | 2021-10-26 | 10:56:10 | 2021-12-16 | 10:34:51 | NA | NA | 2021-10-26 10:56:10 | 2021-12-16 10:34:51 | 1 | 185 | 8 | HO04104895 | HF2x | Very High | Rapidfire | 5 | 0 | Unbaited | None | NA |
+| 56505 | B | 1 | -37.27506 | 148.7425 | 2021-10-26 | 10:56:10 | 2021-12-16 | 10:34:51 | NA | NA | 2021-10-26 10:56:10 | 2021-12-16 10:34:51 | 1 | 180 | 6 | HO04104899 | HF2x | Very High | Rapidfire | 5 | 0 | Unbaited | None | NA |
 
 ### Create Project Data Row
 
@@ -268,6 +275,7 @@ The data should only be one row and can easily made with the following
 code:
 
 ``` r
+
 projectdata <- tibble(ProjectName = "Dummy Data Project 2023",
                       ProjectShortName = "DummyData",
                       DistanceSampling = TRUE, 
@@ -283,9 +291,9 @@ projectdata %>%
   scroll_box(width = "100%")
 ```
 
-| ProjectName             | ProjectShortName | DistanceSampling | TerrestrialArboreal | AllSpeciesTagged | DistanceForAllSpecies | ProjectDescription                                            | ProjectLeader |
-|:------------------------|:-----------------|:-----------------|:--------------------|:-----------------|:----------------------|:--------------------------------------------------------------|:--------------|
-| Dummy Data Project 2023 | DummyData        | TRUE             | Terrestrial         | TRUE             | TRUE                  | Dummy Data for the tutorial on uploading data to the database | Justin Cally  |
+| ProjectName | ProjectShortName | DistanceSampling | TerrestrialArboreal | AllSpeciesTagged | DistanceForAllSpecies | ProjectDescription | ProjectLeader |
+|:---|:---|:---|:---|:---|:---|:---|:---|
+| Dummy Data Project 2023 | DummyData | TRUE | Terrestrial | TRUE | TRUE | Dummy Data for the tutorial on uploading data to the database | Justin Cally |
 
 ### Data checks
 
@@ -303,6 +311,7 @@ this to help identify errors in the data to fix before preparing the
 data for upload.
 
 ``` r
+
 dq <- camera_trap_dq(camtrap_records = raw_camtrap_records_standardised, 
                     camtrap_operation = operationdata, 
                     project_information = projectdata)
@@ -318,12 +327,14 @@ dq[[1]]
 [TABLE]
 
 ``` r
+
 dq[[2]]
 ```
 
 [TABLE]
 
 ``` r
+
 dq[[3]]
 ```
 
@@ -340,6 +351,7 @@ was not tagged with an integer. In these cases it should be 1. To fix
 these issues we could run:
 
 ``` r
+
 raw_camtrap_records_fixed <- raw_camtrap_records_standardised %>%
   mutate(metadata_Multiples = coalesce(as.integer(metadata_Multiples), 1L))
 #> Warning: There was 1 warning in `mutate()`.
@@ -368,6 +380,7 @@ will generate IDs for your records (to avoid duplicate records on the
 database) and properly format the data:
 
 ``` r
+
 data_for_upload <- prepare_camtrap_upload(dq2)
 ```
 
@@ -382,6 +395,7 @@ Using the data prepared for upload made above (`data_for_upload`) you
 can upload the the data in one line:
 
 ``` r
+
 con <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", 
                                                      username = "psql_user"))
 
@@ -432,6 +446,7 @@ and joins, summaries and more succinct tables:
   there is a problem with the operation period.
 
 ``` r
+
 # This is how you write the views. It only needs to be done once: 
 DBI::dbExecute(conn = con, paste(DBI::SQL("CREATE VIEW camtrap.curated_camtrap_records AS"), records_curated_view(con)))
 DBI::dbExecute(conn = con, paste(DBI::SQL("CREATE VIEW camtrap.curated_camtrap_operation AS"), operation_curated_view(con)))
@@ -449,6 +464,7 @@ and also available in the `data_dictionary` schema. Below is the data
 dictionary for the `camtrap` schema:
 
 ``` r
+
 data_dictionary %>% 
   filter(schema == "camtrap") %>% 
   select(table_name, table_description, column_name, column_class, column_description) %>%
@@ -458,105 +474,105 @@ data_dictionary %>%
   scroll_box(width = "100%", height = "1000px")
 ```
 
-| table_name                | table_description                                                                                                                                | column_name                   | column_class    | column_description                                                                                                                                                                            |
-|:--------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------|:----------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| vba_name_conversions      | NA                                                                                                                                               | taxon_id                      | numeric         | NA                                                                                                                                                                                            |
-|                           |                                                                                                                                                  | scientific_name               | character       | Scientific taxa name as per VBA                                                                                                                                                               |
-|                           |                                                                                                                                                  | common_name                   | character       | Common taxa name as per VBA                                                                                                                                                                   |
-| raw_camtrap_operation     | Is a table that stores ALL camera trap deployments across projects (i.e. duplicates allowes). This is the table where uploads are appended to.   | ProjectShortName              | character       | Short project name that data was collected for. Approximately five words in lowercase seperated by underscores.                                                                               |
-|                           |                                                                                                                                                  | SiteID                        | character       | Site identification. Can be camera trap location or have a nesting of substations. Project specific.                                                                                          |
-|                           |                                                                                                                                                  | SubStation                    | character       | Nested location of camera trap within a site. Used in cases where a site has multiple camera trap deployments.                                                                                |
-|                           |                                                                                                                                                  | geohash                       | character       | 8-digit geohash code based on longitude and latitude                                                                                                                                          |
-|                           |                                                                                                                                                  | Iteration                     | integer         | Useful for multi-season surveys, this is the nth deployment iteration. If it is the first survey at a site, use 1.                                                                            |
-|                           |                                                                                                                                                  | Latitude                      | numeric         | Latitude of camera in decimal degrees (EPSG: 4283)                                                                                                                                            |
-|                           |                                                                                                                                                  | Longitude                     | numeric         | Longitude of camera in decimal degrees (EPSG: 4283)                                                                                                                                           |
-|                           |                                                                                                                                                  | DateDeploy                    | Date            | Date camera was deployed                                                                                                                                                                      |
-|                           |                                                                                                                                                  | TimeDeploy                    | character       | Time camera was deployed                                                                                                                                                                      |
-|                           |                                                                                                                                                  | DateRetrieve                  | Date            | Date camera was retrieved                                                                                                                                                                     |
-|                           |                                                                                                                                                  | TimeRetrieve                  | character       | Time camera was retrieved                                                                                                                                                                     |
-|                           |                                                                                                                                                  | DateTimeDeploy                | POSIXct, POSIXt | Date-time camera was deployed                                                                                                                                                                 |
-|                           |                                                                                                                                                  | DateTimeRetrieve              | POSIXct, POSIXt | Date-time camera was deployed                                                                                                                                                                 |
-|                           |                                                                                                                                                  | Problem1_from                 | POSIXct, POSIXt | If there was a problem with the camera, when (date-time) did it start                                                                                                                         |
-|                           |                                                                                                                                                  | Problem1_to                   | POSIXct, POSIXt | If there was a problem with the camera, when (date-time) did it end (usually when camera is picked up)                                                                                        |
-|                           |                                                                                                                                                  | CameraHeight                  | numeric         | Height above ground of camera (in metres)                                                                                                                                                     |
-|                           |                                                                                                                                                  | CameraBearing                 | numeric         | The bearing (in degrees) of the camera (0-360)                                                                                                                                                |
-|                           |                                                                                                                                                  | CameraSlope                   | numeric         | The slope of terrain the camera is on (in percentage)                                                                                                                                         |
-|                           |                                                                                                                                                  | CameraID                      | character       | ID of camera (optional)                                                                                                                                                                       |
-|                           |                                                                                                                                                  | CameraSensitivity             | character       | Sensitivity of camera (low, medium, high or very high)                                                                                                                                        |
-|                           |                                                                                                                                                  | CameraDelay                   | character       | Delay of camera in taking photos (Rapidfire or time in seconds)                                                                                                                               |
-|                           |                                                                                                                                                  | CameraPhotosPerTrigger        | integer         | Number of photos per trigger (e.g. 5)                                                                                                                                                         |
-|                           |                                                                                                                                                  | CameraQuietPeriod             | numeric         | The time in between triggers to wait before taking more photos. Usually ‘No Delay’, which is listed here as 0                                                                                 |
-|                           |                                                                                                                                                  | BaitedUnbaited                | character       | Whether camera was Baited or Unbaited                                                                                                                                                         |
-|                           |                                                                                                                                                  | BaitType                      | character       | Type of bait used: None, Creamed Honey, Small Mammal Bait, Predator Bait (i.e, meat bait), Non-toxic curiosity bait, Toxic curiosity bait, Predator Lure (i.e., urine, faeces, etc.) or Other |
-|                           |                                                                                                                                                  | BaitDistance                  | numeric         | Distance of the camera to the bait (in metres)                                                                                                                                                |
-|                           |                                                                                                                                                  | CameraModel                   | character       | Model of camera                                                                                                                                                                               |
-|                           |                                                                                                                                                  | camtrap_operation_database_ID | character       | Unique ID of the cameratrap record. ID is formulated from key variables of ProjectShortName, SiteID, SubStation                                                                               |
-|                           |                                                                                                                                                  | Timestamp                     | POSIXct, POSIXt | Time/date of upload (should exist as Greenwhich Mean Time)                                                                                                                                    |
-|                           |                                                                                                                                                  | Uploader                      | character       | Name of person uploading data                                                                                                                                                                 |
-| raw_camtrap_records       | Is a table that stores ALL camera trap records across projects (i.e. duplicate images allowed). This is the table where uploads are appended to. | ProjectShortName              | character       | Short project name that data was collected for. Approximately five words in lowercase seperated by underscores.                                                                               |
-|                           |                                                                                                                                                  | SiteID                        | character       | Site identification. Can be camera trap location or have a nesting of substations. Project specific.                                                                                          |
-|                           |                                                                                                                                                  | SubStation                    | character       | Nested location of camera trap within a site. Used in cases where a site has multiple camera trap deployments.                                                                                |
-|                           |                                                                                                                                                  | Iteration                     | integer         | Useful for multi-season surveys, this is the nth deployment iteration. If it is the first survey at a site, use 1.                                                                            |
-|                           |                                                                                                                                                  | scientific_name               | character       | Scientific taxa name as per VBA                                                                                                                                                               |
-|                           |                                                                                                                                                  | DateTimeOriginal              | POSIXct, POSIXt | Date and time of photo-capture                                                                                                                                                                |
-|                           |                                                                                                                                                  | Date                          | Date            | Date of photo                                                                                                                                                                                 |
-|                           |                                                                                                                                                  | Time                          | character       | Time of photo                                                                                                                                                                                 |
-|                           |                                                                                                                                                  | delta.time.secs               | numeric         | Time lag between images (seconds)                                                                                                                                                             |
-|                           |                                                                                                                                                  | delta.time.mins               | numeric         | Time lag between images (minutes)                                                                                                                                                             |
-|                           |                                                                                                                                                  | delta.time.hours              | numeric         | Time lag between images (hours)                                                                                                                                                               |
-|                           |                                                                                                                                                  | delta.time.days               | numeric         | Time lag between images (days)                                                                                                                                                                |
-|                           |                                                                                                                                                  | Directory                     | character       | Local directory path image was stored when metadata extracted                                                                                                                                 |
-|                           |                                                                                                                                                  | FileName                      | character       | Filename of image when metadata extracted                                                                                                                                                     |
-|                           |                                                                                                                                                  | metadata_Distance             | character       | Optional metadata field for distance bin (in metres)                                                                                                                                          |
-|                           |                                                                                                                                                  | metadata_Species              | character       | Metadata field for what species was used when tagging                                                                                                                                         |
-|                           |                                                                                                                                                  | metadata_Multiples            | integer         | Mandatory metadata field for number of individuals in the photo                                                                                                                               |
-|                           |                                                                                                                                                  | n_images                      | integer         | Numer of images for record                                                                                                                                                                    |
-|                           |                                                                                                                                                  | metadata_Individuals          | character       | Metadata field for sex/age classification (e.g. Male1, Male2 for two males)                                                                                                                   |
-|                           |                                                                                                                                                  | HierarchicalSubject           | character       | Full metadata string from the photo extracted by camtrapR                                                                                                                                     |
-|                           |                                                                                                                                                  | metadata_Behaviour            | character       | Optional metadata field for important behaviour (e.g. marker interaction)                                                                                                                     |
-|                           |                                                                                                                                                  | common_name                   | character       | Common taxa name as per VBA                                                                                                                                                                   |
-|                           |                                                                                                                                                  | camtrap_record_database_ID    | character       | Unique ID of the cameratrap record. ID is formulated from key variables of ProjectShortName, SiteID, SubStation, DateTimeOriginal, FileName                                                   |
-|                           |                                                                                                                                                  | Timestamp                     | POSIXct, POSIXt | Time/date of upload (should exist as Greenwhich Mean Time)                                                                                                                                    |
-|                           |                                                                                                                                                  | Uploader                      | character       | Name of person uploading data                                                                                                                                                                 |
-| raw_project_information   | Is a table that stores ALL project information entries (i.e. duplicate projects allowed). This is the table where uploads are appended to.       | ProjectName                   | character       | Longer project name (as per official documents)                                                                                                                                               |
-|                           |                                                                                                                                                  | ProjectShortName              | character       | Short project name that data was collected for. Approximately five words in lowercase seperated by underscores.                                                                               |
-|                           |                                                                                                                                                  | DistanceSampling              | logical         | Logical flag (TRUE/FALSE), whether distance sampling was done for project                                                                                                                     |
-|                           |                                                                                                                                                  | TerrestrialArboreal           | character       | Whether camera was Terrestrial or Arboreal                                                                                                                                                    |
-|                           |                                                                                                                                                  | AllSpeciesTagged              | logical         | Logical flag (TRUE/FALSE), whether all species seen were tagged                                                                                                                               |
-|                           |                                                                                                                                                  | DistanceForAllSpecies         | logical         | Whether or not distance has been tagged for all species recorded                                                                                                                              |
-|                           |                                                                                                                                                  | ProjectDescription            | character       | Short description of the project                                                                                                                                                              |
-|                           |                                                                                                                                                  | ProjectLeader                 | character       | Name of the person/persons responsible for the project                                                                                                                                        |
-|                           |                                                                                                                                                  | camtrap_project_database_ID   | character       | Unique ID of the camera trap project ID is formulated from key variables of ProjectShortName                                                                                                  |
-|                           |                                                                                                                                                  | Timestamp                     | POSIXct, POSIXt | Time/date of upload (should exist as Greenwhich Mean Time)                                                                                                                                    |
-|                           |                                                                                                                                                  | Uploader                      | character       | Name of person uploading data                                                                                                                                                                 |
-| spatial_camtrap_operation | NA                                                                                                                                               | camtrap_operation_database_ID | character       | Unique ID of the cameratrap record. ID is formulated from key variables of ProjectShortName, SiteID, SubStation                                                                               |
-|                           |                                                                                                                                                  | ProjectShortName              | character       | Short project name that data was collected for. Approximately five words in lowercase seperated by underscores.                                                                               |
-|                           |                                                                                                                                                  | SiteID                        | character       | Site identification. Can be camera trap location or have a nesting of substations. Project specific.                                                                                          |
-|                           |                                                                                                                                                  | SubStation                    | character       | Nested location of camera trap within a site. Used in cases where a site has multiple camera trap deployments.                                                                                |
-|                           |                                                                                                                                                  | geohash                       | character       | 8-digit geohash code based on longitude and latitude                                                                                                                                          |
-|                           |                                                                                                                                                  | Iteration                     | integer         | Useful for multi-season surveys, this is the nth deployment iteration. If it is the first survey at a site, use 1.                                                                            |
-|                           |                                                                                                                                                  | Latitude                      | numeric         | Latitude of camera in decimal degrees (EPSG: 4283)                                                                                                                                            |
-|                           |                                                                                                                                                  | Longitude                     | numeric         | Longitude of camera in decimal degrees (EPSG: 4283)                                                                                                                                           |
-|                           |                                                                                                                                                  | DateDeploy                    | Date            | Date camera was deployed                                                                                                                                                                      |
-|                           |                                                                                                                                                  | TimeDeploy                    | character       | Time camera was deployed                                                                                                                                                                      |
-|                           |                                                                                                                                                  | DateRetrieve                  | Date            | Date camera was retrieved                                                                                                                                                                     |
-|                           |                                                                                                                                                  | TimeRetrieve                  | character       | Time camera was retrieved                                                                                                                                                                     |
-|                           |                                                                                                                                                  | DateTimeDeploy                | POSIXct, POSIXt | Date-time camera was deployed                                                                                                                                                                 |
-|                           |                                                                                                                                                  | DateTimeRetrieve              | POSIXct, POSIXt | Date-time camera was deployed                                                                                                                                                                 |
-|                           |                                                                                                                                                  | Problem1_from                 | POSIXct, POSIXt | If there was a problem with the camera, when (date-time) did it start                                                                                                                         |
-|                           |                                                                                                                                                  | Problem1_to                   | POSIXct, POSIXt | If there was a problem with the camera, when (date-time) did it end (usually when camera is picked up)                                                                                        |
-|                           |                                                                                                                                                  | CameraHeight                  | numeric         | Height above ground of camera (in metres)                                                                                                                                                     |
-|                           |                                                                                                                                                  | CameraBearing                 | numeric         | The bearing (in degrees) of the camera (0-360)                                                                                                                                                |
-|                           |                                                                                                                                                  | CameraSlope                   | numeric         | The slope of terrain the camera is on (in percentage)                                                                                                                                         |
-|                           |                                                                                                                                                  | CameraID                      | character       | ID of camera (optional)                                                                                                                                                                       |
-|                           |                                                                                                                                                  | CameraSensitivity             | character       | Sensitivity of camera (low, medium, high or very high)                                                                                                                                        |
-|                           |                                                                                                                                                  | CameraDelay                   | character       | Delay of camera in taking photos (Rapidfire or time in seconds)                                                                                                                               |
-|                           |                                                                                                                                                  | CameraPhotosPerTrigger        | integer         | Number of photos per trigger (e.g. 5)                                                                                                                                                         |
-|                           |                                                                                                                                                  | CameraQuietPeriod             | numeric         | The time in between triggers to wait before taking more photos. Usually ‘No Delay’, which is listed here as 0                                                                                 |
-|                           |                                                                                                                                                  | BaitedUnbaited                | character       | Whether camera was Baited or Unbaited                                                                                                                                                         |
-|                           |                                                                                                                                                  | BaitType                      | character       | Type of bait used: None, Creamed Honey, Small Mammal Bait, Predator Bait (i.e, meat bait), Non-toxic curiosity bait, Toxic curiosity bait, Predator Lure (i.e., urine, faeces, etc.) or Other |
-|                           |                                                                                                                                                  | BaitDistance                  | numeric         | Distance of the camera to the bait (in metres)                                                                                                                                                |
-|                           |                                                                                                                                                  | CameraModel                   | character       | Model of camera                                                                                                                                                                               |
-|                           |                                                                                                                                                  | Timestamp                     | POSIXct, POSIXt | Time/date of upload (should exist as Greenwhich Mean Time)                                                                                                                                    |
-|                           |                                                                                                                                                  | Uploader                      | character       | Name of person uploading data                                                                                                                                                                 |
-|                           |                                                                                                                                                  | geometry                      | pq_geometry     | NA                                                                                                                                                                                            |
+| table_name | table_description | column_name | column_class | column_description |
+|:---|:---|:---|:---|:---|
+| vba_name_conversions | NA | taxon_id | numeric | NA |
+|  |  | scientific_name | character | Scientific taxa name as per VBA |
+|  |  | common_name | character | Common taxa name as per VBA |
+| raw_camtrap_operation | Is a table that stores ALL camera trap deployments across projects (i.e. duplicates allowes). This is the table where uploads are appended to. | ProjectShortName | character | Short project name that data was collected for. Approximately five words in lowercase seperated by underscores. |
+|  |  | SiteID | character | Site identification. Can be camera trap location or have a nesting of substations. Project specific. |
+|  |  | SubStation | character | Nested location of camera trap within a site. Used in cases where a site has multiple camera trap deployments. |
+|  |  | geohash | character | 8-digit geohash code based on longitude and latitude |
+|  |  | Iteration | integer | Useful for multi-season surveys, this is the nth deployment iteration. If it is the first survey at a site, use 1. |
+|  |  | Latitude | numeric | Latitude of camera in decimal degrees (EPSG: 4283) |
+|  |  | Longitude | numeric | Longitude of camera in decimal degrees (EPSG: 4283) |
+|  |  | DateDeploy | Date | Date camera was deployed |
+|  |  | TimeDeploy | character | Time camera was deployed |
+|  |  | DateRetrieve | Date | Date camera was retrieved |
+|  |  | TimeRetrieve | character | Time camera was retrieved |
+|  |  | DateTimeDeploy | POSIXct, POSIXt | Date-time camera was deployed |
+|  |  | DateTimeRetrieve | POSIXct, POSIXt | Date-time camera was deployed |
+|  |  | Problem1_from | POSIXct, POSIXt | If there was a problem with the camera, when (date-time) did it start |
+|  |  | Problem1_to | POSIXct, POSIXt | If there was a problem with the camera, when (date-time) did it end (usually when camera is picked up) |
+|  |  | CameraHeight | numeric | Height above ground of camera (in metres) |
+|  |  | CameraBearing | numeric | The bearing (in degrees) of the camera (0-360) |
+|  |  | CameraSlope | numeric | The slope of terrain the camera is on (in percentage) |
+|  |  | CameraID | character | ID of camera (optional) |
+|  |  | CameraSensitivity | character | Sensitivity of camera (low, medium, high or very high) |
+|  |  | CameraDelay | character | Delay of camera in taking photos (Rapidfire or time in seconds) |
+|  |  | CameraPhotosPerTrigger | integer | Number of photos per trigger (e.g. 5) |
+|  |  | CameraQuietPeriod | numeric | The time in between triggers to wait before taking more photos. Usually ‘No Delay’, which is listed here as 0 |
+|  |  | BaitedUnbaited | character | Whether camera was Baited or Unbaited |
+|  |  | BaitType | character | Type of bait used: None, Creamed Honey, Small Mammal Bait, Predator Bait (i.e, meat bait), Non-toxic curiosity bait, Toxic curiosity bait, Predator Lure (i.e., urine, faeces, etc.) or Other |
+|  |  | BaitDistance | numeric | Distance of the camera to the bait (in metres) |
+|  |  | CameraModel | character | Model of camera |
+|  |  | camtrap_operation_database_ID | character | Unique ID of the cameratrap record. ID is formulated from key variables of ProjectShortName, SiteID, SubStation |
+|  |  | Timestamp | POSIXct, POSIXt | Time/date of upload (should exist as Greenwhich Mean Time) |
+|  |  | Uploader | character | Name of person uploading data |
+| raw_camtrap_records | Is a table that stores ALL camera trap records across projects (i.e. duplicate images allowed). This is the table where uploads are appended to. | ProjectShortName | character | Short project name that data was collected for. Approximately five words in lowercase seperated by underscores. |
+|  |  | SiteID | character | Site identification. Can be camera trap location or have a nesting of substations. Project specific. |
+|  |  | SubStation | character | Nested location of camera trap within a site. Used in cases where a site has multiple camera trap deployments. |
+|  |  | Iteration | integer | Useful for multi-season surveys, this is the nth deployment iteration. If it is the first survey at a site, use 1. |
+|  |  | scientific_name | character | Scientific taxa name as per VBA |
+|  |  | DateTimeOriginal | POSIXct, POSIXt | Date and time of photo-capture |
+|  |  | Date | Date | Date of photo |
+|  |  | Time | character | Time of photo |
+|  |  | delta.time.secs | numeric | Time lag between images (seconds) |
+|  |  | delta.time.mins | numeric | Time lag between images (minutes) |
+|  |  | delta.time.hours | numeric | Time lag between images (hours) |
+|  |  | delta.time.days | numeric | Time lag between images (days) |
+|  |  | Directory | character | Local directory path image was stored when metadata extracted |
+|  |  | FileName | character | Filename of image when metadata extracted |
+|  |  | metadata_Distance | character | Optional metadata field for distance bin (in metres) |
+|  |  | metadata_Species | character | Metadata field for what species was used when tagging |
+|  |  | metadata_Multiples | integer | Mandatory metadata field for number of individuals in the photo |
+|  |  | n_images | integer | Numer of images for record |
+|  |  | metadata_Individuals | character | Metadata field for sex/age classification (e.g. Male1, Male2 for two males) |
+|  |  | HierarchicalSubject | character | Full metadata string from the photo extracted by camtrapR |
+|  |  | metadata_Behaviour | character | Optional metadata field for important behaviour (e.g. marker interaction) |
+|  |  | common_name | character | Common taxa name as per VBA |
+|  |  | camtrap_record_database_ID | character | Unique ID of the cameratrap record. ID is formulated from key variables of ProjectShortName, SiteID, SubStation, DateTimeOriginal, FileName |
+|  |  | Timestamp | POSIXct, POSIXt | Time/date of upload (should exist as Greenwhich Mean Time) |
+|  |  | Uploader | character | Name of person uploading data |
+| raw_project_information | Is a table that stores ALL project information entries (i.e. duplicate projects allowed). This is the table where uploads are appended to. | ProjectName | character | Longer project name (as per official documents) |
+|  |  | ProjectShortName | character | Short project name that data was collected for. Approximately five words in lowercase seperated by underscores. |
+|  |  | DistanceSampling | logical | Logical flag (TRUE/FALSE), whether distance sampling was done for project |
+|  |  | TerrestrialArboreal | character | Whether camera was Terrestrial or Arboreal |
+|  |  | AllSpeciesTagged | logical | Logical flag (TRUE/FALSE), whether all species seen were tagged |
+|  |  | DistanceForAllSpecies | logical | Whether or not distance has been tagged for all species recorded |
+|  |  | ProjectDescription | character | Short description of the project |
+|  |  | ProjectLeader | character | Name of the person/persons responsible for the project |
+|  |  | camtrap_project_database_ID | character | Unique ID of the camera trap project ID is formulated from key variables of ProjectShortName |
+|  |  | Timestamp | POSIXct, POSIXt | Time/date of upload (should exist as Greenwhich Mean Time) |
+|  |  | Uploader | character | Name of person uploading data |
+| spatial_camtrap_operation | NA | camtrap_operation_database_ID | character | Unique ID of the cameratrap record. ID is formulated from key variables of ProjectShortName, SiteID, SubStation |
+|  |  | ProjectShortName | character | Short project name that data was collected for. Approximately five words in lowercase seperated by underscores. |
+|  |  | SiteID | character | Site identification. Can be camera trap location or have a nesting of substations. Project specific. |
+|  |  | SubStation | character | Nested location of camera trap within a site. Used in cases where a site has multiple camera trap deployments. |
+|  |  | geohash | character | 8-digit geohash code based on longitude and latitude |
+|  |  | Iteration | integer | Useful for multi-season surveys, this is the nth deployment iteration. If it is the first survey at a site, use 1. |
+|  |  | Latitude | numeric | Latitude of camera in decimal degrees (EPSG: 4283) |
+|  |  | Longitude | numeric | Longitude of camera in decimal degrees (EPSG: 4283) |
+|  |  | DateDeploy | Date | Date camera was deployed |
+|  |  | TimeDeploy | character | Time camera was deployed |
+|  |  | DateRetrieve | Date | Date camera was retrieved |
+|  |  | TimeRetrieve | character | Time camera was retrieved |
+|  |  | DateTimeDeploy | POSIXct, POSIXt | Date-time camera was deployed |
+|  |  | DateTimeRetrieve | POSIXct, POSIXt | Date-time camera was deployed |
+|  |  | Problem1_from | POSIXct, POSIXt | If there was a problem with the camera, when (date-time) did it start |
+|  |  | Problem1_to | POSIXct, POSIXt | If there was a problem with the camera, when (date-time) did it end (usually when camera is picked up) |
+|  |  | CameraHeight | numeric | Height above ground of camera (in metres) |
+|  |  | CameraBearing | numeric | The bearing (in degrees) of the camera (0-360) |
+|  |  | CameraSlope | numeric | The slope of terrain the camera is on (in percentage) |
+|  |  | CameraID | character | ID of camera (optional) |
+|  |  | CameraSensitivity | character | Sensitivity of camera (low, medium, high or very high) |
+|  |  | CameraDelay | character | Delay of camera in taking photos (Rapidfire or time in seconds) |
+|  |  | CameraPhotosPerTrigger | integer | Number of photos per trigger (e.g. 5) |
+|  |  | CameraQuietPeriod | numeric | The time in between triggers to wait before taking more photos. Usually ‘No Delay’, which is listed here as 0 |
+|  |  | BaitedUnbaited | character | Whether camera was Baited or Unbaited |
+|  |  | BaitType | character | Type of bait used: None, Creamed Honey, Small Mammal Bait, Predator Bait (i.e, meat bait), Non-toxic curiosity bait, Toxic curiosity bait, Predator Lure (i.e., urine, faeces, etc.) or Other |
+|  |  | BaitDistance | numeric | Distance of the camera to the bait (in metres) |
+|  |  | CameraModel | character | Model of camera |
+|  |  | Timestamp | POSIXct, POSIXt | Time/date of upload (should exist as Greenwhich Mean Time) |
+|  |  | Uploader | character | Name of person uploading data |
+|  |  | geometry | pq_geometry | NA |

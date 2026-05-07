@@ -1,6 +1,7 @@
 # Using and downloading data
 
 ``` r
+
 library(weda)
 library(dplyr)
 library(dbplyr)
@@ -20,6 +21,7 @@ The easiest way to interact with the database, and download/view
 presence-absence data and VBA formatted data is by launching the app.
 
 ``` r
+
 # Make sure VPN is running
 con <- weda::weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01",
                                                       username = "psql_user"))
@@ -53,6 +55,7 @@ not be fully returned until a
 called at the end of the code/query:
 
 ``` r
+
 # This doesn't return any data, just a dbplyr query to be evaluated
 query <- tbl(con, in_schema("camtrap", "curated_project_information"))
 
@@ -65,6 +68,7 @@ In-between the initial query and the collection you can chuck in all
 your dplyr filters, selects and mutates:
 
 ``` r
+
 project_data_filtered <- query %>%
   filter(DistanceSampling == TRUE & AllSpeciesTagged == TRUE) %>%
   select(ProjectName, ProjectShortName, DistanceSampling, AllSpeciesTagged) %>% 
@@ -78,6 +82,7 @@ Let’s say we want to do an analysis on Emus. We need to pull down the
 emu records and the operation data for the cameras
 
 ``` r
+
 # filter for emus and projects that had distance sampling and all species tagged
 emu_records <- tbl(con, in_schema("camtrap", "curated_camtrap_records")) %>%
   filter(common_name == "Emu" & ProjectShortName %in% !!project_data_filtered$ProjectShortName) %>%
@@ -104,6 +109,7 @@ the template of the VBA, this means you just need to bulk upload it to
 VBA.
 
 ``` r
+
 VBA_statewide <- vba_format(con, ProjectShortName = "StatewideDeer", return_data = TRUE)
 ```
 
@@ -120,6 +126,7 @@ Panthers you will not see an absence or ‘0’ for black panthers in the
 data.*
 
 ``` r
+
 emu_pa <- tbl(con, in_schema("camtrap", "processed_site_substation_presence_absence")) %>%
   filter(common_name == "Emu" & ProjectShortName == "StatewideDeer")
 
@@ -141,6 +148,7 @@ the detection histories of a species in a project with one function
 ([`DBdetectionHistory()`](https://justincally.github.io/weda/reference/DBdetectionHistory.md)).
 
 ``` r
+
 # Get emu data for each site
 EmuDH <- DBdetectionHistory(con,
                             ProjectShortName = "StatewideDeer", #proj name
@@ -157,6 +165,7 @@ This then allows for an easy integration with unmarked or ubms for
 occupancy analysis:
 
 ``` r
+
 # load the unmarked package
 library(unmarked)
 

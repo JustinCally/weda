@@ -1,6 +1,7 @@
 # Connecting to the database
 
 ``` r
+
 library(weda)
 library(DBI)
 library(dplyr)
@@ -34,6 +35,7 @@ remembered in Rstudio keychain once you set it. Ask an admin for an
 account if you do not already have one.
 
 ``` r
+
 if(nrow(keyring::key_list("ari-dev-weda-psql-01")) == 0) {
 keyring::key_set(service = "ari-dev-weda-psql-01", username = "psql_user")
 }
@@ -44,6 +46,7 @@ keyring::key_set(service = "ari-dev-weda-psql-01", username = "psql_user")
 Check if you have the correct odbc driver
 
 ``` r
+
 # Check odbc driver exists
 if(!("PostgreSQL Driver" %in% odbc::odbcListDrivers()$name)) {
   stop("Install the postgres driver to connect to database: https://odbc.postgresql.org/")
@@ -55,6 +58,7 @@ if(!("PostgreSQL Driver" %in% odbc::odbcListDrivers()$name)) {
 Make a connection object in `R`
 
 ``` r
+
 # Note that the DB is currently configured to turn on at 7am and turn off at 7pm to reduce costs
 # RPostgres Connection : less interactive in rstudio:
 con <- weda_connect(password = keyring::key_get(service = "ari-dev-weda-psql-01", 
@@ -82,6 +86,7 @@ Interact with the database with the ‘Connections’ pane in Rstudio or use
 code such as the example below to read in data:
 
 ``` r
+
 #### Read and write tables ####
 DBI::dbWriteTable(con, Id(schema = "test", table = "mtcars"), mtcars)
 
@@ -97,6 +102,7 @@ You can follow a further tutorial of postgres database functionality
 here:
 
 ``` r
+
 #### Setup ####
 library(DBI)
 library(dplyr)
