@@ -1,2 +1,2 @@
 ProjectName,ProjectShortName,DistanceSampling,TerrestrialArboreal,AllSpeciesTagged,DistanceForAllSpecies,DiurnalNocturnal,ProjectDescription,ProjectLeader
-GG Fire Monitoring,gg_fire,TRUE,Arboreal,TRUE,FALSE,Nocturnal,Some description goes here,First Last
+Greater Glider Example Survey,gg_example,TRUE,Arboreal,TRUE,FALSE,Nocturnal,Example project for vignette demonstration,First Last
