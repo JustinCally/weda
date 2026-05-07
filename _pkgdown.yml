@@ -6,6 +6,21 @@ template:
 development:
   mode: auto
 
+articles:
+  - title: "Getting started"
+    navbar: ~
+    contents:
+      - database-connect
+  - title: "Camera traps"
+    navbar: Camera traps
+    contents:
+      - camtrap-upload
+      - data-download
+  - title: "Transects"
+    navbar: Transects
+    contents:
+      - transect-upload
+
 reference:
   - title: "Database connection"
     desc: >
