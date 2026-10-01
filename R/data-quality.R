@@ -415,7 +415,8 @@ check_project_names <- function(project_information, con = NULL, schema = "camtr
 #' @noRd
 existing_projects <- function(con, schema, short_name, full_name) {
   dplyr::tbl(con, dbplyr::in_schema(schema, "raw_project_information")) %>%
-    dplyr::filter(ProjectShortName %in% !!short_name | ProjectName %in% !!full_name) %>%
-    dplyr::distinct(ProjectShortName, ProjectName) %>%
+    dplyr::filter(.data$ProjectShortName %in% !!short_name | .data$ProjectName %in% !!full_name) %>%
+    dplyr::select(dplyr::all_of(c("ProjectShortName", "ProjectName"))) %>%
+    dplyr::distinct() %>%
     dplyr::collect()
 }
