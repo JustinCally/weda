@@ -166,6 +166,11 @@ camera_trap_dq <- function(camtrap_records,
   # camtrap records
   message("Automatically standardising column classes, see weda::data_dictionary for database column classes")
 
+  # Keep the raw multiples so values lost in integer conversion (e.g. "3+",
+  # "2.5") can be flagged; blanks/NA are allowed
+  multiples_raw <- trimws(as.character(camtrap_records$metadata_Multiples))
+  multiples_whole <- is.na(multiples_raw) | multiples_raw == "" | grepl("^[0-9]+$", multiples_raw)
+
   col_classes_recs <- weda::data_dictionary %>%
     dplyr::filter(table_name == "raw_camtrap_records") %>%
     split(., f = .$column_class)
@@ -251,7 +256,10 @@ pb_rec <- pointblank::create_agent(
     pointblank::col_vals_in_set("Iteration_SiteID_SubStation", set = uq_iss, preconditions = ~ . %>% dplyr::mutate(Iteration_SiteID_SubStation = paste(Iteration, SiteID, SubStation, sep = "_")), label = "Combination of Iteration, SiteID, and SubStation") %>%
     pointblank::col_vals_in_set("scientific_name", set = unique(vba_sci$scientific_name)) %>%
     pointblank::col_vals_in_set("common_name", set = unique(vba_com$common_name)) %>%
-    pointblank::col_vals_not_null(c("SiteID", "scientific_name", "common_name", "Date", "Time", "DateTimeOriginal", "Iteration", "metadata_Multiples")) %>%
+    pointblank::col_vals_not_null(c("SiteID", "scientific_name", "common_name", "Date", "Time", "DateTimeOriginal", "Iteration")) %>%
+    pointblank::col_vals_equal("metadata_Multiples_whole_number", value = TRUE,
+                               preconditions = function(x) dplyr::mutate(x, metadata_Multiples_whole_number = multiples_whole),
+                              label = "metadata_Multiples must be a whole number (or left blank)") %>%
     pointblank::col_is_date("Date") %>%
     pointblank::col_is_posix("DateTimeOriginal") %>%
     pointblank::col_vals_between(columns = "Date",
