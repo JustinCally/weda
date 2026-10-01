@@ -86,6 +86,10 @@ capture_cli_messages <- function(fun) {
 
     output <- list(result = NULL, messages = NULL)
 
+    # Don't hard-wrap at console width; the browser wraps the HTML itself
+    old_opts <- options(cli.width = 1000)
+    on.exit(options(old_opts), add = TRUE)
+
     output$messages <- cli::cli_fmt({
       output$result <- fun(...)
     })
@@ -558,7 +562,7 @@ dataUploadServer <- function(id, con) {
 
         dqmess <- dqlist()
 
-        return(cli::ansi_html(dqmess[["messages"]]))
+        return(paste(cli::ansi_html(dqmess[["messages"]]), collapse = "<br>"))
       })
 
         output$dq1 <- gt::render_gt({

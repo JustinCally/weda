@@ -30,6 +30,56 @@
 #
 # }
 
+#' Report column schema problems for each uploaded table
+#'
+#' @param tables named list (names are user-facing table labels) of lists with
+#'   `data` and `required` column names
+#'
+#' @noRd
+#'
+#' @return TRUE if all tables have exactly the required columns
+report_column_schema <- function(tables) {
+
+  # Common fixes for columns that are typically misnamed/missing
+  hints <- c(SubStation = "if your data has a 'Camera' column (camtrapR output), rename it to 'SubStation'. Use NA if sites only have one camera",
+             Iteration = "add an 'Iteration' column (integer, e.g. 1 for the first deployment at a site)",
+             scientific_name = "run Step 5 (standardise species names) before Step 8",
+             common_name = "run Step 5 (standardise species names) before Step 8",
+             Latitude = "run Step 6, or supply 'Easting', 'Northing' and 'Zone' columns to be converted",
+             Longitude = "run Step 6, or supply 'Easting', 'Northing' and 'Zone' columns to be converted")
+
+  ok <- TRUE
+  for (tbl_name in names(tables)) {
+    present <- colnames(tables[[tbl_name]]$data)
+    required <- tables[[tbl_name]]$required
+    missing_cols <- setdiff(required, present)
+    extra_cols <- setdiff(present, required)
+
+    if (length(missing_cols) + length(extra_cols) == 0) next
+    ok <- FALSE
+
+    missing_txt <- vapply(missing_cols, function(col) {
+      if (col %in% names(hints)) paste0("'", col, "' - ", hints[[col]]) else paste0("'", col, "'")
+    }, character(1))
+
+    cli::cli_alert_danger("Column problem in the {.strong {tbl_name}} table")
+    if (length(missing_cols) > 0) {
+      cli::cli_text("Missing columns - add these to the file (they can be left blank/NA where allowed):")
+      cli::cli_bullets(rlang::set_names(missing_txt, rep("x", length(missing_txt))))
+    }
+    if (length(extra_cols) > 0) {
+      cli::cli_text("Unexpected columns - remove these, or rename them to one of the missing columns above:")
+      cli::cli_bullets(rlang::set_names(paste0("'", extra_cols, "'"), rep("!", length(extra_cols))))
+    }
+  }
+
+  if (!ok) {
+    cli::cli_text("Fix the column names in your original file(s), re-upload them, and re-run from that step. Column names are case-sensitive and must match the example data template. See weda::data_dictionary for column definitions.")
+  }
+
+  ok
+}
+
 #' Camera Trap Data Quality Checks
 #' @description Assesses the data quality of camera trap records, operations and project information.
 #' Automatically checks whether columns are present, converts them to the appropriate class and
@@ -103,29 +153,12 @@ camera_trap_dq <- function(camtrap_records,
                      'ProjectDescription',
                      'ProjectLeader')
 
-  c1 <- colnames(camtrap_records)
-  c2 <- colnames(camtrap_operation)
-  c3 <- colnames(project_information)
+  schema_ok <- report_column_schema(
+    list("Camera records (Step 2 upload)" = list(data = camtrap_records, required = req_cols),
+         "Camera operation (Step 3 upload)" = list(data = camtrap_operation, required = req_cols_op),
+         "Project information (Step 4 upload)" = list(data = project_information, required = req_cols_proj)))
 
-  c1_c <- setdiff(c1,req_cols)
-  c1_c2 <- setdiff(req_cols, c1)
-
-  c2_c <- setdiff(c2,req_cols_op)
-  c2_c2 <- setdiff(req_cols_op, c2)
-
-  c3_c <- setdiff(c3,req_cols_proj)
-  c3_c2 <- setdiff(req_cols_proj, c3)
-
-  difflist <- list(c1_c, c1_c2, c2_c, c2_c2, c3_c, c3_c2)
-
-  diffs <- lapply(difflist, length)
-
-  if(sum(unlist(diffs)) > 0) {
-    cli::cli_alert_danger(c("Problem with column schema",
-                     "Please correct (add/remove/rename) the following columns:",
-                     unlist(difflist) %>% `names<-`(rep("x", length(unlist(difflist)))),
-                     "\n",
-                     "See weda::data_dictionary for more information on user inputs"))
+  if(!schema_ok) {
     return(NULL)
   }
 
