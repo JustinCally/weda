@@ -605,16 +605,27 @@ dataUploadServer <- function(id, con) {
 
         #### Step 9 ####
 
+        # Tables already written to the database this session, so a retry after a
+        # failure (e.g. server offline) only uploads the remaining tables
+        uploaded_tables <- shiny::reactiveVal(character(0))
+
+        shiny::observeEvent(dqlist(), uploaded_tables(character(0)), ignoreNULL = FALSE)
+
         observeEvent(input$uploaddata, {
-          shiny::req(dqlist()$result)
+          if (is.null(dqlist()$result)) {
+            shiny::showNotification("Run the Step 8 data quality checks before uploading.",
+                                    type = "error", duration = 8)
+            return()
+          }
           shinyBS::updateCollapse(session = session, id = "collapsepanel",
                                   open = "Step 9 Output", close = "Step 8 Output")
 
+          # callbackR (rather than observing input$name) fires on every confirm,
+          # so retrying with the same name works and nothing re-triggers an upload
           shinyalert::shinyalert(
             title = "Are you sure you want to upload?",
             inputType = "text",
             type = "input",
-            inputId = "name",
             text = "Type your full name to upload data",
             inputPlaceholder = "Firstname Surname",
             size = "m",
@@ -628,44 +639,69 @@ dataUploadServer <- function(id, con) {
             cancelButtonText = "Cancel",
             timer = 0,
             imageUrl = "",
-            animation = TRUE
+            animation = TRUE,
+            callbackR = function(uploader) {
+              if (isFALSE(uploader)) return()
+              if (!nzchar(trimws(uploader))) {
+                shiny::showNotification("Please enter your name to upload.", type = "error")
+                return()
+              }
+              run_upload(trimws(uploader))
+            }
           )
         })
 
-        shiny::observe({
-          # Only continue if filled out
-          shiny::req(input$name)
+        run_upload <- function(uploader) {
 
-          shiny::withProgress(message = 'Preparing Upload', value = 0.1, {
-          data_for_upload <- weda::prepare_camtrap_upload(agent_list = dqlist()$result)
+          upload_steps <- list(
+            list(table = "raw_camtrap_records", label = "camera records", pa_refresh = FALSE),
+            list(table = "raw_camtrap_operation", label = "camera operation", pa_refresh = TRUE),
+            list(table = "raw_project_information", label = "project information", pa_refresh = TRUE)
+          )
 
-          shiny::incProgress(amount = 0.2, message = "Uploading Records...")
+          connected <- tryCatch(DBI::dbIsValid(con) && nrow(DBI::dbGetQuery(con, "SELECT 1")) == 1,
+                                error = function(e) FALSE)
+          if (!connected) {
+            shinyalert::shinyalert(
+              title = "Cannot reach the database",
+              text = "The database server appears to be offline or unreachable (check the VPN connection). Nothing has been uploaded. Your data is still loaded in the app - do not refresh the page. Try Step 9 again once the connection is restored.",
+              type = "error")
+            return()
+          }
 
-          weda::upload_camtrap_data(con = con,
-                              data_list = data_for_upload,
-                              tables_to_upload = c("raw_camtrap_records"),
-                              uploadername = input$name,
-                              schema = "camtrap",
-                              pa_refresh = FALSE)
+          shiny::withProgress(message = "Preparing upload", value = 0.1, {
+            result <- tryCatch({
+              data_for_upload <- weda::prepare_camtrap_upload(agent_list = dqlist()$result)
 
-          shiny::incProgress(amount = 0.2, message = "Uploading Operation...")
+              for (step in upload_steps) {
+                if (step$table %in% uploaded_tables()) next
+                shiny::incProgress(amount = 0.3, message = paste("Uploading", step$label, "..."))
+                weda::upload_camtrap_data(con = con,
+                                          data_list = data_for_upload,
+                                          tables_to_upload = step$table,
+                                          uploadername = uploader,
+                                          schema = "camtrap",
+                                          pa_refresh = step$pa_refresh)
+                uploaded_tables(c(uploaded_tables(), step$table))
+              }
+              data_for_upload
+            }, error = function(e) {
+              done <- vapply(upload_steps, function(x) x$table %in% uploaded_tables(), logical(1))
+              labels <- vapply(upload_steps, `[[`, character(1), "label")
+              shinyalert::shinyalert(
+                title = "Upload did not finish",
+                text = paste0("Error: ", conditionMessage(e), "\n\n",
+                              if (any(done)) paste0("Already uploaded: ", paste(labels[done], collapse = ", "), ". ") else "Nothing was uploaded. ",
+                              "Not yet uploaded: ", paste(labels[!done], collapse = ", "), ".\n\n",
+                              "Your data is still loaded in the app - do not refresh the page. ",
+                              "Clicking 'Upload to Database' again will only upload the remaining tables."),
+                type = "error")
+              NULL
+            })
+          })
 
-          weda::upload_camtrap_data(con = con,
-                                    data_list = data_for_upload,
-                                    tables_to_upload = c("raw_camtrap_operation"),
-                                    uploadername = input$name,
-                                    schema = "camtrap",
-                                    pa_refresh = TRUE)
-
-          shiny::incProgress(amount = 0.3, message = "Uploading Project Info...")
-
-          weda::upload_camtrap_data(con = con,
-                                    data_list = data_for_upload,
-                                    tables_to_upload = c("raw_project_information"),
-                                    uploadername = input$name,
-                                    schema = "camtrap")
-
-          shiny::incProgress(amount = 0.3, message = "Finalising Upload")
+          if (is.null(result)) return()
+          data_for_upload <- result
 
           output$uploadcompletion <- shiny::renderText({
             "Upload Complete. Restart app to see project data on map pane"
@@ -687,10 +723,7 @@ dataUploadServer <- function(id, con) {
           output$step9 <- shiny::renderText({
             "&#10003; Step 9 Complete"
           })
-
-          })
-
-        })
+        }
 
 })
 }
