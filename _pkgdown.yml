@@ -34,6 +34,7 @@ reference:
       - '`records_curated_view`'
       - '`processed_SubStation_presence_absence`'
       - '`vba_format`'
+      - '`mirror_schema_structure`'
   - title: "Database information"
     desc: >
       Functions used get information on the database
