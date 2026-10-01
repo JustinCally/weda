@@ -30,6 +30,17 @@ standardise_species_names <- function(recordTable,
   # Get the conversions from the vba_name_conversions dataframe
   other_name <- paste0(setdiff(c("scientific", "common"), format), "_name")
 
+  # Remap tags whose default VBA match gives the wrong taxon ID
+  overrides <- species_name_overrides[species_name_overrides$format == format, ]
+  to_remap <- recordTable[[speciesCol]] %in% overrides$tag
+  if (any(to_remap)) {
+    remapped <- unique(recordTable[[speciesCol]][to_remap])
+    recordTable[[speciesCol]][to_remap] <- overrides$vba_name[match(recordTable[[speciesCol]][to_remap], overrides$tag)]
+    cli::cli_bullets(rlang::set_names(paste0("Tag '", remapped, "' remapped to '",
+                                            overrides$vba_name[match(remapped, overrides$tag)], "'"),
+                                     rep("i", length(remapped))))
+  }
+
   un <- unique(recordTable[[speciesCol]])
 
   conversions <- weda::vba_name_conversions %>%
@@ -93,3 +104,19 @@ standardise_species_names <- function(recordTable,
 
 }
 
+
+# Species tags that should be remapped before matching to the VBA taxa list,
+# because the default match is a genus-level record with a different taxon ID
+# - Greater Glider: Southern Greater Glider (Petauroides volans, 11133)
+# - Feathertail Glider: Acrobates spp. (903793)
+species_name_overrides <- data.frame(
+  format = c("common", "common", "scientific", "scientific"),
+  tag = c("Greater Glider",
+          "Feathertail Glider",
+          "fam. Pseudocheiridae gen. Petauroides",
+          "fam. Acrobatidae gen. Acrobates"),
+  vba_name = c("Southern Greater Glider",
+               "Feather-tailed glider species",
+               "Petauroides volans",
+               "Acrobates spp.")
+)
