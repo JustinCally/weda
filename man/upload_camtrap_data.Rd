@@ -23,7 +23,7 @@ upload_camtrap_data(
 
 \item{tables_to_upload}{vector (characters) of tables to upload. Default is all of them}
 
-\item{schema}{schema to upload data to (options are camtrap or camtrap_dev)}
+\item{schema}{schema to upload data to and refresh views in (options are camtrap or camtrap_dev)}
 
 \item{pa_refresh}{whether to update presence absence tables, default is true}
 }

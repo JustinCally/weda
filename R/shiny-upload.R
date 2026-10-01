@@ -278,6 +278,12 @@ dataUploadpUI <- function(id,
                                            You must enter your name and confirm the upload. If data is successfully uploaded you will receive a message in the main panel.
                                            Note this step may take some time if data is large. Please be patient.")),
                       shiny::htmlOutput(outputId = ns("step9")),
+                      shiny::radioButtons(inputId = ns("target_schema"),
+                                          label = "Upload to",
+                                          choices = c("Production (camtrap)" = "camtrap",
+                                                      "Development (camtrap_dev)" = "camtrap_dev"),
+                                          selected = "camtrap"),
+                      shiny::uiOutput(outputId = ns("devbanner")),
                       shiny::actionButton(inputId = ns("uploaddata"),
                                    label = "Upload to Database",
                                    icon = shiny::icon("database"), width = "100%"),
@@ -639,6 +645,16 @@ dataUploadServer <- function(id, con) {
         uploaded_tables <- shiny::reactiveVal(character(0))
 
         shiny::observeEvent(dqlist(), uploaded_tables(character(0)), ignoreNULL = FALSE)
+        # A partial upload to one schema says nothing about the other
+        shiny::observeEvent(input$target_schema, uploaded_tables(character(0)), ignoreInit = TRUE)
+
+        output$devbanner <- shiny::renderUI({
+          if (identical(input$target_schema, "camtrap_dev")) {
+            shiny::div(class = "alert alert-warning", style = "padding: 6px 10px; margin-bottom: 8px;",
+                       shiny::icon("triangle-exclamation"),
+                       "Development mode: data will be uploaded to the camtrap_dev schema, not production.")
+          }
+        })
 
         observeEvent(input$uploaddata, {
           if (is.null(dqlist()$result)) {
@@ -649,10 +665,15 @@ dataUploadServer <- function(id, con) {
           shinyBS::updateCollapse(session = session, id = "collapsepanel",
                                   open = "Step 9 Output", close = "Step 8 Output")
 
+          # Fix the target at confirmation time so changing the toggle while the
+          # dialog is open can't redirect the upload
+          target_schema <- input$target_schema
+          target_label <- if (target_schema == "camtrap") "PRODUCTION (camtrap)" else paste0("DEVELOPMENT (", target_schema, ")")
+
           # callbackR (rather than observing input$name) fires on every confirm,
           # so retrying with the same name works and nothing re-triggers an upload
           shinyalert::shinyalert(
-            title = "Are you sure you want to upload?",
+            title = paste("Upload to", target_label, "database?"),
             inputType = "text",
             type = "input",
             text = "Type your full name to upload data",
@@ -675,12 +696,12 @@ dataUploadServer <- function(id, con) {
                 shiny::showNotification("Please enter your name to upload.", type = "error")
                 return()
               }
-              run_upload(trimws(uploader))
+              run_upload(trimws(uploader), schema = target_schema)
             }
           )
         })
 
-        run_upload <- function(uploader) {
+        run_upload <- function(uploader, schema = "camtrap") {
 
           upload_steps <- list(
             list(table = "raw_camtrap_records", label = "camera records", pa_refresh = FALSE),
@@ -709,7 +730,7 @@ dataUploadServer <- function(id, con) {
                                           data_list = data_for_upload,
                                           tables_to_upload = step$table,
                                           uploadername = uploader,
-                                          schema = "camtrap",
+                                          schema = schema,
                                           pa_refresh = step$pa_refresh)
                 uploaded_tables(c(uploaded_tables(), step$table))
               }
@@ -733,7 +754,8 @@ dataUploadServer <- function(id, con) {
           data_for_upload <- result
 
           output$uploadcompletion <- shiny::renderText({
-            "Upload Complete. Restart app to see project data on map pane"
+            paste0("Upload to ", schema, " complete. Restart app to see project data on map pane",
+                   if (schema != "camtrap") " (the map pane only shows production data)" else "")
           })
 
           output$downloadVBA <- shiny::downloadHandler(
@@ -743,7 +765,7 @@ dataUploadServer <- function(id, con) {
             content = function(dl_con) {
               vba_data <- vba_format(con = con,
                                      return_data = T,
-                                     schema = "camtrap",
+                                     schema = schema,
                                      ProjectShortName = data_for_upload[["project_information"]]$ProjectShortName)
               readr::write_csv(vba_data, dl_con)
             }
