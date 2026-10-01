@@ -88,12 +88,17 @@ report_column_schema <- function(tables) {
 #' @param camtrap_records this is the dataframe that contains the camera trap records (recordTable from camtrapR)
 #' @param camtrap_operation this is the dataframe that contains the information about the camera trap operation
 #' @param project_information this is the dataframe that contains the information about the project
+#' @param con optional database connection. If supplied, the project short name and
+#'   full name are checked against projects already on the database
+#' @param schema schema to check existing projects in (camtrap or camtrap_dev)
 #'
 #' @return list of pointblank objects
 #' @export
 camera_trap_dq <- function(camtrap_records,
                            camtrap_operation,
-                           project_information) {
+                           project_information,
+                           con = NULL,
+                           schema = "camtrap") {
 
   # this is a vector of column names that are required to be in the camtrap_operation dataframe
   req_cols <- c('SiteID' ,
@@ -329,6 +334,10 @@ pb_op <- pointblank::create_agent(
       brief = "BaitType is one of the allowed options (see the example data template), e.g. 'None' for unbaited cameras.") %>%
     pointblank::interrogate()
 
+  # Project names must match any existing project exactly: the project
+  # database ID is derived from ProjectName
+  project_names_ok <- check_project_names(project_information, con = con, schema = schema)
+
   pb_pi <- pointblank::create_agent(
     tbl = project_information,
     actions = pointblank::action_levels(stop_at = 1)) %>%
@@ -340,9 +349,73 @@ pb_op <- pointblank::create_agent(
       brief = "Column is TRUE or FALSE.") %>%
     pointblank::col_vals_in_set("TerrestrialArboreal", set = c("Terrestrial", "Arboreal"),
       brief = "TerrestrialArboreal is either 'Terrestrial' or 'Arboreal'.") %>%
+    pointblank::col_vals_equal("ProjectNamesMatchDatabase", value = TRUE,
+      preconditions = function(x) dplyr::mutate(x, ProjectNamesMatchDatabase = project_names_ok),
+      label = "ProjectShortName and ProjectName match existing projects on the database",
+      brief = "If the ProjectShortName or ProjectName is already on the database, the other name must match that project exactly (see the message above the report). Use the existing names to add data to that project, or new names for a new project.") %>%
     pointblank::interrogate()
 
   return(list(camtrap_records = pb_rec,
               camtrap_operation = pb_op,
               project_information = pb_pi))
+}
+
+
+#' Check project names against existing projects on the database
+#'
+#' @param project_information project information data.frame (one row)
+#' @param con database connection (NULL skips the check)
+#' @param schema schema to check
+#'
+#' @noRd
+#'
+#' @return TRUE if the names are consistent with the database (or the check was skipped)
+check_project_names <- function(project_information, con = NULL, schema = "camtrap") {
+
+  short_name <- trimws(as.character(project_information$ProjectShortName[1]))
+  full_name <- trimws(as.character(project_information$ProjectName[1]))
+
+  if (is.null(con)) {
+    cli::cli_alert_warning("Project names not checked against existing projects (no database connection)")
+    return(TRUE)
+  }
+
+  existing <- tryCatch(existing_projects(con, schema, short_name, full_name),
+                       error = function(e) e)
+  if (inherits(existing, "error")) {
+    cli::cli_alert_warning("Could not check project names against the database ({schema}): {conditionMessage(existing)}")
+    return(TRUE)
+  }
+
+  if (nrow(existing) == 0) {
+    cli::cli_alert_info("New project: '{short_name}' ({full_name}) will be created on upload")
+    return(TRUE)
+  }
+
+  if (any(existing$ProjectShortName == short_name & existing$ProjectName == full_name)) {
+    cli::cli_alert_info("Existing project: data will be added to '{short_name}' ({full_name})")
+    return(TRUE)
+  }
+
+  cli::cli_alert_danger("Project names don't match the database ({schema})")
+  same_short <- existing[existing$ProjectShortName == short_name, ]
+  same_full <- existing[existing$ProjectName == full_name, ]
+  for (i in seq_len(nrow(same_short))) {
+    cli::cli_bullets(c("x" = "ProjectShortName '{short_name}' already exists with ProjectName '{same_short$ProjectName[i]}' (yours: '{full_name}')"))
+  }
+  for (i in seq_len(nrow(same_full))) {
+    cli::cli_bullets(c("x" = "ProjectName '{full_name}' already exists with ProjectShortName '{same_full$ProjectShortName[i]}' (yours: '{short_name}')"))
+  }
+  cli::cli_text("To add to the existing project, copy both names exactly as they are on the database. For a new project, use a new ProjectShortName and ProjectName.")
+  FALSE
+}
+
+#' Projects on the database sharing a short or full name
+#'
+#' @noRd
+existing_projects <- function(con, schema, short_name, full_name) {
+  dplyr::tbl(con, dbplyr::in_schema(schema, "raw_project_information")) %>%
+    dplyr::filter(ProjectShortName %in% !!short_name | ProjectName %in% !!full_name) %>%
+    dplyr::distinct(ProjectShortName, ProjectName) %>%
+    dplyr::collect()
 }

@@ -56,7 +56,9 @@ Suggests:
     knitr,
     testthat (>= 3.0.0),
     covr,
-    odbc
+    odbc,
+    RSQLite,
+    withr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Remotes: 

@@ -574,7 +574,9 @@ dataUploadServer <- function(id, con) {
           tryCatch(
             camera_trap_dq2(camtrap_records = st_data()$result,
                             camtrap_operation = opers2()$result,
-                            project_information = projs$data()),
+                            project_information = projs$data(),
+                            con = con,
+                            schema = input$target_schema),
             error = function(e) {
               shiny::showNotification(paste("Data quality checks failed:", conditionMessage(e)),
                                       type = "error", duration = NULL)
