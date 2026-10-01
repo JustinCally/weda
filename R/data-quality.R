@@ -246,22 +246,36 @@ camera_trap_dq <- function(camtrap_records,
 pb_rec <- pointblank::create_agent(
     tbl = camtrap_records,
     actions = pointblank::action_levels(stop_at = 1)) %>%
-    pointblank::col_exists(columns = req_cols) %>%
-    pointblank::rows_distinct() %>%
-    pointblank::col_is_character(c("SiteID", "SubStation", "scientific_name", "common_name", "Time", "Directory", "FileName")) %>%
-    pointblank::col_is_integer(c("Iteration", "metadata_Multiples"))  %>%
-    pointblank::col_vals_in_set("SiteID", set = camtrap_operation$SiteID) %>%
-    pointblank::col_vals_in_set("SubStation", set = camtrap_operation$SubStation) %>%
-    pointblank::col_vals_in_set("Iteration", set = camtrap_operation$Iteration) %>%
-    pointblank::col_vals_in_set("Iteration_SiteID_SubStation", set = uq_iss, preconditions = ~ . %>% dplyr::mutate(Iteration_SiteID_SubStation = paste(Iteration, SiteID, SubStation, sep = "_")), label = "Combination of Iteration, SiteID, and SubStation") %>%
-    pointblank::col_vals_in_set("scientific_name", set = unique(vba_sci$scientific_name)) %>%
-    pointblank::col_vals_in_set("common_name", set = unique(vba_com$common_name)) %>%
-    pointblank::col_vals_not_null(c("SiteID", "scientific_name", "common_name", "Date", "Time", "DateTimeOriginal", "Iteration")) %>%
+    pointblank::col_exists(columns = req_cols,
+      brief = "Required column is present in the camera records. If missing, add it to the records file (see the column hints above the report).") %>%
+    pointblank::rows_distinct(,
+      brief = "No two rows in the camera records are identical. Fails if the same image record appears more than once; remove the duplicates.") %>%
+    pointblank::col_is_character(c("SiteID", "SubStation", "scientific_name", "common_name", "Time", "Directory", "FileName"),
+      brief = "Column contains text. Fails if values were read as another type (e.g. numbers); check for stray formatting in the records file.") %>%
+    pointblank::col_is_integer(c("Iteration", "metadata_Multiples"),
+      brief = "Column contains whole numbers. Check for decimals or text such as '3+' in the records file.") %>%
+    pointblank::col_vals_in_set("SiteID", set = camtrap_operation$SiteID,
+      brief = "Every SiteID in the records also appears in the camera operation file. Check spelling, case and spaces match exactly.") %>%
+    pointblank::col_vals_in_set("SubStation", set = camtrap_operation$SubStation,
+      brief = "Every SubStation in the records also appears in the camera operation file. Check spelling, case and spaces match exactly.") %>%
+    pointblank::col_vals_in_set("Iteration", set = camtrap_operation$Iteration,
+      brief = "Every Iteration in the records also appears in the camera operation file.") %>%
+    pointblank::col_vals_in_set("Iteration_SiteID_SubStation", set = uq_iss, preconditions = ~ . %>% dplyr::mutate(Iteration_SiteID_SubStation = paste(Iteration, SiteID, SubStation, sep = "_")), label = "Combination of Iteration, SiteID, and SubStation",
+      brief = "Each record's Iteration + SiteID + SubStation combination matches a deployment in the camera operation file. Fails if a record belongs to a camera that wasn't deployed (e.g. wrong SubStation or Iteration for that site).") %>%
+    pointblank::col_vals_in_set("scientific_name", set = unique(vba_sci$scientific_name),
+      brief = "Scientific name matches the VBA taxa list. Fix or remove records whose species could not be matched in Step 5.") %>%
+    pointblank::col_vals_in_set("common_name", set = unique(vba_com$common_name),
+      brief = "Common name matches the VBA taxa list. Fix or remove records whose species could not be matched in Step 5.") %>%
+    pointblank::col_vals_not_null(c("SiteID", "scientific_name", "common_name", "Date", "Time", "DateTimeOriginal", "Iteration"),
+      brief = "Column has a value in every row. Fill in the missing values in the records file (unmatched species in Step 5 show up here as missing names).") %>%
     pointblank::col_vals_equal("metadata_Multiples_whole_number", value = TRUE,
                                preconditions = function(x) dplyr::mutate(x, metadata_Multiples_whole_number = multiples_whole),
-                              label = "metadata_Multiples must be a whole number (or left blank)") %>%
-    pointblank::col_is_date("Date") %>%
-    pointblank::col_is_posix("DateTimeOriginal") %>%
+                              label = "metadata_Multiples must be a whole number (or left blank)",
+      brief = "metadata_Multiples is a whole number or blank. Fix entries such as '3+' or '2.5' in the image tags or records file.") %>%
+    pointblank::col_is_date("Date",
+      brief = "Date is a valid date. Check the date format in the records file (e.g. dd/mm/yyyy or yyyy-mm-dd).") %>%
+    pointblank::col_is_posix("DateTimeOriginal",
+      brief = "DateTimeOriginal is a valid date-time. Check the date-time format in the records file.") %>%
     pointblank::col_vals_between(columns = "Date",
                                  left = pointblank::vars(DateDeploy),
                                  right = pointblank::vars(DateRetrieve),
@@ -270,11 +284,13 @@ pb_rec <- pointblank::create_agent(
                                    dplyr::left_join(x, lj %>%
                                                       dplyr::select(dplyr::all_of(c("SiteID", "SubStation", "DateDeploy", "DateRetrieve", "Iteration"))),
                                                     by = c("SiteID", "SubStation", "Iteration"))
-                                   })
+                                   },
+      brief = "Each record's Date falls between the camera's deploy and retrieve dates. Fails if camera clocks were wrong or deploy/retrieve dates in the operation file are incorrect.")
 # check in cases where distance is always tagged
 if(project_information$DistanceSampling[1] & project_information$DistanceForAllSpecies[1])  {
   pb_rec <- pb_rec %>%
-    pointblank::col_vals_not_null(c("metadata_Distance"))
+    pointblank::col_vals_not_null(c("metadata_Distance"),
+      brief = "Distance is recorded for every record, because the project information says distance was tagged for all species.")
 }
 
 pb_rec <- pb_rec %>%
@@ -283,29 +299,47 @@ pb_rec <- pb_rec %>%
 pb_op <- pointblank::create_agent(
     tbl = camtrap_operation,
     actions = pointblank::action_levels(stop_at = 1)) %>%
-    pointblank::col_exists(columns = c('SiteID', 'SubStation', 'Iteration', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'Problem1_from', 'Problem1_to', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger')) %>%
-    pointblank::rows_distinct() %>%
-    pointblank::col_is_character(columns = c('SiteID', 'SubStation', 'CameraID', 'CameraModel',	'CameraSensitivity',	'CameraDelay')) %>%
-    pointblank::col_is_numeric(columns = c('Latitude', 'Longitude', 'CameraHeight')) %>%
-    pointblank::col_is_date(columns = c('DateDeploy', 'DateRetrieve')) %>%
-    pointblank::col_is_integer(columns = c('Iteration', 'CameraPhotosPerTrigger')) %>%
-    pointblank::col_is_posix(columns = c('DateTimeDeploy', 'DateTimeRetrieve', 'Problem1_from', 'Problem1_to')) %>%
-    pointblank::col_vals_in_set(columns = c('SiteID'), set = camtrap_records$SiteID, actions = pointblank::action_levels(stop_at = 0.99, warn_at = 1)) %>%
-    pointblank::col_vals_in_set(columns = c('SubStation'), set = camtrap_records$SubStation, actions = pointblank::action_levels(stop_at = 0.99, warn_at = 1)) %>%
-    pointblank::col_vals_between(columns = c('Latitude'), left = -60.55, right = -8.47) %>%
-    pointblank::col_vals_between(columns = c('Longitude'), left = 93.41, right = 173.34) %>%
-    pointblank::col_vals_not_null(c('SiteID', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'Iteration', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger', 'BaitedUnbaited', 'BaitType')) %>%
-    pointblank::col_vals_in_set("BaitedUnbaited", set = c("Baited", "Unbaited")) %>%
-    pointblank::col_vals_in_set("BaitType", set = c("None", "Creamed Honey", "Small Mammal Bait", "Predator Bait (i.e, meat bait)", "Non-toxic curiosity bait", "Toxic curiosity bait", "Predator Lure (i.e., urine, faeces, etc.)", "Other")) %>%
+    pointblank::col_exists(columns = c('SiteID', 'SubStation', 'Iteration', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'Problem1_from', 'Problem1_to', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger'),
+      brief = "Required column is present in the camera operation file. Keep every column, even if it is blank.") %>%
+    pointblank::rows_distinct(,
+      brief = "No two rows in the camera operation file are identical. Remove duplicate deployments.") %>%
+    pointblank::col_is_character(columns = c('SiteID', 'SubStation', 'CameraID', 'CameraModel',	'CameraSensitivity',	'CameraDelay'),
+      brief = "Column contains text. Check for stray formatting in the operation file.") %>%
+    pointblank::col_is_numeric(columns = c('Latitude', 'Longitude', 'CameraHeight'),
+      brief = "Column contains numbers. Check for text, units (e.g. '1.5m') or symbols in the operation file.") %>%
+    pointblank::col_is_date(columns = c('DateDeploy', 'DateRetrieve'),
+      brief = "Column is a valid date. Check the date format in the operation file (e.g. dd/mm/yyyy or yyyy-mm-dd).") %>%
+    pointblank::col_is_integer(columns = c('Iteration', 'CameraPhotosPerTrigger'),
+      brief = "Column contains whole numbers. Check for decimals or text in the operation file.") %>%
+    pointblank::col_is_posix(columns = c('DateTimeDeploy', 'DateTimeRetrieve', 'Problem1_from', 'Problem1_to'),
+      brief = "Column is a valid date-time (or blank where allowed). Check the date-time format in the operation file.") %>%
+    pointblank::col_vals_in_set(columns = c('SiteID'), set = camtrap_records$SiteID, actions = pointblank::action_levels(stop_at = 0.99, warn_at = 1),
+      brief = "Each SiteID in the operation file has at least one record. A warning only: cameras with no detections are fine, but check for SiteID typos.") %>%
+    pointblank::col_vals_in_set(columns = c('SubStation'), set = camtrap_records$SubStation, actions = pointblank::action_levels(stop_at = 0.99, warn_at = 1),
+      brief = "Each SubStation in the operation file has at least one record. A warning only: cameras with no detections are fine, but check for typos.") %>%
+    pointblank::col_vals_between(columns = c('Latitude'), left = -60.55, right = -8.47,
+      brief = "Latitude is within Australia (decimal degrees). Check latitude/longitude aren't swapped and coordinates aren't in eastings/northings.") %>%
+    pointblank::col_vals_between(columns = c('Longitude'), left = 93.41, right = 173.34,
+      brief = "Longitude is within Australia (decimal degrees). Check latitude/longitude aren't swapped and coordinates aren't in eastings/northings.") %>%
+    pointblank::col_vals_not_null(c('SiteID', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'Iteration', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger', 'BaitedUnbaited', 'BaitType'),
+      brief = "Column has a value in every row. Fill in the missing values in the operation file.") %>%
+    pointblank::col_vals_in_set("BaitedUnbaited", set = c("Baited", "Unbaited"),
+      brief = "BaitedUnbaited is either 'Baited' or 'Unbaited'.") %>%
+    pointblank::col_vals_in_set("BaitType", set = c("None", "Creamed Honey", "Small Mammal Bait", "Predator Bait (i.e, meat bait)", "Non-toxic curiosity bait", "Toxic curiosity bait", "Predator Lure (i.e., urine, faeces, etc.)", "Other"),
+      brief = "BaitType is one of the allowed options (see the example data template), e.g. 'None' for unbaited cameras.") %>%
     pointblank::interrogate()
 
   pb_pi <- pointblank::create_agent(
     tbl = project_information,
     actions = pointblank::action_levels(stop_at = 1)) %>%
-    pointblank::row_count_match(1) %>%
-    pointblank::col_vals_not_null(dplyr::everything()) %>%
-    pointblank::col_is_logical(c("DistanceSampling", "AllSpeciesTagged")) %>%
-    pointblank::col_vals_in_set("TerrestrialArboreal", set = c("Terrestrial", "Arboreal")) %>%
+    pointblank::row_count_match(1,
+      brief = "The project information file has exactly one row.") %>%
+    pointblank::col_vals_not_null(dplyr::everything(),
+      brief = "Every project information column is filled in.") %>%
+    pointblank::col_is_logical(c("DistanceSampling", "AllSpeciesTagged"),
+      brief = "Column is TRUE or FALSE.") %>%
+    pointblank::col_vals_in_set("TerrestrialArboreal", set = c("Terrestrial", "Arboreal"),
+      brief = "TerrestrialArboreal is either 'Terrestrial' or 'Arboreal'.") %>%
     pointblank::interrogate()
 
   return(list(camtrap_records = pb_rec,
