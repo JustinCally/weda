@@ -273,7 +273,7 @@ dataUploadpUI <- function(id,
                                                                    leaflet::leafletOutput(outputId = ns("sitemap"))),
                                             shinyBS::bsCollapsePanel(title = "Step 8 Output",
                                                                      shiny::htmlOutput(outputId = ns("dqmessages")),
-                                                                   gt::gt_output(outputId = ns("dq1")),
+                                                                   shinycssloaders::withSpinner(gt::gt_output(outputId = ns("dq1"))),
                                                                    gt::gt_output(outputId = ns("dq2")),
                                                                    gt::gt_output(outputId = ns("dq3"))),
                                           shinyBS::bsCollapsePanel(title = "Step 9 Output",
@@ -514,21 +514,42 @@ dataUploadServer <- function(id, con) {
 
       #### Step 8 ####
 
+      # Run eagerly (observeEvent rather than a lazy eventReactive) so the checks
+      # run on click, not only when an output or download first reads the result
+      dqlist <- shiny::reactiveVal(NULL)
+
       shiny::observeEvent(input$dataquality, {
         shinyBS::updateCollapse(session = session, id = "collapsepanel",
                                 open = "Step 8 Output", close = "Step 7 Output")
-      })
 
-      dqlist <- shiny::eventReactive(input$dataquality, {
+        missing_steps <- c("Step 4 (project information)" = is.null(projs$data()),
+                           "Step 5 (standardise species names)" = is.null(tryCatch(st_data(), error = function(e) NULL)),
+                           "Step 6 (standardise site coords)" = is.null(tryCatch(opers2(), error = function(e) NULL)))
+        if (any(missing_steps)) {
+          shiny::showNotification(paste("Please complete", paste(names(missing_steps)[missing_steps], collapse = ", "),
+                                        "before running the data quality checks."),
+                                  type = "error", duration = 10)
+          return()
+        }
 
-        output$step8 <- shiny::renderText({
-          "&#10003; Step 8 Complete"
+        dqlist(NULL)
+
+        result <- shiny::withProgress(message = "Running data quality checks",
+                                      detail = "This may take a minute for large datasets", value = 0.3, {
+          tryCatch(
+            camera_trap_dq2(camtrap_records = st_data()$result,
+                            camtrap_operation = opers2()$result,
+                            project_information = projs$data()),
+            error = function(e) {
+              shiny::showNotification(paste("Data quality checks failed:", conditionMessage(e)),
+                                      type = "error", duration = NULL)
+              NULL
+            })
         })
 
-        shiny::withProgress(message = 'Running Data Quality', value = 0.5, {
-        camera_trap_dq2(camtrap_records = st_data()$result,
-                             camtrap_operation = opers2()$result,
-                             project_information = projs$data())
+        dqlist(result)
+        output$step8 <- shiny::renderText({
+          if (is.null(result$result)) "&#10007; Step 8 needs attention (see Step 8 Output)" else "&#10003; Step 8 Complete"
         })
       })
 
@@ -561,7 +582,7 @@ dataUploadServer <- function(id, con) {
         output$downloadDQ1 <- downloadHandler(
           filename = function() paste0("records_dq_", Sys.Date(), ".csv"),
           content = function(file) {
-            req(dqlist())
+            req(dqlist()$result)
             readr::write_csv(dqlist()$result[[1]]$tbl, file)
           }
         )
@@ -569,7 +590,7 @@ dataUploadServer <- function(id, con) {
         output$downloadDQ2 <- downloadHandler(
           filename = function() paste0("operation_dq_", Sys.Date(), ".csv"),
           content = function(file) {
-            req(dqlist())
+            req(dqlist()$result)
             readr::write_csv(dqlist()$result[[2]]$tbl, file)
           }
         )
@@ -577,7 +598,7 @@ dataUploadServer <- function(id, con) {
         output$downloadDQ3 <- downloadHandler(
           filename = function() paste0("project_dq_", Sys.Date(), ".csv"),
           content = function(file) {
-            req(dqlist())
+            req(dqlist()$result)
             readr::write_csv(dqlist()$result[[3]]$tbl, file)
           }
         )
