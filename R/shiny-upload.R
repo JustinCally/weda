@@ -168,8 +168,17 @@ dataUploadpUI <- function(id,
                                           label = "Generate camtrapR code",
                                           icon = shiny::icon("code"), width = "100%"),
                       shiny::div(shiny::tags$h4("Step 2", style="display:inline-block"),
-                                 helpPopup(title = "Step 2 Guide", content = "Upload the camera trap records generated in step 1.
-                                           Make sure the data has all the columns in the example data template (download above)")),
+                                 helpPopup(title = "Step 2 Guide", content = shiny::div(
+                                   "Upload the camera trap records generated in Step 1. Make sure the data has all the columns in the example data template (download above).
+                                   Before uploading, check:",
+                                   shiny::tags$ul(
+                                     shiny::tags$li("Records that are not VBA taxa are removed, e.g. empty/NIL images, people, vehicles and placeholder tags (such as 'AAA' or 'ZZZ'). The Step 1 code shows how to filter these."),
+                                     shiny::tags$li("Tagging NIL (empty) images is optional: they are filtered out before upload, and survey effort comes from the camera operation file (Step 3), not from NIL records. It can still be useful to confirm every image was reviewed."),
+                                     shiny::tags$li("'SiteID', 'SubStation' and 'Iteration' values match exactly (including case and spaces) between the records and the camera operation file."),
+                                     shiny::tags$li("The camtrapR 'Camera' column is renamed to 'SubStation', and an 'Iteration' column is added (whole number, e.g. 1)."),
+                                     shiny::tags$li("'metadata_Multiples' contains whole numbers only (e.g. 3, not '3+'). Blank is fine if not recorded."),
+                                     shiny::tags$li("Missing values can be left blank or written as NA; both are treated the same.")
+                                   )))),
                       shiny::htmlOutput(outputId = ns("step2")),
                       shiny::actionButton(inputId = ns("RecordButton"),
                                    label = "Import Camera Records",
@@ -186,8 +195,14 @@ dataUploadpUI <- function(id,
                       ),
                       proofsafeDownloadUI(ns("proofsafe")),
                       shiny::div(shiny::tags$h4("Step 3", style="display:inline-block"),
-                                 helpPopup(title = "Step 3 Guide", content = "Upload the camera trap operation data (generated from proofsafe or manually from field data).
-                                           Make sure the data has all the columns in the example data template (download above)")),
+                                 helpPopup(title = "Step 3 Guide", content = shiny::div(
+                                   "Upload the camera trap operation data (generated from proofsafe or manually from field data).
+                                   Make sure the data has all the columns in the example data template (download above).",
+                                   shiny::tags$ul(
+                                     shiny::tags$li("Missing values can be left blank or written as NA; both are treated the same. Keep every column, even if it is empty."),
+                                     shiny::tags$li("These columns may be left blank: SubStation, TimeRetrieve, Problem1_from, Problem1_to, CameraBearing, CameraSlope, CameraQuietPeriod, BaitDistance. All other columns must be filled in."),
+                                     shiny::tags$li("If TimeRetrieve (and DateTimeRetrieve) are blank, the retrieval is assumed to be at the end of DateRetrieve (23:59:59).")
+                                   )))),
                       shiny::htmlOutput(outputId = ns("step3")),
                       shiny::actionButton(inputId = ns("OperationButton"),
                                    label = "Import Camera Operation",
@@ -236,6 +251,8 @@ dataUploadpUI <- function(id,
                                            It conducts 100 data checks to make sure there are no issues in the quality of your data.
                                            All data checks need to pass for uploads to succeed."),
                                                                                    shiny::tags$ul(
+                                                                                     shiny::tags$li(shiny::HTML(paste0(shiny::strong("Blank vs NA: "), "missing values can be left blank or written as NA in any table; both are treated the same. A 'col_vals_not_null' failure means that column must be filled in."))),
+                                                                                     shiny::tags$li("If there is a column problem, the message above the reports says which table (and upload step) it is in and whether to add, remove or rename the column."),
                                                                                      shiny::tags$li("The 'STEP' column outlines the type of check performed. Hover over it for more detail"),
                                                                                      shiny::tags$li("The 'COLUMNS' column outlines the columns the check was performed on. Some columns are newly created ones in order to investigate the effect of a derived/generated data value"),
                                                                                      shiny::tags$li("The 'TBL' column shows whether some data modification took place in order to generate a derived variable"),
@@ -334,6 +351,14 @@ dataUploadServer <- function(id, con) {
                                metadataSpeciesTag = "Species",
                                removeDuplicateRecords = FALSE,
                                returnFileNamesMissingTags = TRUE)
+  # Format the records for upload: rename the camera column, add the iteration and
+  # remove records that are not VBA taxa (e.g. NIL/empty images, people, placeholder tags)
+  # Check the remaining Species values match the species name format chosen in Step 5
+                    raw_camtrap_records <- raw_camtrap_records |>
+                      dplyr::rename(SubStation = Camera) |>
+                      dplyr::mutate(SubStation = dplyr::if_else(SubStation == SiteID, NA_character_, SubStation),
+                                    Iteration = 1L) |>
+                      dplyr::filter(!is.na(Species), !Species %in% c("NIL", "AAA", "ZZZ", "Person", "Vehicle"))
   # Save as an rds object (good for R usage)
                     saveRDS(raw_camtrap_records, "raw_camtrap_records.rds")
   # Save as csv (good for viewing in excel)
