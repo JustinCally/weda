@@ -291,7 +291,7 @@ dataUploadpUI <- function(id,
                                                                      shiny::htmlOutput(outputId = ns("convertmessage"))),
                                             shinyBS::bsCollapsePanel(title = "Step 7 Output",
                                                                        shiny::uiOutput(ns("species_selector")),  # dynamic UI
-                                                                   leaflet::leafletOutput(outputId = ns("sitemap"))),
+                                                                   leaflet::leafletOutput(outputId = ns("sitemap"), height = "75vh")),
                                             shinyBS::bsCollapsePanel(title = "Step 8 Output",
                                                                      shiny::htmlOutput(outputId = ns("dqmessages")),
                                                                    shinycssloaders::withSpinner(gt::gt_output(outputId = ns("dq1"))),
