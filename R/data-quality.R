@@ -199,6 +199,19 @@ camera_trap_dq <- function(camtrap_records,
                   dplyr::across(.cols = dplyr::any_of(col_classes_op[["POSIXct, POSIXt"]]$column_name),
                                 .fns = as.POSIXct))
 
+  # TimeRetrieve is optional (not always recorded at pick-up). Where the
+  # retrieval date-time is missing, assume the end of the retrieval day so
+  # detections on that day remain within the camera operation window
+  missing_dt_retrieve <- is.na(camtrap_operation$DateTimeRetrieve) & !is.na(camtrap_operation$DateRetrieve)
+  if (any(missing_dt_retrieve)) {
+    tz <- attr(camtrap_operation$DateTimeRetrieve, "tzone")
+    if (is.null(tz)) tz <- ""
+    camtrap_operation$DateTimeRetrieve[missing_dt_retrieve] <- as.POSIXct(
+      paste(camtrap_operation$DateRetrieve[missing_dt_retrieve], "23:59:59"), tz = tz)
+    message(sum(missing_dt_retrieve), " operation row(s) have no retrieval time: ",
+            "DateTimeRetrieve set to the end of DateRetrieve (23:59:59)")
+  }
+
   # Project information
   col_classes_proj <- weda::data_dictionary %>%
     dplyr::filter(table_name == "raw_project_information") %>%
@@ -273,7 +286,7 @@ pb_op <- pointblank::create_agent(
     pointblank::col_vals_in_set(columns = c('SubStation'), set = camtrap_records$SubStation, actions = pointblank::action_levels(stop_at = 0.99, warn_at = 1)) %>%
     pointblank::col_vals_between(columns = c('Latitude'), left = -60.55, right = -8.47) %>%
     pointblank::col_vals_between(columns = c('Longitude'), left = 93.41, right = 173.34) %>%
-    pointblank::col_vals_not_null(c('SiteID', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'Iteration', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger', 'BaitedUnbaited', 'BaitType')) %>%
+    pointblank::col_vals_not_null(c('SiteID', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'Iteration', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger', 'BaitedUnbaited', 'BaitType')) %>%
     pointblank::col_vals_in_set("BaitedUnbaited", set = c("Baited", "Unbaited")) %>%
     pointblank::col_vals_in_set("BaitType", set = c("None", "Creamed Honey", "Small Mammal Bait", "Predator Bait (i.e, meat bait)", "Non-toxic curiosity bait", "Toxic curiosity bait", "Predator Lure (i.e., urine, faeces, etc.)", "Other")) %>%
     pointblank::interrogate()
