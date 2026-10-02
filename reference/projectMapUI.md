@@ -36,7 +36,7 @@ projectMapServer(id, project_locations, con)
 
 - colour_vars:
 
-  variables to colour by
+  variables to colour by ("ProjectName" and species common names)
 
 - project_locations:
 

@@ -7,7 +7,7 @@ them to the appropriate class and runs a pointblank check on the data
 ## Usage
 
 ``` r
-transect_dq(records, transects, project_information)
+transect_dq(records, transects, project_information, progress = interactive())
 ```
 
 ## Arguments
@@ -25,6 +25,11 @@ transect_dq(records, transects, project_information)
 - project_information:
 
   this is the dataframe that contains the information about the project
+
+- progress:
+
+  show pointblank's step-by-step progress log (default: in interactive
+  sessions only)
 
 ## Value
 

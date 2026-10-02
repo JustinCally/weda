@@ -1,5 +1,50 @@
 # Changelog
 
+## weda 0.1.0
+
+Camera trap app updates from user feedback
+([\#37](https://github.com/JustinCally/weda/issues/37)), plus
+[\#12](https://github.com/JustinCally/weda/issues/12) and
+[\#23](https://github.com/JustinCally/weda/issues/23).
+
+### Data upload
+
+- Step 8 data quality checks run when clicked (previously often only
+  after downloading a CSV), with a progress bar
+- Step 8 shows a pass/fail summary per table and only the checks needing
+  attention (“Show all checks” for the full reports); every check has a
+  plain-language brief and pointblank’s per-step log is no longer
+  printed
+- Clearer column errors that name the table and say what to add, remove
+  or rename
+- Project names are checked against existing projects on the database
+  (short and full name must match)
+- Step 9 checks the database is reachable, reports which tables uploaded
+  if it fails, and only uploads the remaining tables on retry; brief
+  disconnects no longer reset the app
+- Production/development upload toggle at Step 9 (production by
+  default); uploads now refresh views in the selected schema
+- `TimeRetrieve` and `metadata_Multiples` can be left blank; non-integer
+  multiples (e.g. “3+”) are flagged
+- “Greater Glider” and “Feathertail Glider” tags map to Southern Greater
+  Glider and *Acrobates* spp. (VBA 903793)
+- More guidance in the step help (record formatting, blanks vs NA, NIL
+  tags) and a larger Step 7 map
+
+### Project map
+
+- DistanceSampling, AllSpeciesTagged and DistanceForAllSpecies filters
+  now work; date filters use camera deploy/retrieve dates
+- Colour by presence of one or more species (present if any detected),
+  with much faster loading
+- Collapsible project legend
+
+### Other
+
+- [`mirror_schema_structure()`](https://justincally.github.io/weda/reference/mirror_schema_structure.md)
+  creates the views and functions of one schema (e.g. `camtrap`) in
+  another (e.g. `camtrap_dev`) without copying data
+
 ## weda 0.0.14
 
 - In transects data quality ensure that pointblank works on sf table

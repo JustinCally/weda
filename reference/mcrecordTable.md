@@ -75,6 +75,6 @@ raw_camtrap_records <- mcrecordTable(inDir  = system.file("dummydata/images", pa
                                     includeStations = c("832", "2602"),
                                     intermediateDir = int.dir,
                                     overwrite = FALSE, cores = 1)
-#> Warning: cannot open file '/tmp/RtmpbMcHIk/bslib-bbeb6b34c32ab5e67c2566a5cf896cee': it is a directory
+#> Warning: cannot open file '/tmp/RtmpOMv234/bslib-279e07bf4d4c68cef594a707d80ab0ff': it is a directory
 #> Error in gzfile(file, "rb"): cannot open the connection
 ```

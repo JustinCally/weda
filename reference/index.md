@@ -50,6 +50,8 @@ Functions used to create views on the database
   : Presence/Absence Views
 - [`vba_format()`](https://justincally.github.io/weda/reference/vba_format.md)
   : VBA Upload format for camera trap data
+- [`mirror_schema_structure()`](https://justincally.github.io/weda/reference/mirror_schema_structure.md)
+  : Mirror a schema's structure (without data) into another schema
 
 ## Database information
 

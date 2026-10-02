@@ -320,6 +320,10 @@ dq <- camera_trap_dq(camtrap_records = raw_camtrap_records_standardised,
 #> ℹ In argument: `dplyr::across(...)`.
 #> Caused by warning:
 #> ! NAs introduced by coercion
+#> Warning: ! `warn_at`, `stop_at`, and `notify_at` are deprecated.
+#>   Action levels are now `warn`, `error`, and `critical`.
+#> This warning is displayed once every 8 hours.
+#> ! Project names not checked against existing projects (no database connection)
 
 dq[[1]]
 ```
@@ -364,6 +368,7 @@ dq2 <- camera_trap_dq(camtrap_records = raw_camtrap_records_fixed,
                     camtrap_operation = operationdata, 
                     project_information = projectdata)
 #> Automatically standardising column classes, see weda::data_dictionary for database column classes
+#> ! Project names not checked against existing projects (no database connection)
 
 # We can check it is passing all tests with: 
 all(sapply(dq2, function(x) all(x[["validation_set"]][["all_passed"]])))

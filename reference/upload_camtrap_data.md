@@ -37,7 +37,8 @@ upload_camtrap_data(
 
 - schema:
 
-  schema to upload data to (options are camtrap or camtrap_dev)
+  schema to upload data to and refresh views in (options are camtrap or
+  camtrap_dev)
 
 - pa_refresh:
 

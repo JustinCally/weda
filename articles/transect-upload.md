@@ -385,6 +385,9 @@ dq <- transect_dq(
   transects           = formatted_data$transects,
   project_information = project_information
 )
+#> Warning: ! `warn_at`, `stop_at`, and `notify_at` are deprecated.
+#>   Action levels are now `warn`, `error`, and `critical`.
+#> This warning is displayed once every 8 hours.
 
 dq[[1]]  # records
 ```
