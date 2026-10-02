@@ -110,17 +110,20 @@ projectMapServer <- function(id, project_locations, con) {
           leaflet::addTiles()
       })
 
-      shiny::observe({
+      # Detections for the selected species, queried only when the selection
+      # changes (not on every filter change); presence is then worked out in
+      # memory against the camera locations
+      detections <- shiny::reactive({
         shinycssloaders::showPageSpinner(background = "#FFFFFFD0", type = 6, caption = "Querying Database")
+        on.exit(shinycssloaders::hidePageSpinner())
+        species_detections(con, input$colour)
+      }) %>%
+        shiny::bindEvent(input$colour)
+
+      shiny::observe({
         colourBy <- input$colour
         if(colourBy %in% weda::vba_name_conversions[["common_name"]]) {
-          pa_data <- weda::processed_SubStation_presence_absence(con = con,
-                                                           return_data = TRUE,
-                                                           daily = FALSE,
-                                                           species = colourBy)
-
-          map_data <- res_filter$filtered() %>%
-            dplyr::left_join(pa_data, by = c("ProjectShortName", "SiteID", "SubStation", "Iteration"))
+          map_data <- add_species_presence(res_filter$filtered(), detections())
 
           if(input$removeNA) {
             map_data <- map_data[!is.na(map_data[["Presence"]]),]
@@ -134,7 +137,6 @@ projectMapServer <- function(id, project_locations, con) {
         # initialise). An empty sf has no point geometry, so addCircleMarkers()
         # would error and end the session; clear the map instead
         if (nrow(map_data) == 0) {
-          shinycssloaders::hidePageSpinner()
           leaflet::leafletProxy("map") %>%
             leaflet::clearMarkers() %>%
             leaflet::removeControl("legend")
@@ -171,8 +173,6 @@ projectMapServer <- function(id, project_locations, con) {
         }
 
         labels <- lapply(labels, shiny::HTML)
-
-        shinycssloaders::hidePageSpinner()
 
         map_proxy <- leaflet::leafletProxy("map") %>%
           leaflet::clearMarkers() %>%
@@ -255,4 +255,57 @@ project_legend_html <- function(pal, projects) {
   paste0(arrow_css, '<details class="project-legend"><summary>Projects (', length(values), ')</summary>',
          '<div style="max-height: 40vh; overflow-y: auto; margin-top: 4px; padding-right: 6px;">',
          paste(items, collapse = ""), '</div></details>')
+}
+
+#' Cameras that detected any of the selected species
+#'
+#' @description A light query for the project map: only the distinct
+#' camera/species detections for the selected species, rather than building the
+#' full presence-absence table on the database
+#'
+#' @param con database connection
+#' @param species common names
+#' @param schema schema to query
+#'
+#' @noRd
+#'
+#' @return data.frame of ProjectShortName, SiteID, SubStation, Iteration, common_name
+species_detections <- function(con, species, schema = "camtrap") {
+  dplyr::tbl(con, dbplyr::in_schema(schema, "curated_camtrap_records")) %>%
+    dplyr::filter(.data$common_name %in% !!species) %>%
+    dplyr::select(dplyr::all_of(c("ProjectShortName", "SiteID", "SubStation", "Iteration", "common_name"))) %>%
+    dplyr::distinct() %>%
+    dplyr::collect()
+}
+
+#' Presence of any selected species at each camera
+#'
+#' @description Presence is 1 if any selected species was detected at the camera,
+#' 0 if not detected but detected elsewhere in the same project, and NA if none
+#' of the selected species were recorded in that project (as in
+#' processed_SubStation_presence_absence())
+#'
+#' @param locations camera locations (one row per camera)
+#' @param detections output of species_detections()
+#'
+#' @noRd
+#'
+#' @return locations with Presence and species_detected columns
+add_species_presence <- function(locations, detections) {
+  keys <- c("ProjectShortName", "SiteID", "SubStation", "Iteration")
+  detections$Iteration <- as.integer(detections$Iteration)
+  locations$Iteration <- as.integer(locations$Iteration)
+
+  detected <- detections %>%
+    dplyr::group_by(dplyr::across(dplyr::all_of(keys))) %>%
+    dplyr::summarise(species_detected = paste(sort(unique(.data$common_name)), collapse = ", "),
+                     .groups = "drop") %>%
+    dplyr::mutate(Presence = 1)
+
+  locations %>%
+    dplyr::left_join(detected, by = keys) %>%
+    dplyr::mutate(Presence = dplyr::case_when(
+      !is.na(.data$Presence) ~ 1,
+      .data$ProjectShortName %in% detections$ProjectShortName ~ 0,
+      TRUE ~ NA_real_))
 }
