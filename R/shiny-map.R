@@ -93,7 +93,7 @@ projectMapServer <- function(id, project_locations, con) {
         vars = shiny::reactive(c("ProjectName", "BaitedUnbaited",
                                  "BaitType", "DistanceSampling",
                           "AllSpeciesTagged", "DistanceForAllSpecies",
-                          "ProjectStart", "ProjectEnd")),
+                          "DateDeploy", "DateRetrieve")),
         name = shiny::reactive("data"),
         defaults = shiny::reactive(NULL),
         drop_ids = FALSE,
@@ -128,6 +128,17 @@ projectMapServer <- function(id, project_locations, con) {
 
         } else {
           map_data <- res_filter$filtered()
+        }
+
+        # Filters can return no rows (including briefly while the filter widgets
+        # initialise). An empty sf has no point geometry, so addCircleMarkers()
+        # would error and end the session; clear the map instead
+        if (nrow(map_data) == 0) {
+          shinycssloaders::hidePageSpinner()
+          leaflet::leafletProxy("map") %>%
+            leaflet::clearMarkers() %>%
+            leaflet::removeControl("legend")
+          return()
         }
 
         if (colourBy == "ProjectName") {
