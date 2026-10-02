@@ -174,7 +174,7 @@ projectMapServer <- function(id, project_locations, con) {
 
         shinycssloaders::hidePageSpinner()
 
-        leaflet::leafletProxy("map") %>%
+        map_proxy <- leaflet::leafletProxy("map") %>%
           leaflet::clearMarkers() %>%
           leaflet::removeControl("legend") %>%
           leaflet::clearShapes() %>%
@@ -189,8 +189,16 @@ projectMapServer <- function(id, project_locations, con) {
                                     style = list("font-weight" = "normal",
                                                  padding = "3px 8px"),
                                     textsize = "10px",
-                                    direction = "auto")) %>%
-          leaflet::addLegend("bottomright", pal=pal, values=map_data[[col_col]], title=col_col, layerId = "legend")
+                                    direction = "auto"))
+
+        if (col_col == "ProjectName") {
+          # One entry per project gets long, so use a collapsed, scrollable legend
+          leaflet::addControl(map_proxy, html = project_legend_html(pal, map_data[["ProjectName"]]),
+                              position = "bottomright", layerId = "legend", className = "info legend")
+        } else {
+          leaflet::addLegend(map_proxy, "bottomright", pal = pal, values = map_data[[col_col]],
+                             title = col_col, layerId = "legend")
+        }
 
         # Download data
         output$downloadData <- shiny::downloadHandler(
@@ -220,4 +228,31 @@ projectMapServer <- function(id, project_locations, con) {
       })}
 
   )
+}
+
+#' Collapsible legend of project colours for the project map
+#'
+#' @param pal leaflet colour palette function
+#' @param projects project names (factor or character) shown on the map
+#'
+#' @noRd
+#'
+#' @return HTML string
+project_legend_html <- function(pal, projects) {
+  values <- if (is.factor(projects)) levels(droplevels(projects)) else sort(unique(projects))
+  escape <- function(x) {
+    x <- gsub("&", "&amp;", x, fixed = TRUE)
+    x <- gsub("<", "&lt;", x, fixed = TRUE)
+    gsub(">", "&gt;", x, fixed = TRUE)
+  }
+  items <- paste0('<div style="white-space: nowrap;"><i style="background:', pal(values),
+                  '; opacity: 0.8;"></i>', escape(values), '</div>')
+  # Leaflet's control styles hide the native disclosure marker, so add an arrow
+  arrow_css <- paste0('<style>.project-legend summary { list-style: none; cursor: pointer; font-weight: bold; }',
+                      '.project-legend summary::-webkit-details-marker { display: none; }',
+                      '.project-legend summary::before { content: "\\25B8  "; }',
+                      '.project-legend[open] summary::before { content: "\\25BE  "; }</style>')
+  paste0(arrow_css, '<details class="project-legend"><summary>Projects (', length(values), ')</summary>',
+         '<div style="max-height: 40vh; overflow-y: auto; margin-top: 4px; padding-right: 6px;">',
+         paste(items, collapse = ""), '</div></details>')
 }
