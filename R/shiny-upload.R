@@ -524,9 +524,14 @@ dataUploadServer <- function(id, con) {
         species_choices <- unique(st_data()$result$common_name)
         species_choices <- sort(species_choices[!is.na(species_choices)])
 
-        shiny::selectInput(ns("species"), "Select species to view on map:",
-                           choices = species_choices,
-                           selected = species_choices[1])
+        shiny::tagList(
+          # Leaflet's zoom control also uses z-index 1000 and sits later in the
+          # page, so it would draw over the open dropdown
+          shiny::tags$style(shiny::HTML(paste0("#", ns("species_selector"), " .selectize-dropdown { z-index: 1100; }"))),
+          shiny::selectInput(ns("species"), "Select species to view on map:",
+                             choices = species_choices,
+                             selected = species_choices[1])
+        )
       })
 
       observeEvent(input$viewsites, {
