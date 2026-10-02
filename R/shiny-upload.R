@@ -252,6 +252,7 @@ dataUploadpUI <- function(id,
                                            All data checks need to pass for uploads to succeed."),
                                                                                    shiny::tags$ul(
                                                                                      shiny::tags$li(shiny::HTML(paste0(shiny::strong("Blank vs NA: "), "missing values can be left blank or written as NA in any table; both are treated the same. A 'col_vals_not_null' failure means that column must be filled in."))),
+                                                                                     shiny::tags$li("A summary shows how many checks passed for each table. Only the checks that failed or need checking are shown in the reports below; tick 'Show all checks' to see every check."),
                                                                                      shiny::tags$li("If there is a column problem, the message above the reports says which table (and upload step) it is in and whether to add, remove or rename the column."),
                                                                                      shiny::tags$li("The 'STEP' column outlines the type of check performed. Hover over it for more detail"),
                                                                                      shiny::tags$li("The 'COLUMNS' column outlines the columns the check was performed on. Some columns are newly created ones in order to investigate the effect of a derived/generated data value"),
@@ -300,6 +301,10 @@ dataUploadpUI <- function(id,
                                                                    leaflet::leafletOutput(outputId = ns("sitemap"), height = "75vh")),
                                             shinyBS::bsCollapsePanel(title = "Step 8 Output",
                                                                      shiny::htmlOutput(outputId = ns("dqmessages")),
+                                                                   shiny::uiOutput(outputId = ns("dqsummary")),
+                                                                   shiny::checkboxInput(inputId = ns("dq_show_all"),
+                                                                                        label = "Show all checks (including those that passed)",
+                                                                                        value = FALSE),
                                                                    shinycssloaders::withSpinner(gt::gt_output(outputId = ns("dq1"))),
                                                                    gt::gt_output(outputId = ns("dq2")),
                                                                    gt::gt_output(outputId = ns("dq3"))),
@@ -603,23 +608,58 @@ dataUploadServer <- function(id, con) {
         return(paste(cli::ansi_html(dqmess[["messages"]]), collapse = "<br>"))
       })
 
-        output$dq1 <- gt::render_gt({
+        dq_titles <- c("Camera Trap Records", "Camera Operation Records", "Project Information")
+
+        # Pass/fail counts per table, shown above the reports
+        output$dqsummary <- shiny::renderUI({
           shiny::req(dqlist()$result)
-          dqlist()$result[[1]] %>%
-            pointblank::get_agent_report(title = "Data Quality Assessment on Camera Trap Records")
+          counts <- lapply(dqlist()$result, dq_counts)
+          all_ok <- all(vapply(counts, function(x) x$stop == 0 && x$error == 0, logical(1)))
+
+          rows <- lapply(seq_along(counts), function(i) {
+            x <- counts[[i]]
+            status <- if (x$stop + x$error > 0) {
+              shiny::span(style = "color: #CF142B; font-weight: bold;", paste0("\u2717 ", x$stop + x$error, " to fix"))
+            } else if (x$warn > 0) {
+              shiny::span(style = "color: #B8860B; font-weight: bold;", paste0("! ", x$warn, " to check"))
+            } else {
+              shiny::span(style = "color: #2E7D32; font-weight: bold;", "\u2713 all passed")
+            }
+            shiny::tags$li(shiny::strong(dq_titles[i]), ": ", x$passed, " of ", x$total, " checks passed - ", status,
+                           if (x$warn > 0 && x$stop + x$error > 0) paste0(" (and ", x$warn, " warning(s) to check)"))
+          })
+
+          shiny::div(
+            class = if (all_ok) "alert alert-success" else "alert alert-danger",
+            style = "margin-top: 8px;",
+            shiny::strong(if (all_ok) {
+              "All data quality checks that block upload have passed. You can continue to Step 9."
+            } else {
+              "Some checks failed. Fix the rows/columns listed below in your original files, re-upload them and re-run Step 8."
+            }),
+            shiny::tags$ul(style = "margin: 6px 0 0 0;", rows),
+            if (!all_ok || any(vapply(counts, function(x) x$warn > 0, logical(1)))) {
+              shiny::tags$small("Hover over a STEP for what was checked and how to fix it. Use the CSV button in the EXT column to download the failing rows.")
+            }
+          )
         })
 
-        output$dq2 <- gt::render_gt({
-          shiny::req(dqlist()$result)
-          dqlist()$result[[2]] %>%
-            pointblank::get_agent_report(title = "Data Quality Assessment on Camera Operation Records")
-        })
-
-        output$dq3 <- gt::render_gt({
-          shiny::req(dqlist()$result)
-          dqlist()$result[[3]] %>%
-            pointblank::get_agent_report(title = "Data Quality Assessment on Project Information")
-        })
+        # Only the checks needing attention, unless 'show all' is ticked
+        render_dq_report <- function(i) {
+          gt::render_gt({
+            shiny::req(dqlist()$result)
+            agent <- dqlist()$result[[i]]
+            show_all <- isTRUE(input$dq_show_all)
+            shiny::req(show_all || dq_counts(agent)$passed < dq_counts(agent)$total)
+            pointblank::get_agent_report(
+              agent,
+              keep = if (show_all) "all" else "fail_states",
+              title = paste0("Data Quality Assessment on ", dq_titles[i], if (!show_all) ": checks needing attention"))
+          })
+        }
+        output$dq1 <- render_dq_report(1)
+        output$dq2 <- render_dq_report(2)
+        output$dq3 <- render_dq_report(3)
 
         output$downloadDQ1 <- downloadHandler(
           filename = function() paste0("records_dq_", Sys.Date(), ".csv"),
@@ -784,4 +824,23 @@ dataUploadServer <- function(id, con) {
         }
 
 })
+}
+
+#' Count data quality outcomes for a pointblank agent
+#'
+#' @param agent interrogated pointblank agent
+#'
+#' @noRd
+#'
+#' @return list of total, passed, stop, warn and error counts
+dq_counts <- function(agent) {
+  v <- agent$validation_set
+  stop <- v$stop %in% TRUE
+  error <- v$eval_error %in% TRUE
+  warn <- v$warn %in% TRUE & !stop & !error
+  list(total = nrow(v),
+       passed = sum(v$all_passed %in% TRUE),
+       stop = sum(stop),
+       warn = sum(warn),
+       error = sum(error & !stop))
 }
