@@ -6,7 +6,7 @@
 #' @param label module label
 #' @param custom_css_path custom css path for map
 #' @param custom_js_path custom javascript path for module
-#' @param colour_vars variables to colour by
+#' @param colour_vars variables to colour by ("ProjectName" and species common names)
 #'
 #' @return shiny module
 #' @export
@@ -37,17 +37,23 @@ projectMapUI <- function(id,
                              shiny::h2("Project explorer"),
 
                              datamods::filter_data_ui(id = ns("project"), show_nrow = TRUE, max_height = NULL),
-                             shinyWidgets::pickerInput(ns("colour"), "Marker Colour",
-                                                       choices = colour_vars,
-                                                       selected = colour_vars[1],
-                                                       multiple = FALSE,
+                             shinyWidgets::radioGroupButtons(ns("colour_by"), "Marker Colour",
+                                                             choices = c("Project", "Species presence"),
+                                                             selected = "Project",
+                                                             size = "sm"),
+                             shiny::conditionalPanel("input.colour_by == 'Species presence'", ns = ns,
+                                              # Several species can be selected (e.g. name variants);
+                                              # a camera is 'present' if any of them were detected
+                                              shinyWidgets::pickerInput(ns("species"), "Species (present if any detected)",
+                                                       choices = setdiff(colour_vars, "ProjectName"),
+                                                       multiple = TRUE,
                                                        options = shinyWidgets::pickerOptions(
                                                          liveSearch = TRUE,
                                                          liveSearchNormalize = TRUE,
-                                                         size = 10
+                                                         size = 10,
+                                                         noneSelectedText = "Select one or more species",
+                                                         selectedTextFormat = "count > 2"
                                                        )),
-                             shiny::conditionalPanel("input.colour != 'ProjectName'", ns = ns,
-                                              # Only prompt species
                                               shinyWidgets::awesomeCheckbox(
                                                 inputId = ns("removeNA"),
                                                 label = "Remove NA's",
@@ -113,16 +119,27 @@ projectMapServer <- function(id, project_locations, con) {
       # Detections for the selected species, queried only when the selection
       # changes (not on every filter change); presence is then worked out in
       # memory against the camera locations
+      # Debounced so ticking several species in a row runs one query
+      selected_species <- shiny::reactive({
+        if (identical(input$colour_by, "Species presence")) as.character(input$species) else character(0)
+      }) %>%
+        shiny::debounce(800)
+
       detections <- shiny::reactive({
+        shiny::req(length(selected_species()) > 0)
         shinycssloaders::showPageSpinner(background = "#FFFFFFD0", type = 6, caption = "Querying Database")
         on.exit(shinycssloaders::hidePageSpinner())
-        species_detections(con, input$colour)
+        species_detections(con, selected_species())
       }) %>%
-        shiny::bindEvent(input$colour)
+        # Re-selecting species already fetched is instant. Like the camera
+        # locations, cached results are refreshed when the app restarts
+        shiny::bindCache(sort(selected_species())) %>%
+        shiny::bindEvent(selected_species())
 
       shiny::observe({
-        colourBy <- input$colour
-        if(colourBy %in% weda::vba_name_conversions[["common_name"]]) {
+        species <- selected_species()
+        colourBy <- if (length(species) > 0) "Presence" else "ProjectName"
+        if(colourBy == "Presence") {
           map_data <- add_species_presence(res_filter$filtered(), detections())
 
           if(input$removeNA) {
@@ -152,6 +169,7 @@ projectMapServer <- function(id, project_locations, con) {
                                       map_data[["Presence"]],
                                       na.color = "#e0e0e0")
           col_col <- "Presence"
+          legend_title <- paste("Presence:", paste(species, collapse = " or "))
         }
 
         labels <- list()
@@ -163,12 +181,19 @@ projectMapServer <- function(id, project_locations, con) {
           ss <- ""
         }
 
+        if (!is.null(map_data[["species_detected"]]) && !is.na(map_data[["species_detected"]][i])) {
+          detected <- paste0("<br/><strong>Detected</strong>: ", map_data[["species_detected"]][i])
+        } else {
+          detected <- ""
+        }
+
         labels[i] <- paste0("<strong>Project</strong>: "
                         , map_data[["ProjectName"]][i]
                         , "<br/>"
                         , "<strong>SiteID</strong>: "
                         , map_data[["SiteID"]][i]
                         , ss
+                        , detected
         )
         }
 
@@ -197,7 +222,7 @@ projectMapServer <- function(id, project_locations, con) {
                               position = "bottomright", layerId = "legend", className = "info legend")
         } else {
           leaflet::addLegend(map_proxy, "bottomright", pal = pal, values = map_data[[col_col]],
-                             title = col_col, layerId = "legend")
+                             title = legend_title, layerId = "legend")
         }
 
         # Download data
