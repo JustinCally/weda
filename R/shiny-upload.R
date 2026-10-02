@@ -217,7 +217,7 @@ dataUploadpUI <- function(id,
                       shiny::div(shiny::tags$h4("Step 5", style="display:inline-block"),
                                  helpPopup(title = "Step 5 Guide", content = "This step standardises species names (scientific to common or vice versa).
                                            Choose the format that you tagged the species names in (scientific or common) and the name of the column with
-                                           species name (default is 'Species'). If some conversions are not possible they will also be tagged in Step 8.
+                                           species name (default is 'Species'). If some conversions are not possible they will also be flagged as an error in Step 8.
                                            The database only accepts species listed in the VBA.")),
                       shiny::htmlOutput(outputId = ns("step5")),
                       shinyWidgets::radioGroupButtons(
