@@ -24,7 +24,7 @@ projectMapServer(id, project_locations, con)
 
 \item{custom_js_path}{custom javascript path for module}
 
-\item{colour_vars}{variables to colour by}
+\item{colour_vars}{variables to colour by ("ProjectName" and species common names)}
 
 \item{project_locations}{data.frame of survey locations}
 

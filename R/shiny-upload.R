@@ -86,6 +86,10 @@ capture_cli_messages <- function(fun) {
 
     output <- list(result = NULL, messages = NULL)
 
+    # Don't hard-wrap at console width; the browser wraps the HTML itself
+    old_opts <- options(cli.width = 1000)
+    on.exit(options(old_opts), add = TRUE)
+
     output$messages <- cli::cli_fmt({
       output$result <- fun(...)
     })
@@ -164,8 +168,17 @@ dataUploadpUI <- function(id,
                                           label = "Generate camtrapR code",
                                           icon = shiny::icon("code"), width = "100%"),
                       shiny::div(shiny::tags$h4("Step 2", style="display:inline-block"),
-                                 helpPopup(title = "Step 2 Guide", content = "Upload the camera trap records generated in step 1.
-                                           Make sure the data has all the columns in the example data template (download above)")),
+                                 helpPopup(title = "Step 2 Guide", content = shiny::div(
+                                   "Upload the camera trap records generated in Step 1. Make sure the data has all the columns in the example data template (download above).
+                                   Before uploading, check:",
+                                   shiny::tags$ul(
+                                     shiny::tags$li("Records that are not VBA taxa are removed, e.g. empty/NIL images, people, vehicles and placeholder tags (such as 'AAA' or 'ZZZ'). The Step 1 code shows how to filter these."),
+                                     shiny::tags$li("Tagging NIL (empty) images is optional: they are filtered out before upload, and survey effort comes from the camera operation file (Step 3), not from NIL records. It can still be useful to confirm every image was reviewed."),
+                                     shiny::tags$li("'SiteID', 'SubStation' and 'Iteration' values match exactly (including case and spaces) between the records and the camera operation file."),
+                                     shiny::tags$li("The camtrapR 'Camera' column is renamed to 'SubStation', and an 'Iteration' column is added (whole number, e.g. 1)."),
+                                     shiny::tags$li("'metadata_Multiples' contains whole numbers only (e.g. 3, not '3+'). Blank is fine if not recorded."),
+                                     shiny::tags$li("Missing values can be left blank or written as NA; both are treated the same.")
+                                   )))),
                       shiny::htmlOutput(outputId = ns("step2")),
                       shiny::actionButton(inputId = ns("RecordButton"),
                                    label = "Import Camera Records",
@@ -182,8 +195,14 @@ dataUploadpUI <- function(id,
                       ),
                       proofsafeDownloadUI(ns("proofsafe")),
                       shiny::div(shiny::tags$h4("Step 3", style="display:inline-block"),
-                                 helpPopup(title = "Step 3 Guide", content = "Upload the camera trap operation data (generated from proofsafe or manually from field data).
-                                           Make sure the data has all the columns in the example data template (download above)")),
+                                 helpPopup(title = "Step 3 Guide", content = shiny::div(
+                                   "Upload the camera trap operation data (generated from proofsafe or manually from field data).
+                                   Make sure the data has all the columns in the example data template (download above).",
+                                   shiny::tags$ul(
+                                     shiny::tags$li("Missing values can be left blank or written as NA; both are treated the same. Keep every column, even if it is empty."),
+                                     shiny::tags$li("These columns may be left blank: SubStation, TimeRetrieve, Problem1_from, Problem1_to, CameraBearing, CameraSlope, CameraQuietPeriod, BaitDistance. All other columns must be filled in."),
+                                     shiny::tags$li("If TimeRetrieve (and DateTimeRetrieve) are blank, the retrieval is assumed to be at the end of DateRetrieve (23:59:59).")
+                                   )))),
                       shiny::htmlOutput(outputId = ns("step3")),
                       shiny::actionButton(inputId = ns("OperationButton"),
                                    label = "Import Camera Operation",
@@ -198,7 +217,7 @@ dataUploadpUI <- function(id,
                       shiny::div(shiny::tags$h4("Step 5", style="display:inline-block"),
                                  helpPopup(title = "Step 5 Guide", content = "This step standardises species names (scientific to common or vice versa).
                                            Choose the format that you tagged the species names in (scientific or common) and the name of the column with
-                                           species name (default is 'Species'). If some conversions are not possible they will also be tagged in Step 8.
+                                           species name (default is 'Species'). If some conversions are not possible they will also be flagged as an error in Step 8.
                                            The database only accepts species listed in the VBA.")),
                       shiny::htmlOutput(outputId = ns("step5")),
                       shinyWidgets::radioGroupButtons(
@@ -232,6 +251,9 @@ dataUploadpUI <- function(id,
                                            It conducts 100 data checks to make sure there are no issues in the quality of your data.
                                            All data checks need to pass for uploads to succeed."),
                                                                                    shiny::tags$ul(
+                                                                                     shiny::tags$li(shiny::HTML(paste0(shiny::strong("Blank vs NA: "), "missing values can be left blank or written as NA in any table; both are treated the same. A 'col_vals_not_null' failure means that column must be filled in."))),
+                                                                                     shiny::tags$li("A summary shows how many checks passed for each table. Only the checks that failed or need checking are shown in the reports below; tick 'Show all checks' to see every check."),
+                                                                                     shiny::tags$li("If there is a column problem, the message above the reports says which table (and upload step) it is in and whether to add, remove or rename the column."),
                                                                                      shiny::tags$li("The 'STEP' column outlines the type of check performed. Hover over it for more detail"),
                                                                                      shiny::tags$li("The 'COLUMNS' column outlines the columns the check was performed on. Some columns are newly created ones in order to investigate the effect of a derived/generated data value"),
                                                                                      shiny::tags$li("The 'TBL' column shows whether some data modification took place in order to generate a derived variable"),
@@ -257,6 +279,12 @@ dataUploadpUI <- function(id,
                                            You must enter your name and confirm the upload. If data is successfully uploaded you will receive a message in the main panel.
                                            Note this step may take some time if data is large. Please be patient.")),
                       shiny::htmlOutput(outputId = ns("step9")),
+                      shiny::radioButtons(inputId = ns("target_schema"),
+                                          label = "Upload to",
+                                          choices = c("Production (camtrap)" = "camtrap",
+                                                      "Development (camtrap_dev)" = "camtrap_dev"),
+                                          selected = "camtrap"),
+                      shiny::uiOutput(outputId = ns("devbanner")),
                       shiny::actionButton(inputId = ns("uploaddata"),
                                    label = "Upload to Database",
                                    icon = shiny::icon("database"), width = "100%"),
@@ -270,10 +298,14 @@ dataUploadpUI <- function(id,
                                                                      shiny::htmlOutput(outputId = ns("convertmessage"))),
                                             shinyBS::bsCollapsePanel(title = "Step 7 Output",
                                                                        shiny::uiOutput(ns("species_selector")),  # dynamic UI
-                                                                   leaflet::leafletOutput(outputId = ns("sitemap"))),
+                                                                   leaflet::leafletOutput(outputId = ns("sitemap"), height = "75vh")),
                                             shinyBS::bsCollapsePanel(title = "Step 8 Output",
                                                                      shiny::htmlOutput(outputId = ns("dqmessages")),
-                                                                   gt::gt_output(outputId = ns("dq1")),
+                                                                   shiny::uiOutput(outputId = ns("dqsummary")),
+                                                                   shiny::checkboxInput(inputId = ns("dq_show_all"),
+                                                                                        label = "Show all checks (including those that passed)",
+                                                                                        value = FALSE),
+                                                                   shinycssloaders::withSpinner(gt::gt_output(outputId = ns("dq1"))),
                                                                    gt::gt_output(outputId = ns("dq2")),
                                                                    gt::gt_output(outputId = ns("dq3"))),
                                           shinyBS::bsCollapsePanel(title = "Step 9 Output",
@@ -330,6 +362,14 @@ dataUploadServer <- function(id, con) {
                                metadataSpeciesTag = "Species",
                                removeDuplicateRecords = FALSE,
                                returnFileNamesMissingTags = TRUE)
+  # Format the records for upload: rename the camera column, add the iteration and
+  # remove records that are not VBA taxa (e.g. NIL/empty images, people, placeholder tags)
+  # Check the remaining Species values match the species name format chosen in Step 5
+                    raw_camtrap_records <- raw_camtrap_records |>
+                      dplyr::rename(SubStation = Camera) |>
+                      dplyr::mutate(SubStation = dplyr::if_else(SubStation == SiteID, NA_character_, SubStation),
+                                    Iteration = 1L) |>
+                      dplyr::filter(!is.na(Species), !Species %in% c("NIL", "AAA", "ZZZ", "Person", "Vehicle"))
   # Save as an rds object (good for R usage)
                     saveRDS(raw_camtrap_records, "raw_camtrap_records.rds")
   # Save as csv (good for viewing in excel)
@@ -489,9 +529,14 @@ dataUploadServer <- function(id, con) {
         species_choices <- unique(st_data()$result$common_name)
         species_choices <- sort(species_choices[!is.na(species_choices)])
 
-        shiny::selectInput(ns("species"), "Select species to view on map:",
-                           choices = species_choices,
-                           selected = species_choices[1])
+        shiny::tagList(
+          # Leaflet's zoom control also uses z-index 1000 and sits later in the
+          # page, so it would draw over the open dropdown
+          shiny::tags$style(shiny::HTML(paste0("#", ns("species_selector"), " .selectize-dropdown { z-index: 1100; }"))),
+          shiny::selectInput(ns("species"), "Select species to view on map:",
+                             choices = species_choices,
+                             selected = species_choices[1])
+        )
       })
 
       observeEvent(input$viewsites, {
@@ -514,21 +559,46 @@ dataUploadServer <- function(id, con) {
 
       #### Step 8 ####
 
+      # Run eagerly (observeEvent rather than a lazy eventReactive) so the checks
+      # run on click, not only when an output or download first reads the result
+      dqlist <- shiny::reactiveVal(NULL)
+
       shiny::observeEvent(input$dataquality, {
         shinyBS::updateCollapse(session = session, id = "collapsepanel",
                                 open = "Step 8 Output", close = "Step 7 Output")
-      })
 
-      dqlist <- shiny::eventReactive(input$dataquality, {
+        missing_steps <- c("Step 4 (project information)" = is.null(projs$data()),
+                           "Step 5 (standardise species names)" = is.null(tryCatch(st_data(), error = function(e) NULL)),
+                           "Step 6 (standardise site coords)" = is.null(tryCatch(opers2(), error = function(e) NULL)))
+        if (any(missing_steps)) {
+          shiny::showNotification(paste("Please complete", paste(names(missing_steps)[missing_steps], collapse = ", "),
+                                        "before running the data quality checks."),
+                                  type = "error", duration = 10)
+          return()
+        }
 
-        output$step8 <- shiny::renderText({
-          "&#10003; Step 8 Complete"
+        dqlist(NULL)
+
+        result <- shiny::withProgress(message = "Running data quality checks",
+                                      detail = "This may take a minute for large datasets", value = 0.3, {
+          tryCatch(
+            camera_trap_dq2(camtrap_records = st_data()$result,
+                            camtrap_operation = opers2()$result,
+                            project_information = projs$data(),
+                            con = con,
+                            schema = input$target_schema,
+                            # pointblank's per-step log would fill the Step 8 messages
+                            progress = FALSE),
+            error = function(e) {
+              shiny::showNotification(paste("Data quality checks failed:", conditionMessage(e)),
+                                      type = "error", duration = NULL)
+              NULL
+            })
         })
 
-        shiny::withProgress(message = 'Running Data Quality', value = 0.5, {
-        camera_trap_dq2(camtrap_records = st_data()$result,
-                             camtrap_operation = opers2()$result,
-                             project_information = projs$data())
+        dqlist(result)
+        output$step8 <- shiny::renderText({
+          if (is.null(result$result)) "&#10007; Step 8 needs attention (see Step 8 Output)" else "&#10003; Step 8 Complete"
         })
       })
 
@@ -537,31 +607,66 @@ dataUploadServer <- function(id, con) {
 
         dqmess <- dqlist()
 
-        return(cli::ansi_html(dqmess[["messages"]]))
+        return(paste(cli::ansi_html(dqmess[["messages"]]), collapse = "<br>"))
       })
 
-        output$dq1 <- gt::render_gt({
+        dq_titles <- c("Camera Trap Records", "Camera Operation Records", "Project Information")
+
+        # Pass/fail counts per table, shown above the reports
+        output$dqsummary <- shiny::renderUI({
           shiny::req(dqlist()$result)
-          dqlist()$result[[1]] %>%
-            pointblank::get_agent_report(title = "Data Quality Assessment on Camera Trap Records")
+          counts <- lapply(dqlist()$result, dq_counts)
+          all_ok <- all(vapply(counts, function(x) x$stop == 0 && x$error == 0, logical(1)))
+
+          rows <- lapply(seq_along(counts), function(i) {
+            x <- counts[[i]]
+            status <- if (x$stop + x$error > 0) {
+              shiny::span(style = "color: #CF142B; font-weight: bold;", paste0("\u2717 ", x$stop + x$error, " to fix"))
+            } else if (x$warn > 0) {
+              shiny::span(style = "color: #B8860B; font-weight: bold;", paste0("! ", x$warn, " to check"))
+            } else {
+              shiny::span(style = "color: #2E7D32; font-weight: bold;", "\u2713 all passed")
+            }
+            shiny::tags$li(shiny::strong(dq_titles[i]), ": ", x$passed, " of ", x$total, " checks passed - ", status,
+                           if (x$warn > 0 && x$stop + x$error > 0) paste0(" (and ", x$warn, " warning(s) to check)"))
+          })
+
+          shiny::div(
+            class = if (all_ok) "alert alert-success" else "alert alert-danger",
+            style = "margin-top: 8px;",
+            shiny::strong(if (all_ok) {
+              "All data quality checks that block upload have passed. You can continue to Step 9."
+            } else {
+              "Some checks failed. Fix the rows/columns listed below in your original files, re-upload them and re-run Step 8."
+            }),
+            shiny::tags$ul(style = "margin: 6px 0 0 0;", rows),
+            if (!all_ok || any(vapply(counts, function(x) x$warn > 0, logical(1)))) {
+              shiny::tags$small("Hover over a STEP for what was checked and how to fix it. Use the CSV button in the EXT column to download the failing rows.")
+            }
+          )
         })
 
-        output$dq2 <- gt::render_gt({
-          shiny::req(dqlist()$result)
-          dqlist()$result[[2]] %>%
-            pointblank::get_agent_report(title = "Data Quality Assessment on Camera Operation Records")
-        })
-
-        output$dq3 <- gt::render_gt({
-          shiny::req(dqlist()$result)
-          dqlist()$result[[3]] %>%
-            pointblank::get_agent_report(title = "Data Quality Assessment on Project Information")
-        })
+        # Only the checks needing attention, unless 'show all' is ticked
+        render_dq_report <- function(i) {
+          gt::render_gt({
+            shiny::req(dqlist()$result)
+            agent <- dqlist()$result[[i]]
+            show_all <- isTRUE(input$dq_show_all)
+            shiny::req(show_all || dq_counts(agent)$passed < dq_counts(agent)$total)
+            pointblank::get_agent_report(
+              agent,
+              keep = if (show_all) "all" else "fail_states",
+              title = paste0("Data Quality Assessment on ", dq_titles[i], if (!show_all) ": checks needing attention"))
+          })
+        }
+        output$dq1 <- render_dq_report(1)
+        output$dq2 <- render_dq_report(2)
+        output$dq3 <- render_dq_report(3)
 
         output$downloadDQ1 <- downloadHandler(
           filename = function() paste0("records_dq_", Sys.Date(), ".csv"),
           content = function(file) {
-            req(dqlist())
+            req(dqlist()$result)
             readr::write_csv(dqlist()$result[[1]]$tbl, file)
           }
         )
@@ -569,7 +674,7 @@ dataUploadServer <- function(id, con) {
         output$downloadDQ2 <- downloadHandler(
           filename = function() paste0("operation_dq_", Sys.Date(), ".csv"),
           content = function(file) {
-            req(dqlist())
+            req(dqlist()$result)
             readr::write_csv(dqlist()$result[[2]]$tbl, file)
           }
         )
@@ -577,23 +682,49 @@ dataUploadServer <- function(id, con) {
         output$downloadDQ3 <- downloadHandler(
           filename = function() paste0("project_dq_", Sys.Date(), ".csv"),
           content = function(file) {
-            req(dqlist())
+            req(dqlist()$result)
             readr::write_csv(dqlist()$result[[3]]$tbl, file)
           }
         )
 
         #### Step 9 ####
 
+        # Tables already written to the database this session, so a retry after a
+        # failure (e.g. server offline) only uploads the remaining tables
+        uploaded_tables <- shiny::reactiveVal(character(0))
+
+        shiny::observeEvent(dqlist(), uploaded_tables(character(0)), ignoreNULL = FALSE)
+        # A partial upload to one schema says nothing about the other
+        shiny::observeEvent(input$target_schema, uploaded_tables(character(0)), ignoreInit = TRUE)
+
+        output$devbanner <- shiny::renderUI({
+          if (identical(input$target_schema, "camtrap_dev")) {
+            shiny::div(class = "alert alert-warning", style = "padding: 6px 10px; margin-bottom: 8px;",
+                       shiny::icon("triangle-exclamation"),
+                       "Development mode: data will be uploaded to the camtrap_dev schema, not production.")
+          }
+        })
+
         observeEvent(input$uploaddata, {
-          shiny::req(dqlist()$result)
+          if (is.null(dqlist()$result)) {
+            shiny::showNotification("Run the Step 8 data quality checks before uploading.",
+                                    type = "error", duration = 8)
+            return()
+          }
           shinyBS::updateCollapse(session = session, id = "collapsepanel",
                                   open = "Step 9 Output", close = "Step 8 Output")
 
+          # Fix the target at confirmation time so changing the toggle while the
+          # dialog is open can't redirect the upload
+          target_schema <- input$target_schema
+          target_label <- if (target_schema == "camtrap") "PRODUCTION (camtrap)" else paste0("DEVELOPMENT (", target_schema, ")")
+
+          # callbackR (rather than observing input$name) fires on every confirm,
+          # so retrying with the same name works and nothing re-triggers an upload
           shinyalert::shinyalert(
-            title = "Are you sure you want to upload?",
+            title = paste("Upload to", target_label, "database?"),
             inputType = "text",
             type = "input",
-            inputId = "name",
             text = "Type your full name to upload data",
             inputPlaceholder = "Firstname Surname",
             size = "m",
@@ -607,47 +738,73 @@ dataUploadServer <- function(id, con) {
             cancelButtonText = "Cancel",
             timer = 0,
             imageUrl = "",
-            animation = TRUE
+            animation = TRUE,
+            callbackR = function(uploader) {
+              if (isFALSE(uploader)) return()
+              if (!nzchar(trimws(uploader))) {
+                shiny::showNotification("Please enter your name to upload.", type = "error")
+                return()
+              }
+              run_upload(trimws(uploader), schema = target_schema)
+            }
           )
         })
 
-        shiny::observe({
-          # Only continue if filled out
-          shiny::req(input$name)
+        run_upload <- function(uploader, schema = "camtrap") {
 
-          shiny::withProgress(message = 'Preparing Upload', value = 0.1, {
-          data_for_upload <- weda::prepare_camtrap_upload(agent_list = dqlist()$result)
+          upload_steps <- list(
+            list(table = "raw_camtrap_records", label = "camera records", pa_refresh = FALSE),
+            list(table = "raw_camtrap_operation", label = "camera operation", pa_refresh = TRUE),
+            list(table = "raw_project_information", label = "project information", pa_refresh = TRUE)
+          )
 
-          shiny::incProgress(amount = 0.2, message = "Uploading Records...")
+          connected <- tryCatch(DBI::dbIsValid(con) && nrow(DBI::dbGetQuery(con, "SELECT 1")) == 1,
+                                error = function(e) FALSE)
+          if (!connected) {
+            shinyalert::shinyalert(
+              title = "Cannot reach the database",
+              text = "The database server appears to be offline or unreachable (check the VPN connection). Nothing has been uploaded. Your data is still loaded in the app - do not refresh the page. Try Step 9 again once the connection is restored.",
+              type = "error")
+            return()
+          }
 
-          weda::upload_camtrap_data(con = con,
-                              data_list = data_for_upload,
-                              tables_to_upload = c("raw_camtrap_records"),
-                              uploadername = input$name,
-                              schema = "camtrap",
-                              pa_refresh = FALSE)
+          shiny::withProgress(message = "Preparing upload", value = 0.1, {
+            result <- tryCatch({
+              data_for_upload <- weda::prepare_camtrap_upload(agent_list = dqlist()$result)
 
-          shiny::incProgress(amount = 0.2, message = "Uploading Operation...")
+              for (step in upload_steps) {
+                if (step$table %in% uploaded_tables()) next
+                shiny::incProgress(amount = 0.3, message = paste("Uploading", step$label, "..."))
+                weda::upload_camtrap_data(con = con,
+                                          data_list = data_for_upload,
+                                          tables_to_upload = step$table,
+                                          uploadername = uploader,
+                                          schema = schema,
+                                          pa_refresh = step$pa_refresh)
+                uploaded_tables(c(uploaded_tables(), step$table))
+              }
+              data_for_upload
+            }, error = function(e) {
+              done <- vapply(upload_steps, function(x) x$table %in% uploaded_tables(), logical(1))
+              labels <- vapply(upload_steps, `[[`, character(1), "label")
+              shinyalert::shinyalert(
+                title = "Upload did not finish",
+                text = paste0("Error: ", conditionMessage(e), "\n\n",
+                              if (any(done)) paste0("Already uploaded: ", paste(labels[done], collapse = ", "), ". ") else "Nothing was uploaded. ",
+                              "Not yet uploaded: ", paste(labels[!done], collapse = ", "), ".\n\n",
+                              "Your data is still loaded in the app - do not refresh the page. ",
+                              "Clicking 'Upload to Database' again will only upload the remaining tables."),
+                type = "error")
+              NULL
+            })
+          })
 
-          weda::upload_camtrap_data(con = con,
-                                    data_list = data_for_upload,
-                                    tables_to_upload = c("raw_camtrap_operation"),
-                                    uploadername = input$name,
-                                    schema = "camtrap",
-                                    pa_refresh = TRUE)
-
-          shiny::incProgress(amount = 0.3, message = "Uploading Project Info...")
-
-          weda::upload_camtrap_data(con = con,
-                                    data_list = data_for_upload,
-                                    tables_to_upload = c("raw_project_information"),
-                                    uploadername = input$name,
-                                    schema = "camtrap")
-
-          shiny::incProgress(amount = 0.3, message = "Finalising Upload")
+          if (is.null(result)) return()
+          data_for_upload <- result
 
           output$uploadcompletion <- shiny::renderText({
-            "Upload Complete. Restart app to see project data on map pane"
+            paste0("Upload to ", schema, " complete. Restart app to see project data on map pane",
+                   if (schema != "camtrap") " (the map pane only shows production data)" else "")
           })
 
           output$downloadVBA <- shiny::downloadHandler(
@@ -657,7 +814,7 @@ dataUploadServer <- function(id, con) {
             content = function(dl_con) {
               vba_data <- vba_format(con = con,
                                      return_data = T,
-                                     schema = "camtrap",
+                                     schema = schema,
                                      ProjectShortName = data_for_upload[["project_information"]]$ProjectShortName)
               readr::write_csv(vba_data, dl_con)
             }
@@ -666,10 +823,26 @@ dataUploadServer <- function(id, con) {
           output$step9 <- shiny::renderText({
             "&#10003; Step 9 Complete"
           })
-
-          })
-
-        })
+        }
 
 })
+}
+
+#' Count data quality outcomes for a pointblank agent
+#'
+#' @param agent interrogated pointblank agent
+#'
+#' @noRd
+#'
+#' @return list of total, passed, stop, warn and error counts
+dq_counts <- function(agent) {
+  v <- agent$validation_set
+  stop <- v$stop %in% TRUE
+  error <- v$eval_error %in% TRUE
+  warn <- v$warn %in% TRUE & !stop & !error
+  list(total = nrow(v),
+       passed = sum(v$all_passed %in% TRUE),
+       stop = sum(stop),
+       warn = sum(warn),
+       error = sum(error & !stop))
 }

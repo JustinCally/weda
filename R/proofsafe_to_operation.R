@@ -60,7 +60,11 @@ proofsafe_to_operation <- function(data,
                   SubStation = I2_Substation,
                   DateRetrieve = as.Date(H1_Date, format = "%m/%d/%Y"),
                   TimeRetrieve = I2_Time,
-                  DateTimeRetrieve = as.POSIXct(paste(DateRetrieve, TimeRetrieve)),
+                  # Some proofsafe forms don't record a retrieval time; leave the
+                  # date-time blank (filled to end of day in camera_trap_dq())
+                  # rather than letting as.POSIXct() silently assume midnight
+                  DateTimeRetrieve = as.POSIXct(ifelse(is.na(TimeRetrieve) | as.character(TimeRetrieve) == "", NA,
+                                                       paste(DateRetrieve, TimeRetrieve))),
                   .keep = "none")
 
     joined_ops <- formatted_deps %>%

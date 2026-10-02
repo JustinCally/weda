@@ -4,7 +4,7 @@
 \alias{transect_dq}
 \title{Transect Data Quality Checks}
 \usage{
-transect_dq(records, transects, project_information)
+transect_dq(records, transects, project_information, progress = interactive())
 }
 \arguments{
 \item{records}{this is the dataframe that contains the records of animals on transects}
@@ -12,6 +12,8 @@ transect_dq(records, transects, project_information)
 \item{transects}{this is the dataframe that contains the information about the transect location and time it was surveyed}
 
 \item{project_information}{this is the dataframe that contains the information about the project}
+
+\item{progress}{show pointblank's step-by-step progress log (default: in interactive sessions only)}
 }
 \value{
 list of pointblank objects

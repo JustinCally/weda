@@ -4,7 +4,14 @@
 \alias{camera_trap_dq}
 \title{Camera Trap Data Quality Checks}
 \usage{
-camera_trap_dq(camtrap_records, camtrap_operation, project_information)
+camera_trap_dq(
+  camtrap_records,
+  camtrap_operation,
+  project_information,
+  con = NULL,
+  schema = "camtrap",
+  progress = interactive()
+)
 }
 \arguments{
 \item{camtrap_records}{this is the dataframe that contains the camera trap records (recordTable from camtrapR)}
@@ -12,6 +19,13 @@ camera_trap_dq(camtrap_records, camtrap_operation, project_information)
 \item{camtrap_operation}{this is the dataframe that contains the information about the camera trap operation}
 
 \item{project_information}{this is the dataframe that contains the information about the project}
+
+\item{con}{optional database connection. If supplied, the project short name and
+full name are checked against projects already on the database}
+
+\item{schema}{schema to check existing projects in (camtrap or camtrap_dev)}
+
+\item{progress}{show pointblank's step-by-step progress log (default: in interactive sessions only)}
 }
 \value{
 list of pointblank objects

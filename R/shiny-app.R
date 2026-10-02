@@ -67,7 +67,11 @@ camtrap_app <- function(con) {
   )
 
   # Define server logic to read selected file ----
-  server <- function(input, output) {
+  server <- function(input, output, session) {
+    # Reconnect to the same session after a brief network drop rather than
+    # greying out, so uploaded data and progress aren't lost
+    session$allowReconnect(TRUE)
+
     weda::projectMapServer(id = "map",
                            project_locations = cam_locations,
                            con = con)

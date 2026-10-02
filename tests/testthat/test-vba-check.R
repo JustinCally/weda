@@ -31,3 +31,18 @@ test_that("vba check works", {
   expect_true(c("common_name") %in% colnames(converted_data))
 
 })
+
+test_that("glider tags are remapped to the correct VBA taxa", {
+  common <- suppressWarnings(standardise_species_names(
+    data.frame(Species = c("Greater Glider", "Feathertail Glider", "Sugar Glider")),
+    format = "common", speciesCol = "Species"))
+  ids <- weda::vba_name_conversions$taxon_id[match(common$scientific_name, weda::vba_name_conversions$scientific_name)]
+  # Sugar Glider is a control: names that aren't overridden pass through unchanged
+  expect_equal(common$common_name, c("Southern Greater Glider", "Feather-tailed glider species", "Sugar Glider"))
+  expect_equal(ids[1:2], c(11133, 903793))
+
+  sci <- suppressWarnings(standardise_species_names(
+    data.frame(Species = c("fam. Pseudocheiridae gen. Petauroides", "fam. Acrobatidae gen. Acrobates")),
+    format = "scientific", speciesCol = "Species"))
+  expect_equal(sci$common_name, c("Southern Greater Glider", "Feather-tailed glider species"))
+})
