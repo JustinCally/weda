@@ -284,9 +284,10 @@ project_legend_html <- function(pal, projects) {
 
 #' Cameras that detected any of the selected species
 #'
-#' @description A light query for the project map: only the distinct
-#' camera/species detections for the selected species, rather than building the
-#' full presence-absence table on the database
+#' @description A light query for the project map: only the detections of the
+#' selected species, read from the precomputed presence-absence table. Avoid
+#' curated_camtrap_records here, which is computed over the full (very large)
+#' raw records table on every query
 #'
 #' @param con database connection
 #' @param species common names
@@ -296,8 +297,8 @@ project_legend_html <- function(pal, projects) {
 #'
 #' @return data.frame of ProjectShortName, SiteID, SubStation, Iteration, common_name
 species_detections <- function(con, species, schema = "camtrap") {
-  dplyr::tbl(con, dbplyr::in_schema(schema, "curated_camtrap_records")) %>%
-    dplyr::filter(.data$common_name %in% !!species) %>%
+  dplyr::tbl(con, dbplyr::in_schema(schema, "processed_site_substation_presence_absence")) %>%
+    dplyr::filter(.data$common_name %in% !!species, .data$Presence == 1) %>%
     dplyr::select(dplyr::all_of(c("ProjectShortName", "SiteID", "SubStation", "Iteration", "common_name"))) %>%
     dplyr::distinct() %>%
     dplyr::collect()

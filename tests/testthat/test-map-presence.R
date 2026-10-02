@@ -21,8 +21,20 @@ local_camtrap_db <- function(no_substation = NA, env = parent.frame()) {
     scientific_name = c("Wallabia bicolor", "Vulpes vulpes", "Notamacropus irma", "Wallabia bicolor", "Vulpes vulpes", "Vulpes vulpes"),
     common_name = c("Black Wallaby", "Red Fox", "Black-tailed Wallaby", "Black Wallaby", "Red Fox", "Red Fox")
   )
-  DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "curated_camtrap_operation"), operation)
-  DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "curated_camtrap_records"), records)
+  # The precomputed presence-absence table is defined by this function for all
+  # species. SQLite's paste() returns NULL for a missing SubStation (Postgres'
+  # CONCAT_WS doesn't), so build it with a placeholder SubStation, then restore NA
+  placeholder <- function(x) ifelse(is.na(x), "<none>", x)
+  DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "curated_camtrap_operation"),
+                    dplyr::mutate(operation, SubStation = placeholder(SubStation)))
+  DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "curated_camtrap_records"),
+                    dplyr::mutate(records, SubStation = placeholder(SubStation)))
+  pa <- processed_SubStation_presence_absence(con, return_data = TRUE) %>%
+    dplyr::mutate(SubStation = dplyr::na_if(SubStation, "<none>"))
+  DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "processed_site_substation_presence_absence"), pa)
+
+  DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "curated_camtrap_operation"), operation, overwrite = TRUE)
+  DBI::dbWriteTable(con, DBI::Id(schema = "camtrap", table = "curated_camtrap_records"), records, overwrite = TRUE)
   list(con = con, operation = operation)
 }
 
