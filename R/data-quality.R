@@ -30,6 +30,19 @@
 #
 # }
 
+#' One brief per column for multi-column checks
+#'
+#' pointblank only attaches a single brief to the first column of a
+#' multi-column step, leaving the rest blank
+#'
+#' @param columns columns the step checks
+#' @param text brief text
+#'
+#' @noRd
+col_briefs <- function(columns, text) {
+  paste0("'", columns, "': ", text)
+}
+
 #' Report column schema problems for each uploaded table
 #'
 #' @param tables named list (names are user-facing table labels) of lists with
@@ -252,13 +265,16 @@ pb_rec <- pointblank::create_agent(
     tbl = camtrap_records,
     actions = pointblank::action_levels(stop_at = 1)) %>%
     pointblank::col_exists(columns = req_cols,
-      brief = "Required column is present in the camera records. If missing, add it to the records file (see the column hints above the report).") %>%
+      brief = col_briefs(req_cols,
+        "Required column is present in the camera records. If missing, add it to the records file (see the column hints above the report).")) %>%
     pointblank::rows_distinct(,
       brief = "No two rows in the camera records are identical. Fails if the same image record appears more than once; remove the duplicates.") %>%
     pointblank::col_is_character(c("SiteID", "SubStation", "scientific_name", "common_name", "Time", "Directory", "FileName"),
-      brief = "Column contains text. Fails if values were read as another type (e.g. numbers); check for stray formatting in the records file.") %>%
+      brief = col_briefs(c("SiteID", "SubStation", "scientific_name", "common_name", "Time", "Directory", "FileName"),
+        "Column contains text. Fails if values were read as another type (e.g. numbers); check for stray formatting in the records file.")) %>%
     pointblank::col_is_integer(c("Iteration", "metadata_Multiples"),
-      brief = "Column contains whole numbers. Check for decimals or text such as '3+' in the records file.") %>%
+      brief = col_briefs(c("Iteration", "metadata_Multiples"),
+        "Column contains whole numbers. Check for decimals or text such as '3+' in the records file.")) %>%
     pointblank::col_vals_in_set("SiteID", set = camtrap_operation$SiteID,
       brief = "Every SiteID in the records also appears in the camera operation file. Check spelling, case and spaces match exactly.") %>%
     pointblank::col_vals_in_set("SubStation", set = camtrap_operation$SubStation,
@@ -272,7 +288,8 @@ pb_rec <- pointblank::create_agent(
     pointblank::col_vals_in_set("common_name", set = unique(vba_com$common_name),
       brief = "Common name matches the VBA taxa list. Fix or remove records whose species could not be matched in Step 5.") %>%
     pointblank::col_vals_not_null(c("SiteID", "scientific_name", "common_name", "Date", "Time", "DateTimeOriginal", "Iteration"),
-      brief = "Column has a value in every row. Fill in the missing values in the records file (unmatched species in Step 5 show up here as missing names).") %>%
+      brief = col_briefs(c("SiteID", "scientific_name", "common_name", "Date", "Time", "DateTimeOriginal", "Iteration"),
+        "Column has a value in every row. Fill in the missing values in the records file (unmatched species in Step 5 show up here as missing names).")) %>%
     pointblank::col_vals_equal("metadata_Multiples_whole_number", value = TRUE,
                                preconditions = function(x) dplyr::mutate(x, metadata_Multiples_whole_number = multiples_whole),
                               label = "metadata_Multiples must be a whole number (or left blank)",
@@ -305,19 +322,25 @@ pb_op <- pointblank::create_agent(
     tbl = camtrap_operation,
     actions = pointblank::action_levels(stop_at = 1)) %>%
     pointblank::col_exists(columns = c('SiteID', 'SubStation', 'Iteration', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'Problem1_from', 'Problem1_to', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger'),
-      brief = "Required column is present in the camera operation file. Keep every column, even if it is blank.") %>%
+      brief = col_briefs(c('SiteID', 'SubStation', 'Iteration', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'TimeRetrieve', 'Problem1_from', 'Problem1_to', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger'),
+        "Required column is present in the camera operation file. Keep every column, even if it is blank.")) %>%
     pointblank::rows_distinct(,
       brief = "No two rows in the camera operation file are identical. Remove duplicate deployments.") %>%
     pointblank::col_is_character(columns = c('SiteID', 'SubStation', 'CameraID', 'CameraModel',	'CameraSensitivity',	'CameraDelay'),
-      brief = "Column contains text. Check for stray formatting in the operation file.") %>%
+      brief = col_briefs(c('SiteID', 'SubStation', 'CameraID', 'CameraModel',	'CameraSensitivity',	'CameraDelay'),
+        "Column contains text. Check for stray formatting in the operation file.")) %>%
     pointblank::col_is_numeric(columns = c('Latitude', 'Longitude', 'CameraHeight'),
-      brief = "Column contains numbers. Check for text, units (e.g. '1.5m') or symbols in the operation file.") %>%
+      brief = col_briefs(c('Latitude', 'Longitude', 'CameraHeight'),
+        "Column contains numbers. Check for text, units (e.g. '1.5m') or symbols in the operation file.")) %>%
     pointblank::col_is_date(columns = c('DateDeploy', 'DateRetrieve'),
-      brief = "Column is a valid date. Check the date format in the operation file (e.g. dd/mm/yyyy or yyyy-mm-dd).") %>%
+      brief = col_briefs(c('DateDeploy', 'DateRetrieve'),
+        "Column is a valid date. Check the date format in the operation file (e.g. dd/mm/yyyy or yyyy-mm-dd).")) %>%
     pointblank::col_is_integer(columns = c('Iteration', 'CameraPhotosPerTrigger'),
-      brief = "Column contains whole numbers. Check for decimals or text in the operation file.") %>%
+      brief = col_briefs(c('Iteration', 'CameraPhotosPerTrigger'),
+        "Column contains whole numbers. Check for decimals or text in the operation file.")) %>%
     pointblank::col_is_posix(columns = c('DateTimeDeploy', 'DateTimeRetrieve', 'Problem1_from', 'Problem1_to'),
-      brief = "Column is a valid date-time (or blank where allowed). Check the date-time format in the operation file.") %>%
+      brief = col_briefs(c('DateTimeDeploy', 'DateTimeRetrieve', 'Problem1_from', 'Problem1_to'),
+        "Column is a valid date-time (or blank where allowed). Check the date-time format in the operation file.")) %>%
     pointblank::col_vals_in_set(columns = c('SiteID'), set = camtrap_records$SiteID, actions = pointblank::action_levels(stop_at = 0.99, warn_at = 1),
       brief = "Each SiteID in the operation file has at least one record. A warning only: cameras with no detections are fine, but check for SiteID typos.") %>%
     pointblank::col_vals_in_set(columns = c('SubStation'), set = camtrap_records$SubStation, actions = pointblank::action_levels(stop_at = 0.99, warn_at = 1),
@@ -327,7 +350,8 @@ pb_op <- pointblank::create_agent(
     pointblank::col_vals_between(columns = c('Longitude'), left = 93.41, right = 173.34,
       brief = "Longitude is within Australia (decimal degrees). Check latitude/longitude aren't swapped and coordinates aren't in eastings/northings.") %>%
     pointblank::col_vals_not_null(c('SiteID', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'Iteration', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger', 'BaitedUnbaited', 'BaitType'),
-      brief = "Column has a value in every row. Fill in the missing values in the operation file.") %>%
+      brief = col_briefs(c('SiteID', 'Latitude', 'Longitude', 'DateDeploy', 'TimeDeploy', 'DateRetrieve', 'DateTimeDeploy', 'DateTimeRetrieve', 'CameraHeight', 'CameraID', 'Iteration', 'CameraModel',	'CameraSensitivity',	'CameraDelay',	'CameraPhotosPerTrigger', 'BaitedUnbaited', 'BaitType'),
+        "Column has a value in every row. Fill in the missing values in the operation file.")) %>%
     pointblank::col_vals_in_set("BaitedUnbaited", set = c("Baited", "Unbaited"),
       brief = "BaitedUnbaited is either 'Baited' or 'Unbaited'.") %>%
     pointblank::col_vals_in_set("BaitType", set = c("None", "Creamed Honey", "Small Mammal Bait", "Predator Bait (i.e, meat bait)", "Non-toxic curiosity bait", "Toxic curiosity bait", "Predator Lure (i.e., urine, faeces, etc.)", "Other"),
@@ -344,9 +368,11 @@ pb_op <- pointblank::create_agent(
     pointblank::row_count_match(1,
       brief = "The project information file has exactly one row.") %>%
     pointblank::col_vals_not_null(dplyr::everything(),
-      brief = "Every project information column is filled in.") %>%
+      brief = col_briefs(colnames(project_information),
+        "Every project information column is filled in.")) %>%
     pointblank::col_is_logical(c("DistanceSampling", "AllSpeciesTagged"),
-      brief = "Column is TRUE or FALSE.") %>%
+      brief = col_briefs(c("DistanceSampling", "AllSpeciesTagged"),
+        "Column is TRUE or FALSE.")) %>%
     pointblank::col_vals_in_set("TerrestrialArboreal", set = c("Terrestrial", "Arboreal"),
       brief = "TerrestrialArboreal is either 'Terrestrial' or 'Arboreal'.") %>%
     pointblank::col_vals_equal("ProjectNamesMatchDatabase", value = TRUE,
