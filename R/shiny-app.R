@@ -26,15 +26,14 @@ camtrap_app <- function(con) {
   project_data <- dplyr::tbl(con,
                              dbplyr::in_schema("camtrap", "curated_project_information")) %>%
     dplyr::collect()
-  ## Lazy SPecies Presence
-  species_presence <- dplyr::tbl(con,
-                                 dbplyr::in_schema("camtrap", "processed_site_substation_presence_absence"))
-
-  species_names <- species_presence %>%
-    dplyr::select(common_name) %>%
-    dplyr::distinct() %>%
+  ## Species recorded (for colouring markers by presence). Read from the
+  ## records rather than the presence-absence view, which is slow to compute
+  species_names <- dplyr::tbl(con, dbplyr::in_schema("camtrap", "curated_camtrap_records")) %>%
+    dplyr::filter(!is.na(common_name)) %>%
+    dplyr::distinct(common_name) %>%
     dplyr::collect() %>%
-    dplyr::pull()
+    dplyr::pull() %>%
+    sort()
 
   ## filter hidden locations
   hidden_locs <- dplyr::tbl(con,
