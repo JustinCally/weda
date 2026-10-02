@@ -82,13 +82,18 @@ projectMapServer <- function(id, project_locations, con) {
     id,
     function(input, output, session) {
 
+      # datamods returns TRUE/FALSE picker selections as text and silently drops
+      # the filter when the column is logical, so filter on text versions
+      filter_locations <- project_locations %>%
+        dplyr::mutate(dplyr::across(dplyr::where(is.logical), as.character))
+
       res_filter <- datamods::filter_data_server(
         "project",
-        data = shiny::reactive(project_locations),
+        data = shiny::reactive(filter_locations),
         vars = shiny::reactive(c("ProjectName", "BaitedUnbaited",
                                  "BaitType", "DistanceSampling",
-                          "AllSpeciesTagged", "ProjectStart",
-                          "ProjectEnd")),
+                          "AllSpeciesTagged", "DistanceForAllSpecies",
+                          "ProjectStart", "ProjectEnd")),
         name = shiny::reactive("data"),
         defaults = shiny::reactive(NULL),
         drop_ids = FALSE,
@@ -137,7 +142,7 @@ projectMapServer <- function(id, project_locations, con) {
         }
 
         labels <- list()
-        for(i in 1:nrow(map_data)) {
+        for(i in seq_len(nrow(map_data))) {
 
         if(!purrr::is_empty(map_data[["SubStation"]][i]) && !is.na(map_data[["SubStation"]][i]) && map_data[["SubStation"]][i] != "NA") {
           ss <-paste0("<br/><strong>SubStation</strong>:", map_data[["SubStation"]][i])
