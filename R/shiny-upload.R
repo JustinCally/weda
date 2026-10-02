@@ -586,7 +586,9 @@ dataUploadServer <- function(id, con) {
                             camtrap_operation = opers2()$result,
                             project_information = projs$data(),
                             con = con,
-                            schema = input$target_schema),
+                            schema = input$target_schema,
+                            # pointblank's per-step log would fill the Step 8 messages
+                            progress = FALSE),
             error = function(e) {
               shiny::showNotification(paste("Data quality checks failed:", conditionMessage(e)),
                                       type = "error", duration = NULL)

@@ -6,10 +6,11 @@
 #' @param records this is the dataframe that contains the records of animals on transects
 #' @param transects this is the dataframe that contains the information about the transect location and time it was surveyed
 #' @param project_information this is the dataframe that contains the information about the project
+#' @param progress show pointblank's step-by-step progress log (default: in interactive sessions only)
 #'
 #' @return list of pointblank objects
 #' @export
-transect_dq <- function(records, transects, project_information) {
+transect_dq <- function(records, transects, project_information, progress = interactive()) {
 
   req_cols <- c('SiteID' ,
                 'Transect',
@@ -175,7 +176,7 @@ transect_dq <- function(records, transects, project_information) {
   }
 
   pb_rec <- pb_rec %>%
-    pointblank::interrogate()
+    pointblank::interrogate(progress = progress)
 
   # check sf specifics
   t_class <- class(transects)
@@ -241,7 +242,7 @@ transect_dq <- function(records, transects, project_information) {
     #                             preconditions = ~ . %>%
     #                               dplyr::mutate(GeometryType = sf::st_geometry_type(geometry)) %>%
     #                               dplyr::filter(TransectType == "Point")) %>%
-    pointblank::interrogate()
+    pointblank::interrogate(progress = progress)
 
   pb_pi <- pointblank::create_agent(
     tbl = project_information,
@@ -251,7 +252,7 @@ transect_dq <- function(records, transects, project_information) {
     pointblank::col_is_logical(c("DistanceSampling", "AllSpeciesTagged", "DistanceForAllSpecies")) %>%
     pointblank::col_vals_in_set("TerrestrialArboreal", set = c("Terrestrial", "Arboreal", "Both")) %>%
     pointblank::col_vals_in_set("DiurnalNocturnal", set = c("Diurnal", "Nocturnal", "Both")) %>%
-    pointblank::interrogate()
+    pointblank::interrogate(progress = progress)
 
 
   return(list(records = pb_rec,

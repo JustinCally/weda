@@ -104,6 +104,7 @@ report_column_schema <- function(tables) {
 #' @param con optional database connection. If supplied, the project short name and
 #'   full name are checked against projects already on the database
 #' @param schema schema to check existing projects in (camtrap or camtrap_dev)
+#' @param progress show pointblank's step-by-step progress log (default: in interactive sessions only)
 #'
 #' @return list of pointblank objects
 #' @export
@@ -111,7 +112,8 @@ camera_trap_dq <- function(camtrap_records,
                            camtrap_operation,
                            project_information,
                            con = NULL,
-                           schema = "camtrap") {
+                           schema = "camtrap",
+                           progress = interactive()) {
 
   # this is a vector of column names that are required to be in the camtrap_operation dataframe
   req_cols <- c('SiteID' ,
@@ -231,8 +233,8 @@ camera_trap_dq <- function(camtrap_records,
     if (is.null(tz)) tz <- ""
     camtrap_operation$DateTimeRetrieve[missing_dt_retrieve] <- as.POSIXct(
       paste(camtrap_operation$DateRetrieve[missing_dt_retrieve], "23:59:59"), tz = tz)
-    message(sum(missing_dt_retrieve), " operation row(s) have no retrieval time: ",
-            "DateTimeRetrieve set to the end of DateRetrieve (23:59:59)")
+    cli::cli_alert_info(paste0(sum(missing_dt_retrieve), " operation row(s) have no retrieval time: ",
+                               "DateTimeRetrieve set to the end of DateRetrieve (23:59:59)"))
   }
 
   # Project information
@@ -316,7 +318,7 @@ if(project_information$DistanceSampling[1] & project_information$DistanceForAllS
 }
 
 pb_rec <- pb_rec %>%
-  pointblank::interrogate()
+  pointblank::interrogate(progress = progress)
 
 pb_op <- pointblank::create_agent(
     tbl = camtrap_operation,
@@ -356,7 +358,7 @@ pb_op <- pointblank::create_agent(
       brief = "BaitedUnbaited is either 'Baited' or 'Unbaited'.") %>%
     pointblank::col_vals_in_set("BaitType", set = c("None", "Creamed Honey", "Small Mammal Bait", "Predator Bait (i.e, meat bait)", "Non-toxic curiosity bait", "Toxic curiosity bait", "Predator Lure (i.e., urine, faeces, etc.)", "Other"),
       brief = "BaitType is one of the allowed options (see the example data template), e.g. 'None' for unbaited cameras.") %>%
-    pointblank::interrogate()
+    pointblank::interrogate(progress = progress)
 
   # Project names must match any existing project exactly: the project
   # database ID is derived from ProjectName
@@ -379,7 +381,7 @@ pb_op <- pointblank::create_agent(
       preconditions = function(x) dplyr::mutate(x, ProjectNamesMatchDatabase = project_names_ok),
       label = "ProjectShortName and ProjectName match existing projects on the database",
       brief = "If the ProjectShortName or ProjectName is already on the database, the other name must match that project exactly (see the message above the report). Use the existing names to add data to that project, or new names for a new project.") %>%
-    pointblank::interrogate()
+    pointblank::interrogate(progress = progress)
 
   return(list(camtrap_records = pb_rec,
               camtrap_operation = pb_op,

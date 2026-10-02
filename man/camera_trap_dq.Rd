@@ -9,7 +9,8 @@ camera_trap_dq(
   camtrap_operation,
   project_information,
   con = NULL,
-  schema = "camtrap"
+  schema = "camtrap",
+  progress = interactive()
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ camera_trap_dq(
 full name are checked against projects already on the database}
 
 \item{schema}{schema to check existing projects in (camtrap or camtrap_dev)}
+
+\item{progress}{show pointblank's step-by-step progress log (default: in interactive sessions only)}
 }
 \value{
 list of pointblank objects

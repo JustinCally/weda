@@ -1,4 +1,4 @@
-dq_fixture <- function(multiples = NA) {
+dq_fixture <- function(multiples = NA, ...) {
   ops <- read_camtrap_csv_operation(readr::read_csv(system.file("dummydata/operationdata.csv", package = "weda"),
                                                     show_col_types = FALSE))
   recs <- data.frame(
@@ -13,7 +13,7 @@ dq_fixture <- function(multiples = NA) {
   proj <- data.frame(ProjectName = "Test Project", ProjectShortName = "test_project", DistanceSampling = FALSE,
                      TerrestrialArboreal = "Terrestrial", AllSpeciesTagged = TRUE, DistanceForAllSpecies = FALSE,
                      ProjectDescription = "Test", ProjectLeader = "Test Person")
-  suppressMessages(camera_trap_dq(recs, ops, proj))
+  suppressMessages(camera_trap_dq(recs, ops, proj, ...))
 }
 
 test_that("every data quality step has a brief naming its column", {
@@ -36,4 +36,12 @@ test_that("blank multiples pass and non-integer multiples stop", {
   stopped <- v[v$stop %in% TRUE, ]
   expect_equal(stopped$label, "metadata_Multiples must be a whole number (or left blank)")
   expect_equal(stopped$n_failed, 2)
+})
+
+test_that("the app's Step 8 messages don't include pointblank's per-step log", {
+  # progress = TRUE is what an interactive session (e.g. RStudio) gets by default
+  logged <- cli::cli_fmt(dq_fixture(progress = TRUE))
+  quiet <- cli::cli_fmt(dq_fixture(progress = FALSE))
+  expect_true(any(grepl("Interrogation Started", logged)))
+  expect_false(any(grepl("Interrogation|Step [0-9]+: OK", quiet)))
 })

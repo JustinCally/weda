@@ -270,7 +270,9 @@ transectdataUploadServer <- function(id, con) {
         shiny::withProgress(message = 'Running Data Quality', value = 0.5, {
           transect_dq2(records = st_data()$result,
                        transects = pr_data()$transects,
-                       project_information = proj$data())
+                       project_information = proj$data(),
+                       # pointblank's per-step log would fill the messages output
+                       progress = FALSE)
         })
       })
 
